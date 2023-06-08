@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.userController = void 0;
-const users_1 = require("../../data/dataMapper/users");
+const users_1 = require("../../data/dataMappers/users");
 exports.userController = {
     findAll: async (_req, res) => {
         try {
