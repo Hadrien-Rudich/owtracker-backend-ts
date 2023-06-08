@@ -5,13 +5,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 require("dotenv/config");
+const users_1 = __importDefault(require("./routes/users/users"));
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: false }));
 require('dotenv').config();
 // const mapRouter = require("./routes/maps/maps");
 // const heroRouter = require("./routes/heroes/heroes");
-// const userRouter = require("./routes/users/users");
 // const historyRouter = require("./routes/users/history");
 // const profileRouter = require("./routes/users/profiles");
 // const mapTypeRouter = require("./routes/maps/types");
@@ -24,7 +24,7 @@ app.use((req, res, next) => {
 });
 // app.use('/maps', mapRouter);
 // app.use('/heroes', heroRouter);
-// app.use('/user', userRouter);
+app.use('/user', users_1.default);
 // app.use('/history', historyRouter);
 // app.use('/profiles', profileRouter);
 // app.use('/types', mapTypeRouter);
