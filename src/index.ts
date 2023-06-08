@@ -2,13 +2,13 @@ import express, { Request, Response, NextFunction } from 'express';
 import 'dotenv/config';
 import userRouter from './routes/users/users';
 import heroRouter from './routes/heroes/heroes';
+import mapRouter from './routes/maps/maps';
 
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 require('dotenv').config();
 
-// const mapRouter = require("./routes/maps/maps");
 // const historyRouter = require("./routes/users/history");
 // const profileRouter = require("./routes/users/profiles");
 // const mapTypeRouter = require("./routes/maps/types");
@@ -27,7 +27,7 @@ app.use((req: Request, res: Response, next: NextFunction) => {
   next();
 });
 
-// app.use('/maps', mapRouter);
+app.use('/maps', mapRouter);
 app.use('/heroes', heroRouter);
 app.use('/user', userRouter);
 // app.use('/history', historyRouter);

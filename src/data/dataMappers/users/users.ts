@@ -1,5 +1,5 @@
 import { users } from './usersData';
-import type { User } from '../../models/user';
+import type { User } from '../../../models/user';
 
 export const dataMapper = {
   async findAll(): Promise<User[]> {

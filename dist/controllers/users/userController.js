@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.userController = void 0;
-const users_1 = require("../../data/dataMappers/users");
+const users_1 = require("../../data/dataMappers/users/users");
 exports.userController = {
     findAll: async (_req, res) => {
         try {
@@ -20,7 +20,7 @@ exports.userController = {
                 res.json(user);
             }
             else {
-                res.status(404).json({ error: 'User not found' });
+                res.status(404).json({ error: `No User with id: ${id} was found` });
             }
         }
         catch (error) {

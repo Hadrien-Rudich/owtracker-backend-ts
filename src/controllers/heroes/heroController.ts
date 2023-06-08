@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { dataMapper } from '../../data/dataMappers/heroes';
+import { dataMapper } from '../../data/dataMappers/heroes/heroes';
 
 type RequestParams = { slug: string; role: string };
 
@@ -18,15 +18,15 @@ export const heroController = {
     res: Response
   ): Promise<void> => {
     try {
-      const slug = req.params.slug;
+      const { slug, role } = req.params;
       const singleHero = await dataMapper.findBySlug(slug);
 
       if (singleHero) {
         res.json(singleHero);
       } else {
-        res
-          .status(404)
-          .json({ error: `Hero with slug: ${slug.toUpperCase()} not found` });
+        res.status(404).json({
+          error: `No Hero with type: ${role.toUpperCase()} slug: ${slug.toUpperCase()} was found`,
+        });
       }
     } catch (error) {
       res.status(500).json({ error: 'Internal Server Error' });
@@ -44,9 +44,9 @@ export const heroController = {
       if (allHeroesWithRole.length > 0) {
         res.json(allHeroesWithRole);
       } else {
-        res
-          .status(404)
-          .json({ error: `Heroes with role: ${role.toUpperCase()} not found` });
+        res.status(404).json({
+          error: `No hero with role: ${role.toUpperCase()} was found`,
+        });
       }
     } catch (error) {
       res.status(500).json({ error: 'Internal Server Error' });

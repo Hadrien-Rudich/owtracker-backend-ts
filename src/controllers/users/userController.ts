@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { dataMapper } from '../../data/dataMappers/users';
+import { dataMapper } from '../../data/dataMappers/users/users';
 
 type RequestParams = { id: number };
 
@@ -24,7 +24,7 @@ export const userController = {
       if (user) {
         res.json(user);
       } else {
-        res.status(404).json({ error: 'User not found' });
+        res.status(404).json({ error: `No User with id: ${id} was found` });
       }
     } catch (error) {
       res.status(500).json({ error: 'Internal Server Error' });
