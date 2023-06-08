@@ -3,6 +3,7 @@ import 'dotenv/config';
 import userRouter from './routes/users/users';
 import heroRouter from './routes/heroes/heroes';
 import mapRouter from './routes/maps/maps';
+import historyRouter from './routes/history/history';
 
 const app = express();
 app.use(express.json());
@@ -30,7 +31,7 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 app.use('/maps', mapRouter);
 app.use('/heroes', heroRouter);
 app.use('/user', userRouter);
-// app.use('/history', historyRouter);
+app.use('/history', historyRouter);
 // app.use('/profiles', profileRouter);
 // app.use('/types', mapTypeRouter);
 // app.use('/roles', heroRoleRouter);
