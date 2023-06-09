@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.userMapper = void 0;
 const usersData_1 = require("./usersData");
+const error_1 = require("../../../models/error");
 exports.userMapper = {
     async readUsers() {
         // to be edited with await and DB call
@@ -9,7 +10,7 @@ exports.userMapper = {
             return usersData_1.users;
         }
         else {
-            throw new Error('No users found');
+            throw new error_1.InternalServerError('No Users were found');
         }
     },
     async readUser(id) {
@@ -19,12 +20,12 @@ exports.userMapper = {
             return user;
         }
         else {
-            throw new Error('User was not found.');
+            throw new error_1.NotFoundError(`User with id: ${id} was not found`);
         }
     },
     async createUser(userObj) {
         if (!userObj.battleTag || !userObj.email || !userObj.password) {
-            throw new Error('Incomplete user object');
+            throw new error_1.BadRequestError('Invalid User Object.');
         }
         else {
             // to be edited with await and DB call
@@ -35,15 +36,20 @@ exports.userMapper = {
     },
     async updateUser(userObj) {
         const id = userObj.id;
-        // to be edited with await and DB call
+        if (!id) {
+            throw new error_1.BadRequestError('Invalid format: no ID provided');
+        }
         const indexOfAccountToUpdate = usersData_1.users.findIndex((account) => account.id === id);
+        if (!userObj.email || !userObj.password || !userObj.battleTag) {
+            throw new error_1.BadRequestError('Invalid format: email, password or battleTag missing');
+        }
         if (indexOfAccountToUpdate !== -1) {
             const updatedAccount = { ...userObj };
             usersData_1.users[indexOfAccountToUpdate] = updatedAccount;
             return updatedAccount;
         }
         else {
-            throw new Error('User was not updated.');
+            throw new error_1.NotFoundError(`User with id: ${id} was not found`);
         }
     },
     async deleteUser(id) {
@@ -53,7 +59,7 @@ exports.userMapper = {
             usersData_1.users.splice(indexOfAccountToDelete, 1);
         }
         else {
-            throw new Error('User was not deleted.');
+            throw new error_1.NotFoundError(`User with id: ${id} was not found`);
         }
         return usersData_1.users;
     },

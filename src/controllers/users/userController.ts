@@ -1,16 +1,20 @@
 import { Request, Response } from 'express';
 import type { UserI } from '../../models/user';
 import { userMapper } from '../../data/dataMappers/users/userMapper';
+import { BadRequestError, NotFoundError } from '../../models/error';
+
 interface RequestParams {
   id: number;
 }
+
 export const userController = {
   async getUsers(req: Request, res: Response): Promise<void> {
     try {
       const users = await userMapper.readUsers();
-      res.json(users);
+      res.status(200).json(users);
     } catch (error) {
-      res.status(500).json({ error: 'Internal Server Error' });
+      const errorMessage = (error as Error).message;
+      res.status(500).json({ error: errorMessage });
     }
   },
 
@@ -20,15 +24,19 @@ export const userController = {
       const user = await userMapper.readUser(id);
 
       if (user) {
-        res.json([
-          { message: `User with id: ${id} was found` },
-          { user: user },
-        ]);
+        res
+          .status(200)
+          .json([{ message: `User with id: ${id} was found` }, { user: user }]);
       } else {
-        res.status(404).json({ error: `No User with id: ${id} was found` });
+        throw new NotFoundError(`No User with id: ${id} was found`);
       }
     } catch (error) {
-      res.status(500).json({ error: 'Internal Server Error' });
+      if (error instanceof NotFoundError) {
+        res.status(404).json({ error: error.message });
+      } else {
+        const errorMessage = (error as Error).message;
+        res.status(500).json({ error: errorMessage });
+      }
     }
   },
 
@@ -36,13 +44,19 @@ export const userController = {
     try {
       const userObj: UserI = req.body;
       const newUser = await userMapper.createUser(userObj);
-      res.json([
-        { message: `User created with id: ${newUser.id}` },
-        { user: newUser },
-      ]);
+      res
+        .status(201)
+        .json([
+          { message: `User created with id: ${newUser.id}` },
+          { user: newUser },
+        ]);
     } catch (error) {
-      const errorMessage = (error as Error).message;
-      res.status(400).json({ error: errorMessage });
+      if (error instanceof BadRequestError) {
+        res.status(400).json({ error: error.message });
+      } else {
+        const errorMessage = (error as Error).message;
+        res.status(500).json({ error: errorMessage });
+      }
     }
   },
 
@@ -50,12 +64,19 @@ export const userController = {
     try {
       const userObj: UserI = req.body;
       await userMapper.updateUser(userObj);
-      res.json([
-        { message: `User with id: ${userObj.id} was updated` },
-        { updatedProfile: userObj },
-      ]);
+      res
+        .status(200)
+        .json([
+          { message: `User with id: ${userObj.id} was updated` },
+          { updatedProfile: userObj },
+        ]);
     } catch (error) {
-      res.status(500).json({ error: 'Internal Server Error' });
+      if (error instanceof NotFoundError) {
+        res.status(404).json({ error: error.message });
+      } else {
+        const errorMessage = (error as Error).message;
+        res.status(400).json({ error: errorMessage });
+      }
     }
   },
 
@@ -63,9 +84,14 @@ export const userController = {
     try {
       const id = Number(req.params.id);
       await userMapper.deleteUser(id);
-      res.json({ message: `User with id: ${id} was deleted` });
+      res.status(200).json({ message: `User with id: ${id} was deleted` });
     } catch (error) {
-      res.status(500).json({ error: 'Internal Server Error' });
+      if (error instanceof NotFoundError) {
+        res.status(404).json({ error: error.message });
+      } else {
+        const errorMessage = (error as Error).message;
+        res.status(500).json({ error: errorMessage });
+      }
     }
   },
 };
