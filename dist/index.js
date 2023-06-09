@@ -8,6 +8,7 @@ require("dotenv/config");
 const users_1 = __importDefault(require("./routes/users/users"));
 const heroes_1 = __importDefault(require("./routes/heroes/heroes"));
 const maps_1 = __importDefault(require("./routes/maps/maps"));
+const mapTypes_1 = __importDefault(require("./routes/maps/mapTypes"));
 const history_1 = __importDefault(require("./routes/history/history"));
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
@@ -15,7 +16,6 @@ app.use(express_1.default.urlencoded({ extended: false }));
 require('dotenv').config();
 // const historyRouter = require("./routes/users/history");
 // const profileRouter = require("./routes/users/profiles");
-// const mapTypeRouter = require("./routes/maps/types");
 // const heroRoleRouter = require("./routes/heroes/roles");
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -27,8 +27,8 @@ app.use('/maps', maps_1.default);
 app.use('/heroes', heroes_1.default);
 app.use('/user', users_1.default);
 app.use('/history', history_1.default);
+app.use('/maptypes', mapTypes_1.default);
 // app.use('/profiles', profileRouter);
-// app.use('/types', mapTypeRouter);
 // app.use('/roles', heroRoleRouter);
 app.get('/', (req, res) => {
     res.send('Hello World!');

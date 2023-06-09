@@ -3,6 +3,7 @@ import 'dotenv/config';
 import userRouter from './routes/users/users';
 import heroRouter from './routes/heroes/heroes';
 import mapRouter from './routes/maps/maps';
+import mapTypeRouter from './routes/maps/mapTypes';
 import historyRouter from './routes/history/history';
 
 const app = express();
@@ -12,7 +13,6 @@ require('dotenv').config();
 
 // const historyRouter = require("./routes/users/history");
 // const profileRouter = require("./routes/users/profiles");
-// const mapTypeRouter = require("./routes/maps/types");
 // const heroRoleRouter = require("./routes/heroes/roles");
 
 app.use((req: Request, res: Response, next: NextFunction) => {
@@ -32,8 +32,8 @@ app.use('/maps', mapRouter);
 app.use('/heroes', heroRouter);
 app.use('/user', userRouter);
 app.use('/history', historyRouter);
+app.use('/maptypes', mapTypeRouter);
 // app.use('/profiles', profileRouter);
-// app.use('/types', mapTypeRouter);
 // app.use('/roles', heroRoleRouter);
 
 app.get('/', (req: Request, res: Response) => {
