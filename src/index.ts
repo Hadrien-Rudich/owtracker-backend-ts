@@ -2,6 +2,7 @@ import express, { Request, Response, NextFunction } from 'express';
 import 'dotenv/config';
 import userRouter from './routes/users/users';
 import heroRouter from './routes/heroes/heroes';
+import heroRoleRouter from './routes/heroes/heroRoles';
 import mapRouter from './routes/maps/maps';
 import mapTypeRouter from './routes/maps/mapTypes';
 import historyRouter from './routes/history/history';
@@ -34,7 +35,7 @@ app.use('/user', userRouter);
 app.use('/history', historyRouter);
 app.use('/maptypes', mapTypeRouter);
 // app.use('/profiles', profileRouter);
-// app.use('/roles', heroRoleRouter);
+app.use('/heroroles', heroRoleRouter);
 
 app.get('/', (req: Request, res: Response) => {
   res.send('Hello World!');

@@ -7,6 +7,7 @@ const express_1 = __importDefault(require("express"));
 require("dotenv/config");
 const users_1 = __importDefault(require("./routes/users/users"));
 const heroes_1 = __importDefault(require("./routes/heroes/heroes"));
+const heroRoles_1 = __importDefault(require("./routes/heroes/heroRoles"));
 const maps_1 = __importDefault(require("./routes/maps/maps"));
 const mapTypes_1 = __importDefault(require("./routes/maps/mapTypes"));
 const history_1 = __importDefault(require("./routes/history/history"));
@@ -29,7 +30,7 @@ app.use('/user', users_1.default);
 app.use('/history', history_1.default);
 app.use('/maptypes', mapTypes_1.default);
 // app.use('/profiles', profileRouter);
-// app.use('/roles', heroRoleRouter);
+app.use('/heroroles', heroRoles_1.default);
 app.get('/', (req, res) => {
     res.send('Hello World!');
 });
