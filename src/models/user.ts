@@ -1,4 +1,4 @@
-export interface UserI {
+export interface User {
   id: number;
   battleTag: string;
   email: string;

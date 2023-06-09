@@ -1,5 +1,5 @@
-import type { UserI } from '../../../models/user';
-export const users: UserI[] = [
+import type { User } from '../../../models/user';
+export const users: User[] = [
   {
     id: 1,
     battleTag: 'Moulineks#1799',

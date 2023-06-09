@@ -1,49 +1,51 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.heroController = void 0;
-const heroes_1 = require("../../data/dataMappers/heroes/heroes");
+const heroMapper_1 = require("../../data/dataMappers/heroes/heroMapper");
+const error_1 = require("../../models/error");
 exports.heroController = {
     findAll: async (_req, res) => {
         try {
-            const allHeroes = await heroes_1.dataMapper.findAll();
-            res.json(allHeroes);
+            const allHeroes = await heroMapper_1.heroMapper.findAll();
+            res.status(200).json(allHeroes);
         }
         catch (error) {
-            res.status(500).json({ error: 'Internal Server Error' });
+            const errorMessage = error.message;
+            res.status(500).json({ error: errorMessage });
         }
     },
-    findOne: async (req, res) => {
+    findBySlug: async (req, res) => {
         try {
-            const { slug, role } = req.params;
-            const singleHero = await heroes_1.dataMapper.findBySlug(slug);
-            if (singleHero) {
-                res.json(singleHero);
-            }
-            else {
-                res.status(404).json({
-                    error: `No Hero with type: ${role.toUpperCase()} slug: ${slug.toUpperCase()} was found`,
-                });
-            }
+            const { slug } = req.params;
+            const heroWithSlug = await heroMapper_1.heroMapper.findBySlug(slug);
+            res.status(200).json(heroWithSlug);
         }
         catch (error) {
-            res.status(500).json({ error: 'Internal Server Error' });
+            if (error instanceof error_1.NotFoundError) {
+                res.status(404).json({ error: error.message });
+            }
+            else {
+                const errorMessage = error.message;
+                res.status(500).json({ error: errorMessage });
+            }
         }
     },
     findByRole: async (req, res) => {
         try {
             const role = req.params.role;
-            const allHeroesWithRole = await heroes_1.dataMapper.FindByRole(role);
-            if (allHeroesWithRole.length > 0) {
-                res.json(allHeroesWithRole);
-            }
-            else {
-                res.status(404).json({
-                    error: `No hero with role: ${role.toUpperCase()} was found`,
-                });
+            const heroesWithRole = await heroMapper_1.heroMapper.FindByRole(role);
+            if (heroesWithRole) {
+                res.status(200).json(heroesWithRole);
             }
         }
         catch (error) {
-            res.status(500).json({ error: 'Internal Server Error' });
+            if (error instanceof error_1.NotFoundError) {
+                res.status(404).json({ error: error.message });
+            }
+            else {
+                const errorMessage = error.message;
+                res.status(500).json({ error: errorMessage });
+            }
         }
     },
 };

@@ -1,5 +1,5 @@
 import { users } from './usersData';
-import { UserI } from '../../../models/user';
+import { User } from '../../../models/user';
 import {
   BadRequestError,
   NotFoundError,
@@ -7,7 +7,7 @@ import {
 } from '../../../models/error';
 
 export const userMapper = {
-  async readUsers(): Promise<UserI[]> {
+  async readUsers(): Promise<User[]> {
     // to be edited with await and DB call
     if (users.length >= 1) {
       return users;
@@ -16,7 +16,7 @@ export const userMapper = {
     }
   },
 
-  async readUser(id: number): Promise<UserI> {
+  async readUser(id: number): Promise<User> {
     // to be edited with await and DB call
     const user = users.find((user) => user.id === id);
     if (user) {
@@ -26,7 +26,7 @@ export const userMapper = {
     }
   },
 
-  async createUser(userObj: UserI): Promise<UserI> {
+  async createUser(userObj: User): Promise<User> {
     if (!userObj.battleTag || !userObj.email || !userObj.password) {
       throw new BadRequestError('Invalid User Object.');
     } else {
@@ -37,7 +37,7 @@ export const userMapper = {
     }
   },
 
-  async updateUser(userObj: UserI): Promise<UserI | undefined> {
+  async updateUser(userObj: User): Promise<User | undefined> {
     const id = userObj.id;
 
     if (!id) {
@@ -63,7 +63,7 @@ export const userMapper = {
     }
   },
 
-  async deleteUser(id: number): Promise<UserI[]> {
+  async deleteUser(id: number): Promise<User[]> {
     // to be edited with await and DB call
     const indexOfAccountToDelete = users.findIndex(
       (account) => account.id === id

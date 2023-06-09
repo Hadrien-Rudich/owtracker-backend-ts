@@ -4,7 +4,7 @@ exports.userController = void 0;
 const userMapper_1 = require("../../data/dataMappers/users/userMapper");
 const error_1 = require("../../models/error");
 exports.userController = {
-    async getUsers(req, res) {
+    async getUsers(_req, res) {
         try {
             const users = await userMapper_1.userMapper.readUsers();
             res.status(200).json(users);

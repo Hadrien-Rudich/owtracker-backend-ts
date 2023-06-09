@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import type { UserI } from '../../models/user';
+import type { User } from '../../models/user';
 import { userMapper } from '../../data/dataMappers/users/userMapper';
 import { BadRequestError, NotFoundError } from '../../models/error';
 
@@ -8,7 +8,7 @@ interface RequestParams {
 }
 
 export const userController = {
-  async getUsers(req: Request, res: Response): Promise<void> {
+  async getUsers(_req: Request, res: Response): Promise<void> {
     try {
       const users = await userMapper.readUsers();
       res.status(200).json(users);
@@ -42,7 +42,7 @@ export const userController = {
 
   async createUser(req: Request, res: Response): Promise<void> {
     try {
-      const userObj: UserI = req.body;
+      const userObj: User = req.body;
       const newUser = await userMapper.createUser(userObj);
       res
         .status(201)
@@ -62,7 +62,7 @@ export const userController = {
 
   async updateUser(req: Request, res: Response): Promise<void> {
     try {
-      const userObj: UserI = req.body;
+      const userObj: User = req.body;
       await userMapper.updateUser(userObj);
       res
         .status(200)

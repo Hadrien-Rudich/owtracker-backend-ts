@@ -1,35 +1,35 @@
 import { Request, Response } from 'express';
-import { dataMapper } from '../../data/dataMappers/heroes/heroes';
+import { heroMapper } from '../../data/dataMappers/heroes/heroMapper';
+import { NotFoundError } from '../../models/error';
 
 type RequestParams = { slug: string; role: string };
 
 export const heroController = {
   findAll: async (_req: Request, res: Response): Promise<void> => {
     try {
-      const allHeroes = await dataMapper.findAll();
-      res.json(allHeroes);
+      const allHeroes = await heroMapper.findAll();
+      res.status(200).json(allHeroes);
     } catch (error) {
-      res.status(500).json({ error: 'Internal Server Error' });
+      const errorMessage = (error as Error).message;
+      res.status(500).json({ error: errorMessage });
     }
   },
 
-  findOne: async (
+  findBySlug: async (
     req: Request<RequestParams>,
     res: Response
   ): Promise<void> => {
     try {
-      const { slug, role } = req.params;
-      const singleHero = await dataMapper.findBySlug(slug);
-
-      if (singleHero) {
-        res.json(singleHero);
-      } else {
-        res.status(404).json({
-          error: `No Hero with type: ${role.toUpperCase()} slug: ${slug.toUpperCase()} was found`,
-        });
-      }
+      const { slug } = req.params;
+      const heroWithSlug = await heroMapper.findBySlug(slug);
+      res.status(200).json(heroWithSlug);
     } catch (error) {
-      res.status(500).json({ error: 'Internal Server Error' });
+      if (error instanceof NotFoundError) {
+        res.status(404).json({ error: error.message });
+      } else {
+        const errorMessage = (error as Error).message;
+        res.status(500).json({ error: errorMessage });
+      }
     }
   },
 
@@ -39,17 +39,18 @@ export const heroController = {
   ): Promise<void> => {
     try {
       const role = req.params.role;
-      const allHeroesWithRole = await dataMapper.FindByRole(role);
+      const heroesWithRole = await heroMapper.FindByRole(role);
 
-      if (allHeroesWithRole.length > 0) {
-        res.json(allHeroesWithRole);
-      } else {
-        res.status(404).json({
-          error: `No hero with role: ${role.toUpperCase()} was found`,
-        });
+      if (heroesWithRole) {
+        res.status(200).json(heroesWithRole);
       }
     } catch (error) {
-      res.status(500).json({ error: 'Internal Server Error' });
+      if (error instanceof NotFoundError) {
+        res.status(404).json({ error: error.message });
+      } else {
+        const errorMessage = (error as Error).message;
+        res.status(500).json({ error: errorMessage });
+      }
     }
   },
 };
