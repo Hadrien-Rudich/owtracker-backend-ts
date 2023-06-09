@@ -6,15 +6,12 @@ import heroRoleRouter from './routes/heroes/heroRoles';
 import mapRouter from './routes/maps/maps';
 import mapTypeRouter from './routes/maps/mapTypes';
 import historyRouter from './routes/history/history';
+import profileRouter from './routes/profiles/profiles';
 
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 require('dotenv').config();
-
-// const historyRouter = require("./routes/users/history");
-// const profileRouter = require("./routes/users/profiles");
-// const heroRoleRouter = require("./routes/heroes/roles");
 
 app.use((req: Request, res: Response, next: NextFunction) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -34,7 +31,7 @@ app.use('/heroes', heroRouter);
 app.use('/user', userRouter);
 app.use('/history', historyRouter);
 app.use('/maptypes', mapTypeRouter);
-// app.use('/profiles', profileRouter);
+app.use('/profiles', profileRouter);
 app.use('/heroroles', heroRoleRouter);
 
 app.get('/', (req: Request, res: Response) => {
