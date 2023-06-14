@@ -4,7 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
-require("dotenv/config");
+const config_1 = require("./configuration/config");
 const users_1 = __importDefault(require("./routes/users/users"));
 const heroes_1 = __importDefault(require("./routes/heroes/heroes"));
 const heroRoles_1 = __importDefault(require("./routes/heroes/heroRoles"));
@@ -12,10 +12,10 @@ const maps_1 = __importDefault(require("./routes/maps/maps"));
 const mapTypes_1 = __importDefault(require("./routes/maps/mapTypes"));
 const history_1 = __importDefault(require("./routes/history/history"));
 const profiles_1 = __importDefault(require("./routes/profiles/profiles"));
+const errorHandler_1 = require("./middlewares/errorHandler");
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: false }));
-require('dotenv').config();
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization');
@@ -29,9 +29,7 @@ app.use('/history', history_1.default);
 app.use('/maptypes', mapTypes_1.default);
 app.use('/profiles', profiles_1.default);
 app.use('/heroroles', heroRoles_1.default);
-app.get('/', (req, res) => {
-    res.send('Hello World!');
-});
-app.listen(process.env.PORT, () => {
-    console.log(`Example app listening at http://localhost:${process.env.PORT}`);
+app.use(errorHandler_1.errorHandler);
+app.listen(config_1.config.port, () => {
+    console.log(`Example app listening at http://localhost:${config_1.config.port}`);
 });

@@ -1,5 +1,5 @@
 import express, { Request, Response, NextFunction } from 'express';
-import 'dotenv/config';
+import { config } from './configuration/config';
 import userRouter from './routes/users/users';
 import heroRouter from './routes/heroes/heroes';
 import heroRoleRouter from './routes/heroes/heroRoles';
@@ -7,11 +7,11 @@ import mapRouter from './routes/maps/maps';
 import mapTypeRouter from './routes/maps/mapTypes';
 import historyRouter from './routes/history/history';
 import profileRouter from './routes/profiles/profiles';
+import { errorHandler } from './middlewares/errorHandler';
 
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-require('dotenv').config();
 
 app.use((req: Request, res: Response, next: NextFunction) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -33,11 +33,8 @@ app.use('/history', historyRouter);
 app.use('/maptypes', mapTypeRouter);
 app.use('/profiles', profileRouter);
 app.use('/heroroles', heroRoleRouter);
+app.use(errorHandler);
 
-app.get('/', (req: Request, res: Response) => {
-  res.send('Hello World!');
-});
-
-app.listen(process.env.PORT, () => {
-  console.log(`Example app listening at http://localhost:${process.env.PORT}`);
+app.listen(config.port, () => {
+  console.log(`Example app listening at http://localhost:${config.port}`);
 });
