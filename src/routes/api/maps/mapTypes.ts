@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { mapTypeController } from '../../controllers/maps/mapTypeController';
+import { mapTypeController } from '../../../controllers/maps/mapTypeController';
 
 const mapTypeRouter = Router();
 
