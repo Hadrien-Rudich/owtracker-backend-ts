@@ -1,5 +1,5 @@
 import { users } from './usersData';
-import { UserI } from '../../../models/user';
+import type { UserI } from '../../../models/user/user';
 import {
   BadRequestError,
   NotFoundError,
@@ -12,7 +12,7 @@ export const userMapper = {
     if (users.length >= 1) {
       return users;
     } else {
-      throw new InternalServerError('No Users were found');
+      throw new InternalServerError('No Users found');
     }
   },
 
@@ -22,7 +22,7 @@ export const userMapper = {
     if (user) {
       return user;
     } else {
-      throw new NotFoundError(`User with id: ${id} was not found`);
+      throw new NotFoundError(`User with id: ${id} not found`);
     }
   },
 
@@ -59,7 +59,7 @@ export const userMapper = {
       users[indexOfAccountToUpdate] = updatedAccount;
       return updatedAccount;
     } else {
-      throw new NotFoundError(`User with id: ${id} was not found`);
+      throw new NotFoundError(`User with id: ${id} not found`);
     }
   },
 
@@ -71,7 +71,7 @@ export const userMapper = {
     if (indexOfAccountToDelete !== -1) {
       users.splice(indexOfAccountToDelete, 1);
     } else {
-      throw new NotFoundError(`User with id: ${id} was not found`);
+      throw new NotFoundError(`User with id: ${id} not found`);
     }
     return users;
   },

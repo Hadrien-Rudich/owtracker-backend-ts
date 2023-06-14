@@ -1,9 +1,16 @@
 import { Router } from 'express';
-import { profileController } from '../../../controllers/profiles/profileController';
+import { profileController } from '../../../controllers/users/profileController';
 const profileRouter = Router();
 
-profileRouter.get('/', profileController.findAll);
-profileRouter.post('/', profileController.addOne);
-profileRouter.delete('/', profileController.deleteOne);
+profileRouter
+  .route('/')
+  .get(profileController.getProfiles)
+  .post(profileController.createProfile);
+
+profileRouter
+  .route('/:id')
+  .get(profileController.getProfile)
+  .patch(profileController.updateProfile)
+  .delete(profileController.deleteProfile);
 
 export default profileRouter;

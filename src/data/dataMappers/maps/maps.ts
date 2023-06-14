@@ -1,5 +1,5 @@
 import { maps } from './mapsData';
-import type { Map } from '../../../models/map';
+import type { Map } from '../../../models/map/map';
 
 export const dataMapper = {
   async findAll(): Promise<Map[]> {

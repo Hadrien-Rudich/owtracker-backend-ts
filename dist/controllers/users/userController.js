@@ -18,7 +18,7 @@ exports.userController = {
             const user = await userMapper_1.userMapper.readUser(id);
             res
                 .status(200)
-                .json([{ message: `User with id: ${id} was found` }, { user: user }]);
+                .json([{ message: `User with id: ${id} found` }, { user: user }]);
         }
         catch (error) {
             next(error);
@@ -46,8 +46,8 @@ exports.userController = {
             res
                 .status(200)
                 .json([
-                { message: `User with id: ${userObj.id} was updated` },
-                { updatedProfile: userObj },
+                { message: `User with id: ${userObj.id} updated` },
+                { updatedUser: userObj },
             ]);
         }
         catch (error) {
@@ -58,7 +58,7 @@ exports.userController = {
         try {
             const id = Number(req.params.id);
             await userMapper_1.userMapper.deleteUser(id);
-            res.status(200).json({ message: `User with id: ${id} was deleted` });
+            res.status(200).json({ message: `User with id: ${id} deleted` });
         }
         catch (error) {
             next(error);

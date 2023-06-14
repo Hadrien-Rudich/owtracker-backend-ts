@@ -1,9 +1,10 @@
 import { Request, Response, NextFunction } from 'express';
-import type { UserI } from '../../models/user';
+import type { UserI } from '../../models/user/user';
 import { userMapper } from '../../data/dataMappers/users/userMapper';
-interface RequestParams {
-  id: number;
-}
+
+type RequestParams = { id: number };
+
+type RequestBody = UserI;
 
 export const userController = {
   async getUsers(
@@ -30,14 +31,14 @@ export const userController = {
 
       res
         .status(200)
-        .json([{ message: `User with id: ${id} was found` }, { user: user }]);
+        .json([{ message: `User with id: ${id} found` }, { user: user }]);
     } catch (error) {
       next(error);
     }
   },
 
   async createUser(
-    req: Request,
+    req: Request<RequestBody>,
     res: Response,
     next: NextFunction
   ): Promise<void> {
@@ -66,8 +67,8 @@ export const userController = {
       res
         .status(200)
         .json([
-          { message: `User with id: ${userObj.id} was updated` },
-          { updatedProfile: userObj },
+          { message: `User with id: ${userObj.id} updated` },
+          { updatedUser: userObj },
         ]);
     } catch (error) {
       next(error);
@@ -82,7 +83,7 @@ export const userController = {
     try {
       const id = Number(req.params.id);
       await userMapper.deleteUser(id);
-      res.status(200).json({ message: `User with id: ${id} was deleted` });
+      res.status(200).json({ message: `User with id: ${id} deleted` });
     } catch (error) {
       next(error);
     }

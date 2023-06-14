@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { dataMapper } from '../../data/dataMappers/history/history';
+import { dataMapper } from '../../data/dataMappers/users/history';
 
 type RequestParams = { id: number };
 

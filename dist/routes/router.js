@@ -5,8 +5,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const api_1 = require("./api");
-const invalidUrl_1 = __importDefault(require("../middlewares/invalidUrl"));
+const invalidUrlHandler_1 = __importDefault(require("../middlewares/invalidUrlHandler"));
 const router = (0, express_1.Router)();
 router.use('/', api_1.apiRouter);
-router.use(invalidUrl_1.default);
+router.use(invalidUrlHandler_1.default);
 exports.default = router;

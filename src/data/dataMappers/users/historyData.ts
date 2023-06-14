@@ -1,4 +1,4 @@
-import { History } from '../../../models/history';
+import { History } from '../../../models/map/history';
 export const history: History[] = [
   {
     id: 1,

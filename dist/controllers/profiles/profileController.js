@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.profileController = void 0;
-const profiles_1 = require("../../data/dataMappers/profiles/profiles");
+const profiles_1 = require("../../data/dataMappers/users/profiles");
 exports.profileController = {
     findAll: async (_req, res) => {
         try {

@@ -9,7 +9,7 @@ userRouter
     .post(userController_1.userController.createUser);
 userRouter
     .route('/:id')
-    .get(userController_1.userController.getUsers)
+    .get(userController_1.userController.getUser)
     .patch(userController_1.userController.updateUser)
     .delete(userController_1.userController.deleteUser);
 exports.default = userRouter;

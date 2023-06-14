@@ -1,6 +1,5 @@
 import { Router } from 'express';
-import { historyController } from '../../../controllers/history/historyController';
-
+import { historyController } from '../../../controllers/users/historyController';
 const historyRouter = Router();
 
 historyRouter.get('/', historyController.findAll);

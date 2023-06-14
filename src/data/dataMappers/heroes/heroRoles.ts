@@ -1,5 +1,5 @@
 import { heroRoles } from './heroRolesData';
-import type { HeroRole } from '../../../models/heroRole';
+import type { HeroRole } from '../../../models/hero/heroRole';
 
 export const dataMapper = {
   async findAll(): Promise<HeroRole[]> {

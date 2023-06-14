@@ -28,7 +28,7 @@ export const accessControl = (
   );
   res.setHeader(
     'Access-Control-Allow-Methods',
-    'GET, POST, PUT, DELETE, PATCH, OPTIONS'
+    'GET, PUT, DELETE, PATCH, OPTIONS'
   );
   next();
 };

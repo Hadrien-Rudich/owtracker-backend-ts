@@ -1,4 +1,4 @@
-export interface Profile {
+export interface ProfileI {
   id: number;
   label: string;
 }

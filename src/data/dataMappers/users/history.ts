@@ -1,5 +1,5 @@
 import { history } from './historyData';
-import type { History } from '../../../models/history';
+import type { History } from '../../../models/map/history';
 
 export const dataMapper = {
   async findAll(): Promise<History[]> {

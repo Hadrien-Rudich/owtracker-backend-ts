@@ -1,4 +1,4 @@
-import type { UserI } from '../../../models/user';
+import type { UserI } from '../../../models/user/user';
 export const users: UserI[] = [
   {
     id: 1,
