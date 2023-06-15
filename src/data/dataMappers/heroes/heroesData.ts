@@ -1,5 +1,5 @@
-import { Hero } from '../../../models/hero';
-export const heroes: Hero[] = [
+import type { HeroI } from '../../../models/hero/hero';
+export const heroes: HeroI[] = [
   {
     id: 1,
     label: 'Ana',

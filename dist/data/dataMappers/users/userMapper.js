@@ -10,7 +10,7 @@ exports.userMapper = {
             return usersData_1.users;
         }
         else {
-            throw new error_1.InternalServerError('No Users were found');
+            throw new error_1.InternalServerError('No Users found');
         }
     },
     async readUser(id) {
@@ -20,7 +20,7 @@ exports.userMapper = {
             return user;
         }
         else {
-            throw new error_1.NotFoundError(`User with id: ${id} was not found`);
+            throw new error_1.NotFoundError(`User with id: ${id} not found`);
         }
     },
     async createUser(userObj) {
@@ -49,7 +49,7 @@ exports.userMapper = {
             return updatedAccount;
         }
         else {
-            throw new error_1.NotFoundError(`User with id: ${id} was not found`);
+            throw new error_1.NotFoundError(`User with id: ${id} not found`);
         }
     },
     async deleteUser(id) {
@@ -59,7 +59,7 @@ exports.userMapper = {
             usersData_1.users.splice(indexOfAccountToDelete, 1);
         }
         else {
-            throw new error_1.NotFoundError(`User with id: ${id} was not found`);
+            throw new error_1.NotFoundError(`User with id: ${id} not found`);
         }
         return usersData_1.users;
     },

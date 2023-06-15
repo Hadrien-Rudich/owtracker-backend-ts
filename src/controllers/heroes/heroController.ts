@@ -1,56 +1,50 @@
-import { Request, Response } from 'express';
+import { Request, Response, NextFunction } from 'express';
 import { heroMapper } from '../../data/dataMappers/heroes/heroMapper';
-import { NotFoundError } from '../../models/error';
 
 type RequestParams = { slug: string; role: string };
 
 export const heroController = {
-  findAll: async (_req: Request, res: Response): Promise<void> => {
+  async getHeroes(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
     try {
-      const allHeroes = await heroMapper.findAll();
-      res.status(200).json(allHeroes);
+      const heroes = await heroMapper.readHeroes();
+      res.status(200).json(heroes);
     } catch (error) {
-      const errorMessage = (error as Error).message;
-      res.status(500).json({ error: errorMessage });
+      next(error);
     }
   },
 
-  findBySlug: async (
+  async getHeroBySlug(
     req: Request<RequestParams>,
-    res: Response
-  ): Promise<void> => {
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
     try {
       const { slug } = req.params;
-      const heroWithSlug = await heroMapper.findBySlug(slug);
+      const heroWithSlug = await heroMapper.readWithSlug(slug);
       res.status(200).json(heroWithSlug);
     } catch (error) {
-      if (error instanceof NotFoundError) {
-        res.status(404).json({ error: error.message });
-      } else {
-        const errorMessage = (error as Error).message;
-        res.status(500).json({ error: errorMessage });
-      }
+      next(error);
     }
   },
 
-  findByRole: async (
+  async getHeroesByRole(
     req: Request<RequestParams>,
-    res: Response
-  ): Promise<void> => {
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
     try {
-      const role = req.params.role;
-      const heroesWithRole = await heroMapper.FindByRole(role);
+      const { role } = req.params;
+      const heroesWithRole = await heroMapper.readWithRole(role);
 
       if (heroesWithRole) {
         res.status(200).json(heroesWithRole);
       }
     } catch (error) {
-      if (error instanceof NotFoundError) {
-        res.status(404).json({ error: error.message });
-      } else {
-        const errorMessage = (error as Error).message;
-        res.status(500).json({ error: errorMessage });
-      }
+      next(error);
     }
   },
 };

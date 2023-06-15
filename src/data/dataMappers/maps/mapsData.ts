@@ -1,4 +1,4 @@
-import { Map } from '../../../models/map';
+import type { Map } from '../../../models/map/map';
 export const maps: Map[] = [
   {
     id: 1,

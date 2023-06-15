@@ -1,14 +1,18 @@
-import express, { Request, Response, NextFunction } from 'express';
-import toDoRoutes from './routes/todos';
+import express from 'express';
+import { config } from './configuration/config';
+import router from './routes/router';
+import { apiErrorHandler } from './middlewares/apiErrorHandler';
+import { accessControl } from './middlewares/accessControl';
 
 const app = express();
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-app.use('/todos', toDoRoutes);
+app.use(accessControl);
+app.use(router);
+app.use(apiErrorHandler);
 
-app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
-  res.status(500).json({ message: err.message });
+app.listen(config.port, () => {
+  console.log(`Example app listening at http://localhost:${config.port}`);
 });
-
-app.listen(3000);

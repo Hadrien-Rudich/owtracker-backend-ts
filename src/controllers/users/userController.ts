@@ -1,48 +1,49 @@
-import { Request, Response } from 'express';
-import type { User } from '../../models/user';
+import { Request, Response, NextFunction } from 'express';
+import type { UserI } from '../../models/user/user';
 import { userMapper } from '../../data/dataMappers/users/userMapper';
-import { BadRequestError, NotFoundError } from '../../models/error';
 
-interface RequestParams {
-  id: number;
-}
+type RequestParams = { id: number };
+
+type RequestBody = UserI;
 
 export const userController = {
-  async getUsers(_req: Request, res: Response): Promise<void> {
+  async getUsers(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
     try {
       const users = await userMapper.readUsers();
       res.status(200).json(users);
     } catch (error) {
-      const errorMessage = (error as Error).message;
-      res.status(500).json({ error: errorMessage });
+      next(error);
     }
   },
 
-  async getUser(req: Request, res: Response): Promise<void> {
+  async getUser(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
     try {
       const id = Number(req.params.id);
       const user = await userMapper.readUser(id);
 
-      if (user) {
-        res
-          .status(200)
-          .json([{ message: `User with id: ${id} was found` }, { user: user }]);
-      } else {
-        throw new NotFoundError(`No User with id: ${id} was found`);
-      }
+      res
+        .status(200)
+        .json([{ message: `User with id: ${id} found` }, { user: user }]);
     } catch (error) {
-      if (error instanceof NotFoundError) {
-        res.status(404).json({ error: error.message });
-      } else {
-        const errorMessage = (error as Error).message;
-        res.status(500).json({ error: errorMessage });
-      }
+      next(error);
     }
   },
 
-  async createUser(req: Request, res: Response): Promise<void> {
+  async createUser(
+    req: Request<RequestBody>,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
     try {
-      const userObj: User = req.body;
+      const userObj: UserI = req.body;
       const newUser = await userMapper.createUser(userObj);
       res
         .status(201)
@@ -51,47 +52,40 @@ export const userController = {
           { user: newUser },
         ]);
     } catch (error) {
-      if (error instanceof BadRequestError) {
-        res.status(400).json({ error: error.message });
-      } else {
-        const errorMessage = (error as Error).message;
-        res.status(500).json({ error: errorMessage });
-      }
+      next(error);
     }
   },
 
-  async updateUser(req: Request, res: Response): Promise<void> {
+  async updateUser(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
     try {
-      const userObj: User = req.body;
+      const userObj: UserI = req.body;
       await userMapper.updateUser(userObj);
       res
-        .status(200)
+        .status(204)
         .json([
-          { message: `User with id: ${userObj.id} was updated` },
-          { updatedProfile: userObj },
+          { message: `User with id: ${userObj.id} updated` },
+          { updatedUser: userObj },
         ]);
     } catch (error) {
-      if (error instanceof NotFoundError) {
-        res.status(404).json({ error: error.message });
-      } else {
-        const errorMessage = (error as Error).message;
-        res.status(400).json({ error: errorMessage });
-      }
+      next(error);
     }
   },
 
-  async deleteUser(req: Request<RequestParams>, res: Response): Promise<void> {
+  async deleteUser(
+    req: Request<RequestParams>,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
     try {
       const id = Number(req.params.id);
       await userMapper.deleteUser(id);
-      res.status(200).json({ message: `User with id: ${id} was deleted` });
+      res.status(204).json({ message: `User with id: ${id} deleted` });
     } catch (error) {
-      if (error instanceof NotFoundError) {
-        res.status(404).json({ error: error.message });
-      } else {
-        const errorMessage = (error as Error).message;
-        res.status(500).json({ error: errorMessage });
-      }
+      next(error);
     }
   },
 };

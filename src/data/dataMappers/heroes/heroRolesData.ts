@@ -1,4 +1,4 @@
-import { HeroRole } from '../../../models/heroRole';
+import type { HeroRole } from '../../../models/hero/heroRole';
 
 export const heroRoles: HeroRole[] = [
   {

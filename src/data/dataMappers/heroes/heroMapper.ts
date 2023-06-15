@@ -1,5 +1,5 @@
 import { heroes } from './heroesData';
-import type { Hero } from '../../../models/hero';
+import type { HeroI } from '../../../models/hero/hero';
 import {
   BadRequestError,
   NotFoundError,
@@ -7,31 +7,32 @@ import {
 } from '../../../models/error';
 
 export const heroMapper = {
-  async findAll(): Promise<Hero[]> {
+  async readHeroes(): Promise<HeroI[]> {
     // to be edited with await and DB call
     if (heroes.length >= 1) {
       return heroes;
     } else {
-      throw new InternalServerError('No Heroes were found');
+      throw new InternalServerError('No Heroes found');
     }
   },
 
-  async findBySlug(slug: string): Promise<Hero | undefined> {
+  async readWithSlug(slug: string): Promise<HeroI> {
     // to be edited with await and DB call
     const heroBySlug = heroes.find((hero) => hero.slug === slug);
     if (heroBySlug) {
       return heroBySlug;
     } else {
-      throw new NotFoundError(`Hero with slug: ${slug} was not found`);
+      throw new NotFoundError(`Hero with slug: ${slug} not found`);
     }
   },
 
-  async FindByRole(role: string): Promise<Hero[]> {
+  async readWithRole(role: string): Promise<HeroI[]> {
+    // to be edited with await and DB call
     const heroesByRole = heroes.filter((hero) => hero.role === role);
     if (heroesByRole.length >= 1) {
       return heroesByRole;
     } else {
-      throw new NotFoundError(`No Hero with role: ${role} was found`);
+      throw new NotFoundError(`Heroes with role: ${role} not found`);
     }
   },
 };
