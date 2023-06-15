@@ -60,8 +60,12 @@ exports.gamesHistoryController = {
     async deleteGameHistory(req, res, next) {
         try {
             const id = Number(req.params.id);
-            await gameHistoryMapper_1.gameHistoryMapper.deleteGameHistory(id);
-            res.status(204).json({ message: `Game History with id: ${id} deleted` });
+            const gamesHistoryAfterDeletion = await gameHistoryMapper_1.gameHistoryMapper.deleteGameHistory(id);
+            if (gamesHistoryAfterDeletion) {
+                res
+                    .status(204)
+                    .json({ message: `Game History with id: ${id} deleted` });
+            }
         }
         catch (error) {
             next(error);

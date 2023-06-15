@@ -1,5 +1,5 @@
-import { History } from '../../../models/map/history';
-export const history: History[] = [
+import { GameHistoryI } from '../../../models/map/gameHistory';
+export const gamesHistory: GameHistoryI[] = [
   {
     id: 1,
     user: 1,

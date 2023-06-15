@@ -63,12 +63,13 @@ export const userController = {
   ): Promise<void> {
     try {
       const userObj: UserI = req.body;
-      await userMapper.updateUser(userObj);
+      const updatedUser = await userMapper.updateUser(userObj);
+
       res
         .status(204)
         .json([
-          { message: `User with id: ${userObj.id} updated` },
-          { updatedUser: userObj },
+          { message: `User with id: ${updatedUser.id} updated` },
+          { updatedUser: updatedUser },
         ]);
     } catch (error) {
       next(error);

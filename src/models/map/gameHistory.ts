@@ -1,4 +1,4 @@
-export interface History {
+export interface GameHistoryI {
   id: number;
   user: number;
   profile: string;

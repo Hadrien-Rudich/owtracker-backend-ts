@@ -42,12 +42,12 @@ exports.userController = {
     async updateUser(req, res, next) {
         try {
             const userObj = req.body;
-            await userMapper_1.userMapper.updateUser(userObj);
+            const updatedUser = await userMapper_1.userMapper.updateUser(userObj);
             res
                 .status(204)
                 .json([
-                { message: `User with id: ${userObj.id} updated` },
-                { updatedUser: userObj },
+                { message: `User with id: ${updatedUser.id} updated` },
+                { updatedUser: updatedUser },
             ]);
         }
         catch (error) {

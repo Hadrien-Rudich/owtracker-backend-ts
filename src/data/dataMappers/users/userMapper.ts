@@ -37,7 +37,7 @@ export const userMapper = {
     }
   },
 
-  async updateUser(userObj: UserI): Promise<UserI | undefined> {
+  async updateUser(userObj: UserI): Promise<UserI> {
     const id = userObj.id;
 
     if (!id) {
