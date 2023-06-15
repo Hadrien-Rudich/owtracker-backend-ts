@@ -15,9 +15,9 @@ exports.heroMapper = {
     },
     async readWithSlug(slug) {
         // to be edited with await and DB call
-        const heroBySlug = heroesData_1.heroes.find((hero) => hero.slug === slug);
-        if (heroBySlug) {
-            return heroBySlug;
+        const heroWithSlug = heroesData_1.heroes.find((hero) => hero.slug === slug);
+        if (heroWithSlug) {
+            return heroWithSlug;
         }
         else {
             throw new error_1.NotFoundError(`Hero with slug: ${slug} not found`);
@@ -25,9 +25,9 @@ exports.heroMapper = {
     },
     async readWithRole(role) {
         // to be edited with await and DB call
-        const heroesByRole = heroesData_1.heroes.filter((hero) => hero.role === role);
-        if (heroesByRole.length >= 1) {
-            return heroesByRole;
+        const heoesWithRole = heroesData_1.heroes.filter((hero) => hero.role === role);
+        if (heoesWithRole.length >= 1) {
+            return heoesWithRole;
         }
         else {
             throw new error_1.NotFoundError(`Heroes with role: ${role} not found`);

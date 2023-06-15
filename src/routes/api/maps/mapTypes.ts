@@ -3,6 +3,6 @@ import { mapTypeController } from '../../../controllers/maps/mapTypeController';
 
 const mapTypeRouter = Router();
 
-mapTypeRouter.get('/', mapTypeController.findAll);
+mapTypeRouter.get('/', mapTypeController.getMapTypes);
 
 export default mapTypeRouter;

@@ -1,8 +1,14 @@
 import { mapTypes } from './mapTypesData';
-import type { MapType } from '../../../models/map/mapType';
-export const dataMapper = {
-  async findAll(): Promise<MapType[]> {
-    const allMapTypes = mapTypes; // DB call to be implemented
-    return allMapTypes;
+import type { MapTypeI } from '../../../models/map/mapType';
+import { InternalServerError } from '../../../models/error';
+
+export const mapTypeMapper = {
+  async readMapTypes(): Promise<MapTypeI[]> {
+    // to be edited with await and DB call
+    if (mapTypes.length >= 1) {
+      return mapTypes;
+    } else {
+      throw new InternalServerError('No MapType found');
+    }
   },
 };

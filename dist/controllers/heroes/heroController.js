@@ -12,7 +12,7 @@ exports.heroController = {
             next(error);
         }
     },
-    async getHeroBySlug(req, res, next) {
+    async getHeroWithSlug(req, res, next) {
         try {
             const { slug } = req.params;
             const heroWithSlug = await heroMapper_1.heroMapper.readWithSlug(slug);
@@ -22,7 +22,7 @@ exports.heroController = {
             next(error);
         }
     },
-    async getHeroesByRole(req, res, next) {
+    async getHeroesWithRole(req, res, next) {
         try {
             const { role } = req.params;
             const heroesWithRole = await heroMapper_1.heroMapper.readWithRole(role);

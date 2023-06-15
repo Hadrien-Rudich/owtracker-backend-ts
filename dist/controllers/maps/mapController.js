@@ -1,49 +1,37 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.mapController = void 0;
-const maps_1 = require("../../data/dataMappers/maps/maps");
+const mapMapper_1 = require("../../data/dataMappers/maps/mapMapper");
 exports.mapController = {
-    findAll: async (_req, res) => {
+    async getMaps(req, res, next) {
         try {
-            const allMaps = await maps_1.dataMapper.findAll();
-            res.json(allMaps);
+            const maps = await mapMapper_1.mapMapper.readMaps();
+            res.status(200).json(maps);
         }
         catch (error) {
-            res.status(500).json({ error: 'Internal Server Error' });
+            next(error);
         }
     },
-    findOne: async (req, res) => {
+    async getMapWithSlug(req, res, next) {
         try {
-            const { slug, type } = req.params;
-            const mapWithSlug = await maps_1.dataMapper.findBySlug(slug);
-            if (mapWithSlug) {
-                res.json(mapWithSlug);
-            }
-            else {
-                res.status(404).json({
-                    error: `No Map with type: ${type.toUpperCase()} and slug: ${slug.toUpperCase()} was found`,
-                });
-            }
+            const { slug } = req.params;
+            const mapWithSlug = await mapMapper_1.mapMapper.readWithSlug(slug);
+            res.status(200).json(mapWithSlug);
         }
         catch (error) {
-            res.status(500).json({ error: 'Internal Server Error' });
+            next(error);
         }
     },
-    findByType: async (req, res) => {
+    async getMapsWithType(req, res, next) {
         try {
-            const type = req.params.type;
-            const allMapsWithType = await maps_1.dataMapper.findByType(type);
-            if (allMapsWithType.length > 0) {
-                res.json(allMapsWithType);
-            }
-            else {
-                res
-                    .status(404)
-                    .json({ error: `No Map with type: ${type.toUpperCase()} was found` });
+            const { type } = req.params;
+            const mapsWithType = await mapMapper_1.mapMapper.readWithType(type);
+            if (mapsWithType) {
+                res.status(200).json(mapsWithType);
             }
         }
         catch (error) {
-            res.status(500).json({ error: 'Internal Server Error' });
+            next(error);
         }
     },
 };
