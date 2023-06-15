@@ -1,4 +1,4 @@
-export interface HeroRole {
+export interface HeroRoleI {
   id: number;
   label: string;
   imageUrl: string;

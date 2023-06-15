@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.heroController = void 0;
 const heroMapper_1 = require("../../data/dataMappers/heroes/heroMapper");
 exports.heroController = {
-    async getHeroes(req, res, next) {
+    async getHeroes(_req, res, next) {
         try {
             const heroes = await heroMapper_1.heroMapper.readHeroes();
             res.status(200).json(heroes);

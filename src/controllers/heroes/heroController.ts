@@ -5,7 +5,7 @@ type RequestParams = { slug: string; role: string };
 
 export const heroController = {
   async getHeroes(
-    req: Request,
+    _req: Request,
     res: Response,
     next: NextFunction
   ): Promise<void> {

@@ -1,6 +1,6 @@
-import type { HeroRole } from '../../../models/hero/heroRole';
+import type { HeroRoleI } from '../../../models/hero/heroRole';
 
-export const heroRoles: HeroRole[] = [
+export const heroRoles: HeroRoleI[] = [
   {
     id: 1,
     label: 'Tank',

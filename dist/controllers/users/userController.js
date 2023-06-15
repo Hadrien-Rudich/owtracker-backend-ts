@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.userController = void 0;
 const userMapper_1 = require("../../data/dataMappers/users/userMapper");
 exports.userController = {
-    async getUsers(req, res, next) {
+    async getUsers(_req, res, next) {
         try {
             const users = await userMapper_1.userMapper.readUsers();
             res.status(200).json(users);

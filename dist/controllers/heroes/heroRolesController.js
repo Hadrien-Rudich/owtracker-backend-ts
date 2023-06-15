@@ -1,15 +1,15 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.heroRoleController = void 0;
-const heroRoles_1 = require("../../data/dataMappers/heroes/heroRoles");
+const heroRoleMapper_1 = require("../../data/dataMappers/heroes/heroRoleMapper");
 exports.heroRoleController = {
-    findAll: async (_req, res) => {
+    async getHeroRoles(_req, res, next) {
         try {
-            const allHeroRoles = await heroRoles_1.dataMapper.findAll();
-            res.json(allHeroRoles);
+            const heroRoles = await heroRoleMapper_1.heroRoleMapper.readHeroRoles();
+            res.status(200).json(heroRoles);
         }
         catch (error) {
-            res.status(500).json({ error: 'Internal Server Error' });
+            next(error);
         }
     },
 };

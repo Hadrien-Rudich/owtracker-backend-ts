@@ -8,7 +8,7 @@ type RequestBody = UserI;
 
 export const userController = {
   async getUsers(
-    req: Request,
+    _req: Request,
     res: Response,
     next: NextFunction
   ): Promise<void> {

@@ -5,7 +5,7 @@ type RequestParams = { slug: string; type: string };
 
 export const mapController = {
   async getMaps(
-    req: Request,
+    _req: Request,
     res: Response,
     next: NextFunction
   ): Promise<void> {

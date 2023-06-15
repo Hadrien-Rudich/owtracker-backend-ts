@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.mapController = void 0;
 const mapMapper_1 = require("../../data/dataMappers/maps/mapMapper");
 exports.mapController = {
-    async getMaps(req, res, next) {
+    async getMaps(_req, res, next) {
         try {
             const maps = await mapMapper_1.mapMapper.readMaps();
             res.status(200).json(maps);

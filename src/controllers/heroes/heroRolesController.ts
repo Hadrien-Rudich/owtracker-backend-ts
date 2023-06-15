@@ -1,13 +1,17 @@
-import { Request, Response } from 'express';
-import { dataMapper } from '../../data/dataMappers/heroes/heroRoles';
+import { NextFunction, Request, Response } from 'express';
+import { heroRoleMapper } from '../../data/dataMappers/heroes/heroRoleMapper';
 
 export const heroRoleController = {
-  findAll: async (_req: Request, res: Response): Promise<void> => {
+  async getHeroRoles(
+    _req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
     try {
-      const allHeroRoles = await dataMapper.findAll();
-      res.json(allHeroRoles);
+      const heroRoles = await heroRoleMapper.readHeroRoles();
+      res.status(200).json(heroRoles);
     } catch (error) {
-      res.status(500).json({ error: 'Internal Server Error' });
+      next(error);
     }
   },
 };
