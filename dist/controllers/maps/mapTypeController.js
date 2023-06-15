@@ -3,13 +3,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.mapTypeController = void 0;
 const mapTypes_1 = require("../../data/dataMappers/maps/mapTypes");
 exports.mapTypeController = {
-    findAll: async (_req, res) => {
+    async getMapTypes(req, res, next) {
         try {
-            const allMapTypes = await mapTypes_1.dataMapper.findAll();
-            res.json(allMapTypes);
+            const mapTypes = await mapTypes_1.mapTypeMapper.readMapTypes();
+            res.status(200).json(mapTypes);
         }
         catch (error) {
-            res.status(500).json({ error: 'Internal Server Error' });
+            next(error);
         }
     },
 };

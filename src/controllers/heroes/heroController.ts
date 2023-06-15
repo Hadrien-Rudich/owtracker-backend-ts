@@ -17,7 +17,7 @@ export const heroController = {
     }
   },
 
-  async getHeroBySlug(
+  async getHeroWithSlug(
     req: Request<RequestParams>,
     res: Response,
     next: NextFunction
@@ -31,7 +31,7 @@ export const heroController = {
     }
   },
 
-  async getHeroesByRole(
+  async getHeroesWithRole(
     req: Request<RequestParams>,
     res: Response,
     next: NextFunction

@@ -1,55 +1,50 @@
-import { Request, Response } from 'express';
-import { dataMapper } from '../../data/dataMappers/maps/maps';
+import { Request, Response, NextFunction } from 'express';
+import { mapMapper } from '../../data/dataMappers/maps/mapMapper';
 
 type RequestParams = { slug: string; type: string };
 
 export const mapController = {
-  findAll: async (_req: Request, res: Response): Promise<void> => {
+  async getMaps(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
     try {
-      const allMaps = await dataMapper.findAll();
-      res.json(allMaps);
+      const maps = await mapMapper.readMaps();
+      res.status(200).json(maps);
     } catch (error) {
-      res.status(500).json({ error: 'Internal Server Error' });
+      next(error);
     }
   },
 
-  findOne: async (
+  async getMapWithSlug(
     req: Request<RequestParams>,
-    res: Response
-  ): Promise<void> => {
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
     try {
-      const { slug, type } = req.params;
-      const mapWithSlug = await dataMapper.findBySlug(slug);
-
-      if (mapWithSlug) {
-        res.json(mapWithSlug);
-      } else {
-        res.status(404).json({
-          error: `No Map with type: ${type.toUpperCase()} and slug: ${slug.toUpperCase()} was found`,
-        });
-      }
+      const { slug } = req.params;
+      const mapWithSlug = await mapMapper.readWithSlug(slug);
+      res.status(200).json(mapWithSlug);
     } catch (error) {
-      res.status(500).json({ error: 'Internal Server Error' });
+      next(error);
     }
   },
 
-  findByType: async (
+  async getMapsWithType(
     req: Request<RequestParams>,
-    res: Response
-  ): Promise<void> => {
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
     try {
-      const type = req.params.type;
-      const allMapsWithType = await dataMapper.findByType(type);
+      const { type } = req.params;
+      const mapsWithType = await mapMapper.readWithType(type);
 
-      if (allMapsWithType.length > 0) {
-        res.json(allMapsWithType);
-      } else {
-        res
-          .status(404)
-          .json({ error: `No Map with type: ${type.toUpperCase()} was found` });
+      if (mapsWithType) {
+        res.status(200).json(mapsWithType);
       }
     } catch (error) {
-      res.status(500).json({ error: 'Internal Server Error' });
+      next(error);
     }
   },
 };

@@ -1,4 +1,4 @@
-export interface Map {
+export interface MapI {
   id: number;
   label: string;
   slug: string;

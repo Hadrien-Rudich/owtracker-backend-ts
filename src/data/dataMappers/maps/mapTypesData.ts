@@ -1,5 +1,5 @@
-import type { MapType } from '../../../models/map/mapType';
-export const mapTypes: MapType[] = [
+import type { MapTypeI } from '../../../models/map/mapType';
+export const mapTypes: MapTypeI[] = [
   {
     id: 1,
     label: 'Escort',

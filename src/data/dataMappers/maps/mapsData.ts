@@ -1,5 +1,5 @@
-import type { Map } from '../../../models/map/map';
-export const maps: Map[] = [
+import type { MapI } from '../../../models/map/map';
+export const maps: MapI[] = [
   {
     id: 1,
     label: 'Circuit Royal',

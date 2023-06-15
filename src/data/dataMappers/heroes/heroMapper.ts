@@ -1,10 +1,6 @@
 import { heroes } from './heroesData';
 import type { HeroI } from '../../../models/hero/hero';
-import {
-  BadRequestError,
-  NotFoundError,
-  InternalServerError,
-} from '../../../models/error';
+import { NotFoundError, InternalServerError } from '../../../models/error';
 
 export const heroMapper = {
   async readHeroes(): Promise<HeroI[]> {
@@ -18,9 +14,9 @@ export const heroMapper = {
 
   async readWithSlug(slug: string): Promise<HeroI> {
     // to be edited with await and DB call
-    const heroBySlug = heroes.find((hero) => hero.slug === slug);
-    if (heroBySlug) {
-      return heroBySlug;
+    const heroWithSlug = heroes.find((hero) => hero.slug === slug);
+    if (heroWithSlug) {
+      return heroWithSlug;
     } else {
       throw new NotFoundError(`Hero with slug: ${slug} not found`);
     }
@@ -28,9 +24,9 @@ export const heroMapper = {
 
   async readWithRole(role: string): Promise<HeroI[]> {
     // to be edited with await and DB call
-    const heroesByRole = heroes.filter((hero) => hero.role === role);
-    if (heroesByRole.length >= 1) {
-      return heroesByRole;
+    const heoesWithRole = heroes.filter((hero) => hero.role === role);
+    if (heoesWithRole.length >= 1) {
+      return heoesWithRole;
     } else {
       throw new NotFoundError(`Heroes with role: ${role} not found`);
     }
