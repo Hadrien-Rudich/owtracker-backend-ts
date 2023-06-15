@@ -1,6 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { mapTypeMapper } from '../../data/dataMappers/maps/mapTypes';
-
+import { mapTypeMapper } from '../../data/dataMappers/maps/mapTypeMapper';
 export const mapTypeController = {
   async getMapTypes(
     req: Request,
