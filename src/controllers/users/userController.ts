@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import type { UserI } from '../../models/user/user';
 import { userMapper } from '../../data/dataMappers/users/userMapper';
+import { hashPassword, comparePasswords } from '../../services/passwordHash';
 
 type RequestParams = { id: number };
 
@@ -26,12 +27,12 @@ export const userController = {
     next: NextFunction
   ): Promise<void> {
     try {
-      const id = Number(req.params.id);
-      const user = await userMapper.readUser(id);
+      const userId = Number(req.params.id);
+      const user = await userMapper.readUser(userId);
 
       res
         .status(200)
-        .json([{ message: `User with id: ${id} found` }, { user: user }]);
+        .json([{ message: `User with id: ${userId} found` }, { user: user }]);
     } catch (error) {
       next(error);
     }
@@ -44,7 +45,12 @@ export const userController = {
   ): Promise<void> {
     try {
       const userObj: UserI = req.body;
-      const newUser = await userMapper.createUser(userObj);
+      const hashedPassword = await hashPassword(userObj.password);
+
+      const newUser = await userMapper.createUser({
+        ...userObj,
+        password: hashedPassword,
+      });
       res
         .status(201)
         .json([
@@ -57,18 +63,27 @@ export const userController = {
   },
 
   async updateUser(
-    req: Request,
+    req: Request<RequestParams>,
     res: Response,
     next: NextFunction
   ): Promise<void> {
     try {
+      const userId = Number(req.params.id);
       const userObj: UserI = req.body;
-      const updatedUser = await userMapper.updateUser(userObj);
+      const existingUser = await userMapper.readUser(userId);
+
+      await comparePasswords(userObj.password, existingUser.password);
+
+      if (userObj.newPassword) {
+        userObj.password = await hashPassword(userObj.newPassword);
+      }
+
+      const updatedUser = await userMapper.updateUser(userId, userObj);
 
       res
-        .status(204)
+        .status(200)
         .json([
-          { message: `User with id: ${updatedUser.id} updated` },
+          { message: `User with id: ${userId} updated` },
           { updatedUser: updatedUser },
         ]);
     } catch (error) {
@@ -82,9 +97,9 @@ export const userController = {
     next: NextFunction
   ): Promise<void> {
     try {
-      const id = Number(req.params.id);
-      await userMapper.deleteUser(id);
-      res.status(204).json({ message: `User with id: ${id} deleted` });
+      const userId = Number(req.params.id);
+      await userMapper.deleteUser(userId);
+      res.status(204).json({ message: `User with id: ${userId} deleted` });
     } catch (error) {
       next(error);
     }

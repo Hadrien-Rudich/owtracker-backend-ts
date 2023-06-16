@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.userController = void 0;
 const userMapper_1 = require("../../data/dataMappers/users/userMapper");
+const passwordHash_1 = require("../../services/passwordHash");
 exports.userController = {
     async getUsers(_req, res, next) {
         try {
@@ -14,11 +15,11 @@ exports.userController = {
     },
     async getUser(req, res, next) {
         try {
-            const id = Number(req.params.id);
-            const user = await userMapper_1.userMapper.readUser(id);
+            const userId = Number(req.params.id);
+            const user = await userMapper_1.userMapper.readUser(userId);
             res
                 .status(200)
-                .json([{ message: `User with id: ${id} found` }, { user: user }]);
+                .json([{ message: `User with id: ${userId} found` }, { user: user }]);
         }
         catch (error) {
             next(error);
@@ -27,7 +28,11 @@ exports.userController = {
     async createUser(req, res, next) {
         try {
             const userObj = req.body;
-            const newUser = await userMapper_1.userMapper.createUser(userObj);
+            const hashedPassword = await (0, passwordHash_1.hashPassword)(userObj.password);
+            const newUser = await userMapper_1.userMapper.createUser({
+                ...userObj,
+                password: hashedPassword,
+            });
             res
                 .status(201)
                 .json([
@@ -41,12 +46,18 @@ exports.userController = {
     },
     async updateUser(req, res, next) {
         try {
+            const userId = Number(req.params.id);
             const userObj = req.body;
-            const updatedUser = await userMapper_1.userMapper.updateUser(userObj);
+            const existingUser = await userMapper_1.userMapper.readUser(userId);
+            await (0, passwordHash_1.comparePasswords)(userObj.password, existingUser.password);
+            if (userObj.newPassword) {
+                userObj.password = await (0, passwordHash_1.hashPassword)(userObj.newPassword);
+            }
+            const updatedUser = await userMapper_1.userMapper.updateUser(userId, userObj);
             res
-                .status(204)
+                .status(200)
                 .json([
-                { message: `User with id: ${updatedUser.id} updated` },
+                { message: `User with id: ${userId} updated` },
                 { updatedUser: updatedUser },
             ]);
         }
@@ -56,9 +67,9 @@ exports.userController = {
     },
     async deleteUser(req, res, next) {
         try {
-            const id = Number(req.params.id);
-            await userMapper_1.userMapper.deleteUser(id);
-            res.status(204).json({ message: `User with id: ${id} deleted` });
+            const userId = Number(req.params.id);
+            await userMapper_1.userMapper.deleteUser(userId);
+            res.status(204).json({ message: `User with id: ${userId} deleted` });
         }
         catch (error) {
             next(error);

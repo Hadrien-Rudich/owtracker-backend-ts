@@ -13,14 +13,14 @@ exports.userMapper = {
             throw new error_1.InternalServerError('No Users found');
         }
     },
-    async readUser(id) {
+    async readUser(userId) {
         // to be edited with await and DB call
-        const user = usersData_1.users.find((user) => user.id === id);
+        const user = usersData_1.users.find((user) => user.id === userId);
         if (user) {
             return user;
         }
         else {
-            throw new error_1.NotFoundError(`User with id: ${id} not found`);
+            throw new error_1.NotFoundError(`User with id: ${userId} not found`);
         }
     },
     async createUser(userObj) {
@@ -34,12 +34,8 @@ exports.userMapper = {
             return newAccount;
         }
     },
-    async updateUser(userObj) {
-        const id = userObj.id;
-        if (!id) {
-            throw new error_1.BadRequestError('Invalid format: no ID provided');
-        }
-        const indexOfAccountToUpdate = usersData_1.users.findIndex((account) => account.id === id);
+    async updateUser(userId, userObj) {
+        const indexOfAccountToUpdate = usersData_1.users.findIndex((user) => user.id === userId);
         if (!userObj.email || !userObj.password || !userObj.battleTag) {
             throw new error_1.BadRequestError('Invalid format: email, password or battleTag missing');
         }
@@ -49,17 +45,17 @@ exports.userMapper = {
             return updatedAccount;
         }
         else {
-            throw new error_1.NotFoundError(`User with id: ${id} not found`);
+            throw new error_1.NotFoundError(`User with id: ${userId} not found`);
         }
     },
-    async deleteUser(id) {
+    async deleteUser(userId) {
         // to be edited with await and DB call
-        const indexOfAccountToDelete = usersData_1.users.findIndex((account) => account.id === id);
+        const indexOfAccountToDelete = usersData_1.users.findIndex((user) => user.id === userId);
         if (indexOfAccountToDelete !== -1) {
             usersData_1.users.splice(indexOfAccountToDelete, 1);
         }
         else {
-            throw new error_1.NotFoundError(`User with id: ${id} not found`);
+            throw new error_1.NotFoundError(`User with id: ${userId} not found`);
         }
         return usersData_1.users;
     },

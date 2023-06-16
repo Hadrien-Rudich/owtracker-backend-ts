@@ -16,13 +16,13 @@ export const userMapper = {
     }
   },
 
-  async readUser(id: number): Promise<UserI> {
+  async readUser(userId: number): Promise<UserI> {
     // to be edited with await and DB call
-    const user = users.find((user) => user.id === id);
+    const user = users.find((user) => user.id === userId);
     if (user) {
       return user;
     } else {
-      throw new NotFoundError(`User with id: ${id} not found`);
+      throw new NotFoundError(`User with id: ${userId} not found`);
     }
   },
 
@@ -37,15 +37,9 @@ export const userMapper = {
     }
   },
 
-  async updateUser(userObj: UserI): Promise<UserI> {
-    const id = userObj.id;
-
-    if (!id) {
-      throw new BadRequestError('Invalid format: no ID provided');
-    }
-
+  async updateUser(userId: number, userObj: UserI): Promise<UserI> {
     const indexOfAccountToUpdate = users.findIndex(
-      (account) => account.id === id
+      (user) => user.id === userId
     );
 
     if (!userObj.email || !userObj.password || !userObj.battleTag) {
@@ -59,19 +53,19 @@ export const userMapper = {
       users[indexOfAccountToUpdate] = updatedAccount;
       return updatedAccount;
     } else {
-      throw new NotFoundError(`User with id: ${id} not found`);
+      throw new NotFoundError(`User with id: ${userId} not found`);
     }
   },
 
-  async deleteUser(id: number): Promise<UserI[]> {
+  async deleteUser(userId: number): Promise<UserI[]> {
     // to be edited with await and DB call
     const indexOfAccountToDelete = users.findIndex(
-      (account) => account.id === id
+      (user) => user.id === userId
     );
     if (indexOfAccountToDelete !== -1) {
       users.splice(indexOfAccountToDelete, 1);
     } else {
-      throw new NotFoundError(`User with id: ${id} not found`);
+      throw new NotFoundError(`User with id: ${userId} not found`);
     }
     return users;
   },

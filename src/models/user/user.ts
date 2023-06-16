@@ -3,4 +3,5 @@ export interface UserI {
   battleTag: string;
   email: string;
   password: string;
+  newPassword?: string;
 }

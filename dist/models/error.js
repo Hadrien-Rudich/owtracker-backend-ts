@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.CustomError = exports.InternalServerError = exports.NotFoundError = exports.BadRequestError = void 0;
+exports.InvalidCredentials = exports.CustomError = exports.InternalServerError = exports.NotFoundError = exports.BadRequestError = void 0;
 class CustomError extends Error {
     constructor(message, status) {
         super(message);
@@ -32,3 +32,11 @@ class InternalServerError extends CustomError {
     }
 }
 exports.InternalServerError = InternalServerError;
+class InvalidCredentials extends CustomError {
+    constructor(message) {
+        super(message, 401);
+        this.name = 'InvalidCredentials';
+        this.message = 'Invalid Credentials';
+    }
+}
+exports.InvalidCredentials = InvalidCredentials;

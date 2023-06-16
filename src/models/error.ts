@@ -30,4 +30,18 @@ class InternalServerError extends CustomError {
   }
 }
 
-export { BadRequestError, NotFoundError, InternalServerError, CustomError };
+class InvalidCredentials extends CustomError {
+  constructor(message: string) {
+    super(message, 401);
+    this.name = 'InvalidCredentials';
+    this.message = 'Invalid Credentials';
+  }
+}
+
+export {
+  BadRequestError,
+  NotFoundError,
+  InternalServerError,
+  CustomError,
+  InvalidCredentials,
+};
