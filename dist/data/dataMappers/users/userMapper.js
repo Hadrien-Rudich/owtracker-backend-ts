@@ -23,22 +23,29 @@ exports.userMapper = {
             throw new error_1.NotFoundError(`User with id: ${userId} not found`);
         }
     },
-    async createUser(userObj) {
-        if (!userObj.battleTag || !userObj.email || !userObj.password) {
-            throw new error_1.BadRequestError('Invalid User Object.');
+    async checkEmail(email) {
+        // to be edited with await and DB call
+        const emailInUse = usersData_1.users.find((user) => user.email === email);
+        return !!emailInUse;
+    },
+    async readUserWithEmail(email) {
+        // to be edited with await and DB call
+        const user = usersData_1.users.find((user) => user.email === email);
+        if (user) {
+            return user;
         }
         else {
-            // to be edited with await and DB call
-            const newAccount = { ...userObj, id: Math.random() };
-            usersData_1.users.push(newAccount);
-            return newAccount;
+            throw new error_1.NotFoundError(`User with email: ${email} not found`);
         }
+    },
+    async createUser(userObj) {
+        // to be edited with await and DB call
+        const newAccount = { ...userObj, id: Math.random() };
+        usersData_1.users.push(newAccount);
+        return newAccount;
     },
     async updateUser(userId, userObj) {
         const indexOfAccountToUpdate = usersData_1.users.findIndex((user) => user.id === userId);
-        if (!userObj.email || !userObj.password || !userObj.battleTag) {
-            throw new error_1.BadRequestError('Invalid format: email, password or battleTag missing');
-        }
         if (indexOfAccountToUpdate !== -1) {
             const updatedAccount = { ...userObj };
             usersData_1.users[indexOfAccountToUpdate] = updatedAccount;

@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import type { UserI } from '../../models/user/user';
 import { userMapper } from '../../data/dataMappers/users/userMapper';
 import { hashPassword, comparePasswords } from '../../services/passwordHash';
+import { BadRequestError, EmailInUse } from '../../models/error';
 
 type RequestParams = { id: number };
 
@@ -45,6 +46,13 @@ export const userController = {
   ): Promise<void> {
     try {
       const userObj: UserI = req.body;
+      if (!userObj.battleTag || !userObj.email || !userObj.password) {
+        throw new BadRequestError('Invalid User Object.');
+      }
+      const emailInUse = await userMapper.checkEmail(userObj.email);
+      if (emailInUse) {
+        throw new EmailInUse('Email already in use');
+      }
       const hashedPassword = await hashPassword(userObj.password);
 
       const newUser = await userMapper.createUser({
@@ -70,6 +78,11 @@ export const userController = {
     try {
       const userId = Number(req.params.id);
       const userObj: UserI = req.body;
+      if (!userObj.email || !userObj.password || !userObj.battleTag) {
+        throw new BadRequestError(
+          'Invalid format: email, password or battleTag missing'
+        );
+      }
       const existingUser = await userMapper.readUser(userId);
 
       await comparePasswords(userObj.password, existingUser.password);

@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.userController = void 0;
 const userMapper_1 = require("../../data/dataMappers/users/userMapper");
 const passwordHash_1 = require("../../services/passwordHash");
+const error_1 = require("../../models/error");
 exports.userController = {
     async getUsers(_req, res, next) {
         try {
@@ -28,6 +29,13 @@ exports.userController = {
     async createUser(req, res, next) {
         try {
             const userObj = req.body;
+            if (!userObj.battleTag || !userObj.email || !userObj.password) {
+                throw new error_1.BadRequestError('Invalid User Object.');
+            }
+            const emailInUse = await userMapper_1.userMapper.checkEmail(userObj.email);
+            if (emailInUse) {
+                throw new error_1.EmailInUse('Email already in use');
+            }
             const hashedPassword = await (0, passwordHash_1.hashPassword)(userObj.password);
             const newUser = await userMapper_1.userMapper.createUser({
                 ...userObj,
@@ -48,6 +56,9 @@ exports.userController = {
         try {
             const userId = Number(req.params.id);
             const userObj = req.body;
+            if (!userObj.email || !userObj.password || !userObj.battleTag) {
+                throw new error_1.BadRequestError('Invalid format: email, password or battleTag missing');
+            }
             const existingUser = await userMapper_1.userMapper.readUser(userId);
             await (0, passwordHash_1.comparePasswords)(userObj.password, existingUser.password);
             if (userObj.newPassword) {

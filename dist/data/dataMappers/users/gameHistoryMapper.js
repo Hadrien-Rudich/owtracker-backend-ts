@@ -25,27 +25,15 @@ exports.gameHistoryMapper = {
         }
     },
     async createGameHistory(gameHistoryObj) {
-        if (!gameHistoryObj.user ||
-            !gameHistoryObj.profile ||
-            !gameHistoryObj.result ||
-            !gameHistoryObj.map ||
-            !gameHistoryObj.mapType ||
-            !gameHistoryObj.mapImageUrl ||
-            !gameHistoryObj.heroes ||
-            !gameHistoryObj.heroesImageUrl) {
-            throw new error_1.BadRequestError('Invalid User Object.');
-        }
-        else {
-            // to be edited with await and DB call
-            const dateNow = (0, functions_1.getCurrentDate)();
-            const newGameHistory = {
-                ...gameHistoryObj,
-                id: Math.random(),
-                date: dateNow,
-            };
-            gamesHistoryData_1.gamesHistory.push(newGameHistory);
-            return newGameHistory;
-        }
+        // to be edited with await and DB call
+        const dateNow = (0, functions_1.getCurrentDate)();
+        const newGameHistory = {
+            ...gameHistoryObj,
+            id: Math.random(),
+            date: dateNow,
+        };
+        gamesHistoryData_1.gamesHistory.push(newGameHistory);
+        return newGameHistory;
     },
     async updateGameHistory(gameHistoryObj) {
         const id = gameHistoryObj.id;

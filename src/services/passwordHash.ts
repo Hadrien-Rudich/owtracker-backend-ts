@@ -1,5 +1,4 @@
 import bcrypt from 'bcrypt';
-import { InvalidCredentials } from '../models/error';
 
 export async function hashPassword(password: string): Promise<string> {
   const salt = await bcrypt.genSalt(10);
@@ -10,12 +9,10 @@ export async function hashPassword(password: string): Promise<string> {
 export async function comparePasswords(
   plainPassword: string,
   hashedPassword: string
-): Promise<void> {
+): Promise<boolean> {
   const passwordComparison = await bcrypt.compare(
     plainPassword,
     hashedPassword
   );
-  if (!passwordComparison) {
-    throw new InvalidCredentials('Invalid Credentials');
-  }
+  return passwordComparison;
 }

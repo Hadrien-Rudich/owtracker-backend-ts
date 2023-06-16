@@ -34,7 +34,15 @@ class InvalidCredentials extends CustomError {
   constructor(message: string) {
     super(message, 401);
     this.name = 'InvalidCredentials';
-    this.message = 'Invalid Credentials';
+    this.message = 'Authentification Failed';
+  }
+}
+
+class EmailInUse extends CustomError {
+  constructor(message: string) {
+    super(message, 401);
+    this.name = 'EmailInUse';
+    this.message = 'Email is already in use';
   }
 }
 
@@ -44,4 +52,5 @@ export {
   InternalServerError,
   CustomError,
   InvalidCredentials,
+  EmailInUse,
 };

@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.InvalidCredentials = exports.CustomError = exports.InternalServerError = exports.NotFoundError = exports.BadRequestError = void 0;
+exports.EmailInUse = exports.InvalidCredentials = exports.CustomError = exports.InternalServerError = exports.NotFoundError = exports.BadRequestError = void 0;
 class CustomError extends Error {
     constructor(message, status) {
         super(message);
@@ -36,7 +36,15 @@ class InvalidCredentials extends CustomError {
     constructor(message) {
         super(message, 401);
         this.name = 'InvalidCredentials';
-        this.message = 'Invalid Credentials';
+        this.message = 'Authentification Failed';
     }
 }
 exports.InvalidCredentials = InvalidCredentials;
+class EmailInUse extends CustomError {
+    constructor(message) {
+        super(message, 401);
+        this.name = 'EmailInUse';
+        this.message = 'Email is already in use';
+    }
+}
+exports.EmailInUse = EmailInUse;

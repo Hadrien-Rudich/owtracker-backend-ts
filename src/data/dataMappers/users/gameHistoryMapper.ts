@@ -30,28 +30,15 @@ export const gameHistoryMapper = {
   },
 
   async createGameHistory(gameHistoryObj: GameHistoryI): Promise<GameHistoryI> {
-    if (
-      !gameHistoryObj.user ||
-      !gameHistoryObj.profile ||
-      !gameHistoryObj.result ||
-      !gameHistoryObj.map ||
-      !gameHistoryObj.mapType ||
-      !gameHistoryObj.mapImageUrl ||
-      !gameHistoryObj.heroes ||
-      !gameHistoryObj.heroesImageUrl
-    ) {
-      throw new BadRequestError('Invalid User Object.');
-    } else {
-      // to be edited with await and DB call
-      const dateNow = getCurrentDate();
-      const newGameHistory = {
-        ...gameHistoryObj,
-        id: Math.random(),
-        date: dateNow,
-      };
-      gamesHistory.push(newGameHistory);
-      return newGameHistory;
-    }
+    // to be edited with await and DB call
+    const dateNow = getCurrentDate();
+    const newGameHistory = {
+      ...gameHistoryObj,
+      id: Math.random(),
+      date: dateNow,
+    };
+    gamesHistory.push(newGameHistory);
+    return newGameHistory;
   },
 
   async updateGameHistory(gameHistoryObj: GameHistoryI): Promise<GameHistoryI> {
