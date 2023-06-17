@@ -5,13 +5,13 @@ const userRouter = Router();
 
 userRouter
   .route('/')
-  .get(userController.getUsers)
-  .post(userController.createUser);
+  .get(userController.getUserAccounts)
+  .post(userController.registerUserAccount);
 
 userRouter
   .route('/:id')
-  .get(userController.getUser)
-  .patch(userController.updateUser)
-  .delete(userController.deleteUser);
+  .get(userController.getUserAccount)
+  .patch(userController.updateUserAccount)
+  .delete(userController.deleteUserAccount);
 
 export default userRouter;

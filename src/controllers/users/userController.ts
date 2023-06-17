@@ -9,7 +9,7 @@ type RequestParams = { id: number };
 type RequestBody = UserI;
 
 export const userController = {
-  async getUsers(
+  async getUserAccounts(
     _req: Request,
     res: Response,
     next: NextFunction
@@ -22,7 +22,7 @@ export const userController = {
     }
   },
 
-  async getUser(
+  async getUserAccount(
     req: Request,
     res: Response,
     next: NextFunction
@@ -39,7 +39,7 @@ export const userController = {
     }
   },
 
-  async createUser(
+  async registerUserAccount(
     req: Request<RequestBody>,
     res: Response,
     next: NextFunction
@@ -70,7 +70,7 @@ export const userController = {
     }
   },
 
-  async updateUser(
+  async updateUserAccount(
     req: Request<RequestParams>,
     res: Response,
     next: NextFunction
@@ -104,7 +104,7 @@ export const userController = {
     }
   },
 
-  async deleteUser(
+  async deleteUserAccount(
     req: Request<RequestParams>,
     res: Response,
     next: NextFunction
