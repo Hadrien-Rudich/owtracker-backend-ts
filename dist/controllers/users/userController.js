@@ -5,7 +5,7 @@ const userMapper_1 = require("../../data/dataMappers/users/userMapper");
 const passwordHash_1 = require("../../services/passwordHash");
 const error_1 = require("../../models/error");
 exports.userController = {
-    async getUsers(_req, res, next) {
+    async getUserAccounts(_req, res, next) {
         try {
             const users = await userMapper_1.userMapper.readUsers();
             res.status(200).json(users);
@@ -14,7 +14,7 @@ exports.userController = {
             next(error);
         }
     },
-    async getUser(req, res, next) {
+    async getUserAccount(req, res, next) {
         try {
             const userId = Number(req.params.id);
             const user = await userMapper_1.userMapper.readUser(userId);
@@ -26,7 +26,7 @@ exports.userController = {
             next(error);
         }
     },
-    async createUser(req, res, next) {
+    async registerUserAccount(req, res, next) {
         try {
             const userObj = req.body;
             if (!userObj.battleTag || !userObj.email || !userObj.password) {
@@ -43,16 +43,13 @@ exports.userController = {
             });
             res
                 .status(201)
-                .json([
-                { message: `User created with id: ${newUser.id}` },
-                { user: newUser },
-            ]);
+                .json([{ message: `New User created}` }, { user: newUser }]);
         }
         catch (error) {
             next(error);
         }
     },
-    async updateUser(req, res, next) {
+    async updateUserAccount(req, res, next) {
         try {
             const userId = Number(req.params.id);
             const userObj = req.body;
@@ -76,7 +73,7 @@ exports.userController = {
             next(error);
         }
     },
-    async deleteUser(req, res, next) {
+    async deleteUserAccount(req, res, next) {
         try {
             const userId = Number(req.params.id);
             await userMapper_1.userMapper.deleteUser(userId);

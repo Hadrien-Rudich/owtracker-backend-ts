@@ -6,7 +6,6 @@ export const validateData = (schema: ObjectSchema) => {
       await schema.validateAsync(req.body);
       next();
     } catch (error) {
-      console.log(error);
       return res.status(422).json({ error });
     }
   };

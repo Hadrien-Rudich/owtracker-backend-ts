@@ -4,7 +4,6 @@ import { gameHistoryMapper } from '../../data/dataMappers/users/gameHistoryMappe
 import { BadRequestError } from '../../models/error';
 
 type RequestParams = { id: number };
-type RequestBody = GameHistoryI;
 
 export const gamesHistoryController = {
   async getGamesHistory(
@@ -41,7 +40,7 @@ export const gamesHistoryController = {
   },
 
   async createGameHistory(
-    req: Request<RequestBody>,
+    req: Request<GameHistoryI>,
     res: Response,
     next: NextFunction
   ): Promise<void> {

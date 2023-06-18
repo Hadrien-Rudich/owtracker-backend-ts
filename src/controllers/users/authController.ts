@@ -3,14 +3,16 @@ import { userMapper } from '../../data/dataMappers/users/userMapper';
 import { comparePasswords } from '../../services/passwordHash';
 import { BadRequestError, InvalidCredentials } from '../../models/error';
 
-export const authController = {
-  async logIn(req: Request, res: Response, next: NextFunction): Promise<void> {
-    try {
-      const { email, password } = req.body;
+type RequestBody = { email: string; password: string };
 
-      if (!email || !password) {
-        throw new BadRequestError('Invalid User Object');
-      }
+export const authController = {
+  async logIn(
+    req: Request<RequestBody>,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
+    try {
+      const { email, password }: RequestBody = req.body;
 
       const user = await userMapper.readUserWithEmail(email);
 

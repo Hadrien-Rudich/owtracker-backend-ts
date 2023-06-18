@@ -26,7 +26,7 @@ exports.UserSchema = {
     userRegister: joi_1.default.object({
         email: joi_1.default.string().email().required(),
         battleTag: joi_1.default.string()
-            .pattern(/^(?![0-9])[a-zA-Z0-9À-ÿ]{3,12}$/)
+            // .pattern(/^(?![0-9])[a-zA-Z0-9À-ÿ]{3,12}$/)
             // Must start with a char that is not a number
             // Can consist of alphanumeric char (upper/lowercase) and accented chars
             // Must have a length between 3 and 12 chars

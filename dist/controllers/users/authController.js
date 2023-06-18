@@ -8,9 +8,6 @@ exports.authController = {
     async logIn(req, res, next) {
         try {
             const { email, password } = req.body;
-            if (!email || !password) {
-                throw new error_1.BadRequestError('Invalid User Object');
-            }
             const user = await userMapper_1.userMapper.readUserWithEmail(email);
             const passwordMatch = await (0, passwordHash_1.comparePasswords)(password, user.password);
             if (passwordMatch) {

@@ -9,11 +9,12 @@ const authRouter = Router();
 authRouter
   .route('/login')
   .post(validateData(UserSchema.userLogin), authController.logIn);
-// authRouter
-//   .route('/register')
-//   .post(
-//     validateData(UserSchema.userRegister),
-//     userController.registerUserAccount
-//   );
+
+authRouter
+  .route('/register')
+  .post(
+    validateData(UserSchema.userRegister),
+    userController.registerUserAccount
+  );
 
 export default authRouter;

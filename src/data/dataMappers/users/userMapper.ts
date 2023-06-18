@@ -1,5 +1,5 @@
 import { users } from './usersData';
-import type { UserI } from '../../../models/user/user';
+import type { UserI, UserRegisterI } from '../../../models/user/user';
 import {
   BadRequestError,
   NotFoundError,
@@ -42,7 +42,7 @@ export const userMapper = {
     }
   },
 
-  async createUser(userObj: UserI): Promise<UserI> {
+  async createUser(userObj: UserRegisterI): Promise<UserI> {
     // to be edited with await and DB call
     const newAccount = { ...userObj, id: Math.random() };
     users.push(newAccount);

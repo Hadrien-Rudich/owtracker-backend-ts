@@ -3,10 +3,7 @@ import { userController } from '../../../controllers/users/userController';
 
 const userRouter = Router();
 
-userRouter
-  .route('/')
-  .get(userController.getUserAccounts)
-  .post(userController.registerUserAccount);
+userRouter.route('/').get(userController.getUserAccounts);
 
 userRouter
   .route('/:id')

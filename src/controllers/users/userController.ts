@@ -1,12 +1,10 @@
 import { Request, Response, NextFunction } from 'express';
-import type { UserI } from '../../models/user/user';
+import type { UserI, UserRegisterI } from '../../models/user/user';
 import { userMapper } from '../../data/dataMappers/users/userMapper';
 import { hashPassword, comparePasswords } from '../../services/passwordHash';
 import { BadRequestError, EmailInUse } from '../../models/error';
 
 type RequestParams = { id: number };
-
-type RequestBody = UserI;
 
 export const userController = {
   async getUserAccounts(
@@ -40,12 +38,12 @@ export const userController = {
   },
 
   async registerUserAccount(
-    req: Request<RequestBody>,
+    req: Request,
     res: Response,
     next: NextFunction
   ): Promise<void> {
     try {
-      const userObj: UserI = req.body;
+      const userObj: UserRegisterI = req.body;
       if (!userObj.battleTag || !userObj.email || !userObj.password) {
         throw new BadRequestError('Invalid User Object.');
       }
@@ -61,10 +59,7 @@ export const userController = {
       });
       res
         .status(201)
-        .json([
-          { message: `User created with id: ${newUser.id}` },
-          { user: newUser },
-        ]);
+        .json([{ message: `New User created}` }, { user: newUser }]);
     } catch (error) {
       next(error);
     }
