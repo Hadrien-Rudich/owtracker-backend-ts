@@ -44,9 +44,7 @@ export const userController = {
   ): Promise<void> {
     try {
       const userObj: UserRegisterI = req.body;
-      if (!userObj.battleTag || !userObj.email || !userObj.password) {
-        throw new BadRequestError('Invalid User Object.');
-      }
+
       const emailInUse = await userMapper.checkEmail(userObj.email);
       if (emailInUse) {
         throw new EmailInUse('Email already in use');

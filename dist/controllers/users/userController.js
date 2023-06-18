@@ -29,9 +29,6 @@ exports.userController = {
     async registerUserAccount(req, res, next) {
         try {
             const userObj = req.body;
-            if (!userObj.battleTag || !userObj.email || !userObj.password) {
-                throw new error_1.BadRequestError('Invalid User Object.');
-            }
             const emailInUse = await userMapper_1.userMapper.checkEmail(userObj.email);
             if (emailInUse) {
                 throw new error_1.EmailInUse('Email already in use');

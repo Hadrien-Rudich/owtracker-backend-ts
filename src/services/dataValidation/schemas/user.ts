@@ -7,41 +7,33 @@ import type {
 export const UserSchema = {
   userLogin: Joi.object<UserCredentialsI>({
     email: Joi.string().email().required(),
-    // battleTag: Joi.string()
-    //   .pattern(/^(?![0-9])[a-zA-Z0-9À-ÿ]{3,12}$/)
-    //   // Must start with a char that is not a number
-    //   // Can consist of alphanumeric char (upper/lowercase) and accented chars
-    //   // Must have a length between 3 and 12 chars
-    //   .required(),
+
     password: Joi.string()
       .pattern(
         /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/
       )
-      // Must have one lowercase letter
-      // Must have one uppercase letter
-      // Must have one digit
-      // Must have one special char from the set (@$!%*?&).
-      // Min length of 8 characters
-      .required(),
+      .required()
+      .messages({
+        'string.pattern.base': `{{#label}} must meet the following format: 1 uppercase, 1 lowercase,1 digit, 1 special char, 8 char min, 25 char max`,
+      }),
   }),
 
   userRegister: Joi.object<UserRegisterI>({
     email: Joi.string().email().required(),
     battleTag: Joi.string()
-      // .pattern(/^(?![0-9])[a-zA-Z0-9À-ÿ]{3,12}$/)
-      // Must start with a char that is not a number
-      // Can consist of alphanumeric char (upper/lowercase) and accented chars
-      // Must have a length between 3 and 12 chars
-      .required(),
+      .pattern(/^(?=.*[#])[A-Za-z\d#]{3,20}$/)
+      .required()
+      .messages({
+        'string.pattern.base': `{{#label}} must meet the following format: 1 #, 1 letter, 1 digit, 3 chars min, 20 chars max`,
+      }),
+
     password: Joi.string()
       .pattern(
-        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,25}$/
       )
-      // Must have one lowercase letter
-      // Must have one uppercase letter
-      // Must have one digit
-      // Must have one special char from the set (@$!%*?&).
-      // Min length of 8 characters
-      .required(),
+      .required()
+      .messages({
+        'string.pattern.base': `{{#label}} must meet the following format: 1 uppercase, 1 lowercase,1 digit, 1 special char, 8 char min, 25 char max`,
+      }),
   }),
 };
