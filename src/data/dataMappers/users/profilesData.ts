@@ -1,6 +1,5 @@
-import type { ProfileI } from '../../../models/user/profile';
-
-export const profiles: ProfileI[] = [
+import { Profile } from '../../../models/user/profile';
+export const profiles: Profile.Base[] = [
   {
     id: 1,
     label: 'Trio avec Sim et Tom',

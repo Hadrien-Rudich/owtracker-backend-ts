@@ -45,7 +45,7 @@ export const userController = {
     next: NextFunction
   ): Promise<void> {
     try {
-      const userObj: User.Registration = req.body;
+      const userObj: User.New = req.body;
 
       const emailInUse = await userMapper.checkEmail(userObj.email);
       if (emailInUse) {

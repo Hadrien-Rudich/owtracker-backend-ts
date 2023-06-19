@@ -3,7 +3,7 @@ import type { User } from '../../../models/user/user';
 import { NotFoundError, InternalServerError } from '../../../models/error';
 
 export const userMapper = {
-  async readUsers(): Promise<User.Details[]> {
+  async readUsers(): Promise<User.Base[]> {
     // to be edited with await and DB call
     if (users.length >= 1) {
       return users;
@@ -12,7 +12,7 @@ export const userMapper = {
     }
   },
 
-  async readUser(userId: number): Promise<User.Details> {
+  async readUser(userId: number): Promise<User.Base> {
     // to be edited with await and DB call
     const user = users.find((user) => user.id === userId);
     if (user) {
@@ -28,7 +28,7 @@ export const userMapper = {
     return !!emailInUse;
   },
 
-  async readUserWithEmail(email: string): Promise<User.Details> {
+  async readUserWithEmail(email: string): Promise<User.Base> {
     // to be edited with await and DB call
     const user = users.find((user) => user.email === email);
     if (user) {
@@ -38,7 +38,7 @@ export const userMapper = {
     }
   },
 
-  async createUser(userObj: User.Registration): Promise<User.Details> {
+  async createUser(userObj: User.New): Promise<User.Base> {
     // to be edited with await and DB call
     const newAccount = { ...userObj, id: Math.random() };
     users.push(newAccount);
@@ -48,7 +48,7 @@ export const userMapper = {
   async updateUserDetails(
     userId: number,
     userObj: User.Update
-  ): Promise<User.Details> {
+  ): Promise<User.Base> {
     // to be edited with await and DB call
     const indexOfAccountToUpdate = users.findIndex(
       (user) => user.id === userId
@@ -66,7 +66,7 @@ export const userMapper = {
   async updateUserPassword(
     userId: number,
     userObj: User.UpdatePassword
-  ): Promise<User.Details> {
+  ): Promise<User.Base> {
     // to be edited with await and DB call
     const indexOfAccountToUpdate = users.findIndex(
       (user) => user.id === userId
@@ -84,7 +84,7 @@ export const userMapper = {
     }
   },
 
-  async deleteUser(userId: number): Promise<User.Details[]> {
+  async deleteUser(userId: number): Promise<User.Base[]> {
     // to be edited with await and DB call
     const indexOfAccountToDelete = users.findIndex(
       (user) => user.id === userId

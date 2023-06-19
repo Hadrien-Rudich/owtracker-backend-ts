@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
-import { ProfileI } from '../../models/user/profile';
+import type { Profile } from '../../models/user/profile';
+
 import { profileMapper } from '../../data/dataMappers/users/profileMapper';
 
 type RequestParams = { id: number };
@@ -44,8 +45,8 @@ export const profileController = {
     next: NextFunction
   ): Promise<void> => {
     try {
-      const { newProfileLabel } = req.body;
-      const newProfile = await profileMapper.createProfile(newProfileLabel);
+      const profileObj: Profile.New = req.body;
+      const newProfile = await profileMapper.createProfile(profileObj);
       res.status(201).json(newProfile);
     } catch (error) {
       next(error);
@@ -58,13 +59,17 @@ export const profileController = {
     next: NextFunction
   ): Promise<void> {
     try {
-      const profileObj: ProfileI = req.body;
-      await profileMapper.updateProfile(profileObj);
+      const profileId = Number(req.params.id);
+      const profileObj: Profile.Update = req.body;
+      const updatedProfile = await profileMapper.updateProfile(
+        profileId,
+        profileObj
+      );
       res
         .status(200)
         .json([
-          { message: `Profile with id: ${profileObj.id} updated` },
-          { updatedProfile: profileObj },
+          { message: `Profile updated` },
+          { updatedProfile: updatedProfile },
         ]);
     } catch (error) {
       next(error);
@@ -77,9 +82,11 @@ export const profileController = {
     next: NextFunction
   ): Promise<void> => {
     try {
-      const id = Number(req.params.id);
-      await profileMapper.deleteProfile(id);
-      res.status(200).json({ message: `Profile with id: ${id} deleted` });
+      const profileId = Number(req.params.id);
+      await profileMapper.deleteProfile(profileId);
+      res
+        .status(200)
+        .json({ message: `Profile with id: ${profileId} deleted` });
     } catch (error) {
       next(error);
     }

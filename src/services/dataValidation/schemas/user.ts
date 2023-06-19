@@ -10,11 +10,11 @@ export const UserSchema = {
       )
       .required()
       .messages({
-        'string.pattern.base': `{{#label}} must meet the following format: 1 uppercase, 1 lowercase,1 digit, 1 special char, 8 char min, 25 char max`,
+        'string.pattern.base': `{{#label}} must meet the following format: 1 uppercase, 1 lowercase,1 digit, 1 special char, 8 chars min, 25 chars max`,
       }),
   }),
 
-  register: Joi.object<User.Registration>({
+  register: Joi.object<User.New>({
     email: Joi.string().email().required(),
     battleTag: Joi.string()
       .pattern(/^(?=.*[#])[A-Za-z\d#]{3,20}$/)

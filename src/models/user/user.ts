@@ -1,5 +1,5 @@
 export namespace User {
-  export interface Details {
+  export interface Base {
     id: number;
     battleTag: string;
     email: string;
@@ -11,7 +11,7 @@ export namespace User {
     password: string;
   }
 
-  export interface Registration {
+  export interface New {
     email: string;
     password: string;
     battleTag: string;

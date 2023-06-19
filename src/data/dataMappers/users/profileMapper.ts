@@ -1,5 +1,5 @@
 import { profiles } from './profilesData';
-import type { ProfileI } from '../../../models/user/profile';
+import type { Profile } from '../../../models/user/profile';
 import {
   BadRequestError,
   NotFoundError,
@@ -7,7 +7,7 @@ import {
 } from '../../../models/error';
 
 export const profileMapper = {
-  async readProfiles(): Promise<ProfileI[]> {
+  async readProfiles(): Promise<Profile.Base[]> {
     // to be edited with await and DB call
     if (profiles.length >= 1) {
       return profiles;
@@ -16,7 +16,7 @@ export const profileMapper = {
     }
   },
 
-  async readProfile(id: number): Promise<ProfileI> {
+  async readProfile(id: number): Promise<Profile.Base> {
     // to be edited with await and DB call
     const profile = profiles.find((profile) => profile.id === id);
     if (profile) {
@@ -26,42 +26,46 @@ export const profileMapper = {
     }
   },
 
-  async createProfile(profile: string): Promise<ProfileI> {
-    if (!profile) {
+  async createProfile(profileObj: Profile.New): Promise<Profile.Base> {
+    if (!profileObj) {
       throw new BadRequestError('Invalid Profile Object.');
     } else {
       // to be edited with await and DB call
-      const newProfile = { label: profile, id: Math.random() };
+      const newProfile = { ...profileObj, id: Math.random() };
       profiles.push(newProfile);
       return newProfile;
     }
   },
 
-  async updateProfile(profileObj: ProfileI): Promise<ProfileI | undefined> {
-    const id = profileObj.id;
-
-    if (!id) {
+  async updateProfile(
+    profileId: number,
+    profileObj: Profile.Update
+  ): Promise<Profile.Base> {
+    if (!profileId) {
       throw new BadRequestError('Invalid format: no ID provided');
     }
 
     const indexOfProfileToUpdate = profiles.findIndex(
-      (profile) => profile.id === id
+      (profile) => profile.id === profileId
     );
 
-    if (!profileObj.label) {
-      throw new BadRequestError('Invalid format: label missing');
+    if (!profileObj) {
+      throw new BadRequestError('Invalid format: Profile Label missing');
     }
 
     if (indexOfProfileToUpdate !== -1) {
-      const updatedProfile = { ...profileObj };
+      const updatedProfile = {
+        ...profiles[indexOfProfileToUpdate],
+        label: profileObj.label,
+      };
       profiles[indexOfProfileToUpdate] = updatedProfile;
       return updatedProfile;
     } else {
-      throw new NotFoundError(`Profile with id: ${id} not found`);
+      throw new NotFoundError(`Profile with id: ${profileId} not found`);
     }
   },
 
-  async deleteProfile(id: number): Promise<ProfileI[]> {
+  async deleteProfile(id: number): Promise<Profile.Base[]> {
     // to be edited with await and DB call
     const indexOfProfileToDelete = profiles.findIndex(
       (profile) => profile.id === id

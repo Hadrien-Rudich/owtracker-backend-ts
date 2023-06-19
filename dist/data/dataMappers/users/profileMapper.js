@@ -23,33 +23,35 @@ exports.profileMapper = {
             throw new error_1.NotFoundError(`Profile with id: ${id} not found`);
         }
     },
-    async createProfile(profile) {
-        if (!profile) {
+    async createProfile(profileObj) {
+        if (!profileObj) {
             throw new error_1.BadRequestError('Invalid Profile Object.');
         }
         else {
             // to be edited with await and DB call
-            const newProfile = { label: profile, id: Math.random() };
+            const newProfile = { ...profileObj, id: Math.random() };
             profilesData_1.profiles.push(newProfile);
             return newProfile;
         }
     },
-    async updateProfile(profileObj) {
-        const id = profileObj.id;
-        if (!id) {
+    async updateProfile(profileId, profileObj) {
+        if (!profileId) {
             throw new error_1.BadRequestError('Invalid format: no ID provided');
         }
-        const indexOfProfileToUpdate = profilesData_1.profiles.findIndex((profile) => profile.id === id);
-        if (!profileObj.label) {
-            throw new error_1.BadRequestError('Invalid format: label missing');
+        const indexOfProfileToUpdate = profilesData_1.profiles.findIndex((profile) => profile.id === profileId);
+        if (!profileObj) {
+            throw new error_1.BadRequestError('Invalid format: Profile Label missing');
         }
         if (indexOfProfileToUpdate !== -1) {
-            const updatedProfile = { ...profileObj };
+            const updatedProfile = {
+                ...profilesData_1.profiles[indexOfProfileToUpdate],
+                label: profileObj.label,
+            };
             profilesData_1.profiles[indexOfProfileToUpdate] = updatedProfile;
             return updatedProfile;
         }
         else {
-            throw new error_1.NotFoundError(`Profile with id: ${id} not found`);
+            throw new error_1.NotFoundError(`Profile with id: ${profileId} not found`);
         }
     },
     async deleteProfile(id) {

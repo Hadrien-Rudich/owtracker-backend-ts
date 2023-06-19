@@ -29,8 +29,8 @@ exports.profileController = {
     },
     createProfile: async (req, res, next) => {
         try {
-            const { newProfileLabel } = req.body;
-            const newProfile = await profileMapper_1.profileMapper.createProfile(newProfileLabel);
+            const profileObj = req.body;
+            const newProfile = await profileMapper_1.profileMapper.createProfile(profileObj);
             res.status(201).json(newProfile);
         }
         catch (error) {
@@ -39,13 +39,14 @@ exports.profileController = {
     },
     async updateProfile(req, res, next) {
         try {
+            const profileId = Number(req.params.id);
             const profileObj = req.body;
-            await profileMapper_1.profileMapper.updateProfile(profileObj);
+            const updatedProfile = await profileMapper_1.profileMapper.updateProfile(profileId, profileObj);
             res
                 .status(200)
                 .json([
-                { message: `Profile with id: ${profileObj.id} updated` },
-                { updatedProfile: profileObj },
+                { message: `Profile updated` },
+                { updatedProfile: updatedProfile },
             ]);
         }
         catch (error) {
@@ -54,9 +55,11 @@ exports.profileController = {
     },
     deleteProfile: async (req, res, next) => {
         try {
-            const id = Number(req.params.id);
-            await profileMapper_1.profileMapper.deleteProfile(id);
-            res.status(200).json({ message: `Profile with id: ${id} deleted` });
+            const profileId = Number(req.params.id);
+            await profileMapper_1.profileMapper.deleteProfile(profileId);
+            res
+                .status(200)
+                .json({ message: `Profile with id: ${profileId} deleted` });
         }
         catch (error) {
             next(error);
