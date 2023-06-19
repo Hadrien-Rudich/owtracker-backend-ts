@@ -7,7 +7,7 @@ export const validateData = (schema: ObjectSchema) => {
       next();
     } catch (error) {
       const errorMessage = (error as Error).message;
-      return res.status(422).json({ error: errorMessage });
+      return res.status(400).json({ error: errorMessage });
     }
   };
 };

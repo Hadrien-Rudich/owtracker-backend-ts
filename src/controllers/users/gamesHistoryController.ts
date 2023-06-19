@@ -57,7 +57,7 @@ export const gamesHistoryController = {
         !gameHistoryObj.heroes ||
         !gameHistoryObj.heroesImageUrl
       ) {
-        throw new BadRequestError('Invalid User Object.');
+        throw new BadRequestError();
       } else {
         const newGameHistory = await gameHistoryMapper.createGameHistory(
           gameHistoryObj
@@ -92,9 +92,7 @@ export const gamesHistoryController = {
         !gameHistoryObj.heroes ||
         !gameHistoryObj.heroesImageUrl
       ) {
-        throw new BadRequestError(
-          'Invalid format: user, profile, result, map, mapType, mapImageUrl, heroes or heroesImageUrl battleTag missing'
-        );
+        throw new BadRequestError();
       }
 
       const updatedGameHistory = await gameHistoryMapper.updateGameHistory(
@@ -102,7 +100,7 @@ export const gamesHistoryController = {
       );
 
       res
-        .status(204)
+        .status(200)
         .json([
           { message: `Game History with id: ${updatedGameHistory.id} updated` },
           { updatedGameHistory: updatedGameHistory },
@@ -120,7 +118,7 @@ export const gamesHistoryController = {
     try {
       const id = Number(req.params.id);
       await gameHistoryMapper.deleteGameHistory(id);
-      res.status(204).json({ message: `Game History with id: ${id} deleted` });
+      res.status(200).json({ message: `Game History with id: ${id} deleted` });
     } catch (error) {
       next(error);
     }

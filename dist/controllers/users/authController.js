@@ -14,7 +14,7 @@ exports.authController = {
                 res.status(200).json({ message: 'Login successful' });
             }
             else {
-                throw new error_1.InvalidCredentials('Authentication failed');
+                throw new error_1.InvalidCredentialsError();
             }
         }
         catch (error) {

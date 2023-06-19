@@ -1,5 +1,6 @@
-import type { UserI } from '../../../models/user/user';
-export const users: UserI[] = [
+import type { User } from '../../../models/user/user';
+
+export const users: User.Details[] = [
   {
     id: 1,
     battleTag: 'Moulineks#1799',

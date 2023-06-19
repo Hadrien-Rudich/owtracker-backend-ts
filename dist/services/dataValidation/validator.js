@@ -9,7 +9,7 @@ const validateData = (schema) => {
         }
         catch (error) {
             const errorMessage = error.message;
-            return res.status(422).json({ error: errorMessage });
+            return res.status(400).json({ error: errorMessage });
         }
     };
 };

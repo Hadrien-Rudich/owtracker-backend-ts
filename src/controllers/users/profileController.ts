@@ -61,7 +61,7 @@ export const profileController = {
       const profileObj: ProfileI = req.body;
       await profileMapper.updateProfile(profileObj);
       res
-        .status(204)
+        .status(200)
         .json([
           { message: `Profile with id: ${profileObj.id} updated` },
           { updatedProfile: profileObj },
@@ -79,7 +79,7 @@ export const profileController = {
     try {
       const id = Number(req.params.id);
       await profileMapper.deleteProfile(id);
-      res.status(204).json({ message: `Profile with id: ${id} deleted` });
+      res.status(200).json({ message: `Profile with id: ${id} deleted` });
     } catch (error) {
       next(error);
     }

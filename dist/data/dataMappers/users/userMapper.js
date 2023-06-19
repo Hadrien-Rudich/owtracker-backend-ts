@@ -44,12 +44,28 @@ exports.userMapper = {
         usersData_1.users.push(newAccount);
         return newAccount;
     },
-    async updateUser(userId, userObj) {
+    async updateUserDetails(userId, userObj) {
+        // to be edited with await and DB call
         const indexOfAccountToUpdate = usersData_1.users.findIndex((user) => user.id === userId);
         if (indexOfAccountToUpdate !== -1) {
-            const updatedAccount = { ...userObj };
-            usersData_1.users[indexOfAccountToUpdate] = updatedAccount;
-            return updatedAccount;
+            const updatedUser = { ...usersData_1.users[indexOfAccountToUpdate], ...userObj };
+            usersData_1.users[indexOfAccountToUpdate] = updatedUser;
+            return updatedUser;
+        }
+        else {
+            throw new error_1.NotFoundError(`User with id: ${userId} not found`);
+        }
+    },
+    async updateUserPassword(userId, userObj) {
+        // to be edited with await and DB call
+        const indexOfAccountToUpdate = usersData_1.users.findIndex((user) => user.id === userId);
+        if (indexOfAccountToUpdate !== -1) {
+            const updatedUser = {
+                ...usersData_1.users[indexOfAccountToUpdate],
+                password: userObj.newPassword,
+            };
+            usersData_1.users[indexOfAccountToUpdate] = updatedUser;
+            return updatedUser;
         }
         else {
             throw new error_1.NotFoundError(`User with id: ${userId} not found`);
@@ -59,6 +75,7 @@ exports.userMapper = {
         // to be edited with await and DB call
         const indexOfAccountToDelete = usersData_1.users.findIndex((user) => user.id === userId);
         if (indexOfAccountToDelete !== -1) {
+            // to be edited with await and DB call
             usersData_1.users.splice(indexOfAccountToDelete, 1);
         }
         else {

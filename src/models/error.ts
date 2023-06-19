@@ -1,48 +1,52 @@
 class CustomError extends Error {
   status: number;
-  constructor(message: string, status: number) {
+  constructor(message?: string, status?: number) {
     super(message);
-    this.status = status;
+    this.status = status || 500;
+    this.name = this.constructor.name;
+    if (!message) {
+      this.setDefaultMessage();
+    }
+  }
+
+  private setDefaultMessage() {
+    this.message = 'An error occurred.';
   }
 }
 
 class BadRequestError extends CustomError {
-  constructor(message: string) {
-    super(message, 400);
-    this.name = 'BadRequestError';
-    this.message = 'Invalid Request';
+  constructor(message?: string) {
+    super(message || 'Invalid Request', 400);
   }
 }
 
 class NotFoundError extends CustomError {
-  constructor(message: string) {
-    super(message, 200);
-    this.name = 'NotFoundError';
-    this.message = 'Could not find entry';
+  constructor(message?: string) {
+    super(message || 'Could not find entry', 404);
   }
 }
 
 class InternalServerError extends CustomError {
-  constructor(message: string) {
-    super(message, 500);
-    this.name = 'InternalServerError';
-    this.message = 'Internal Server Error';
+  constructor(message?: string) {
+    super(message || 'Internal Server Error', 500);
   }
 }
 
-class InvalidCredentials extends CustomError {
-  constructor(message: string) {
-    super(message, 401);
-    this.name = 'InvalidCredentials';
-    this.message = 'Authentification Failed';
+class InvalidCredentialsError extends CustomError {
+  constructor(message?: string) {
+    super(message || 'Authentication Failed', 401);
   }
 }
 
-class EmailInUse extends CustomError {
-  constructor(message: string) {
-    super(message, 401);
-    this.name = 'EmailInUse';
-    this.message = 'Email is already in use';
+class InvalidPasswordError extends CustomError {
+  constructor(message?: string) {
+    super(message || 'Invalid password', 401);
+  }
+}
+
+class EmailInUseError extends CustomError {
+  constructor(message?: string) {
+    super(message || 'Email is already in use', 200);
   }
 }
 
@@ -51,6 +55,7 @@ export {
   NotFoundError,
   InternalServerError,
   CustomError,
-  InvalidCredentials,
-  EmailInUse,
+  InvalidCredentialsError,
+  EmailInUseError,
+  InvalidPasswordError,
 };

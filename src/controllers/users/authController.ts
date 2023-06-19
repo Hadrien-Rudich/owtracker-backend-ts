@@ -1,18 +1,13 @@
 import { Request, Response, NextFunction } from 'express';
 import { userMapper } from '../../data/dataMappers/users/userMapper';
 import { comparePasswords } from '../../services/passwordHash';
-import { BadRequestError, InvalidCredentials } from '../../models/error';
-
-type RequestBody = { email: string; password: string };
+import { InvalidCredentialsError } from '../../models/error';
+import { User } from '../../models/user/user';
 
 export const authController = {
-  async logIn(
-    req: Request<RequestBody>,
-    res: Response,
-    next: NextFunction
-  ): Promise<void> {
+  async logIn(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
-      const { email, password }: RequestBody = req.body;
+      const { email, password }: User.Login = req.body;
 
       const user = await userMapper.readUserWithEmail(email);
 
@@ -21,7 +16,7 @@ export const authController = {
       if (passwordMatch) {
         res.status(200).json({ message: 'Login successful' });
       } else {
-        throw new InvalidCredentials('Authentication failed');
+        throw new InvalidCredentialsError();
       }
     } catch (error) {
       next(error);

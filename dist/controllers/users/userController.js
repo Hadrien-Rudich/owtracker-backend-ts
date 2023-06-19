@@ -4,6 +4,7 @@ exports.userController = void 0;
 const userMapper_1 = require("../../data/dataMappers/users/userMapper");
 const passwordHash_1 = require("../../services/passwordHash");
 const error_1 = require("../../models/error");
+const passwordHash_2 = require("../../services/passwordHash");
 exports.userController = {
     async getUserAccounts(_req, res, next) {
         try {
@@ -31,7 +32,7 @@ exports.userController = {
             const userObj = req.body;
             const emailInUse = await userMapper_1.userMapper.checkEmail(userObj.email);
             if (emailInUse) {
-                throw new error_1.EmailInUse('Email already in use');
+                throw new error_1.EmailInUseError();
             }
             const hashedPassword = await (0, passwordHash_1.hashPassword)(userObj.password);
             const newUser = await userMapper_1.userMapper.createUser({
@@ -46,23 +47,41 @@ exports.userController = {
             next(error);
         }
     },
-    async updateUserAccount(req, res, next) {
+    async updateUserAccountDetails(req, res, next) {
         try {
             const userId = Number(req.params.id);
             const userObj = req.body;
-            if (!userObj.email || !userObj.password || !userObj.battleTag) {
-                throw new error_1.BadRequestError('Invalid format: email, password or battleTag missing');
-            }
-            const existingUser = await userMapper_1.userMapper.readUser(userId);
-            await (0, passwordHash_1.comparePasswords)(userObj.password, existingUser.password);
-            if (userObj.newPassword) {
-                userObj.password = await (0, passwordHash_1.hashPassword)(userObj.newPassword);
-            }
-            const updatedUser = await userMapper_1.userMapper.updateUser(userId, userObj);
+            const updatedUser = await userMapper_1.userMapper.updateUserDetails(userId, userObj);
             res
                 .status(200)
                 .json([
-                { message: `User with id: ${userId} updated` },
+                { message: `User Details with id: ${userId} updated` },
+                { updatedUser: updatedUser },
+            ]);
+        }
+        catch (error) {
+            next(error);
+        }
+    },
+    async updateUserAccountPassword(req, res, next) {
+        try {
+            const userId = Number(req.params.id);
+            const userObj = req.body;
+            const user = await userMapper_1.userMapper.readUser(userId);
+            if (!user) {
+                throw new error_1.NotFoundError();
+            }
+            const passwordMatch = await (0, passwordHash_2.comparePasswords)(userObj.password, user.password);
+            if (!passwordMatch) {
+                throw new error_1.InvalidPasswordError();
+            }
+            const hashedPassword = await (0, passwordHash_1.hashPassword)(userObj.newPassword);
+            userObj.newPassword = hashedPassword;
+            const updatedUser = await userMapper_1.userMapper.updateUserPassword(userId, userObj);
+            res
+                .status(200)
+                .json([
+                { message: `User Password with id: ${userId} updated` },
                 { updatedUser: updatedUser },
             ]);
         }
@@ -74,7 +93,7 @@ exports.userController = {
         try {
             const userId = Number(req.params.id);
             await userMapper_1.userMapper.deleteUser(userId);
-            res.status(204).json({ message: `User with id: ${userId} deleted` });
+            res.status(200).json({ message: `User with id: ${userId} deleted` });
         }
         catch (error) {
             next(error);

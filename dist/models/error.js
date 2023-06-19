@@ -1,50 +1,53 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.EmailInUse = exports.InvalidCredentials = exports.CustomError = exports.InternalServerError = exports.NotFoundError = exports.BadRequestError = void 0;
+exports.InvalidPasswordError = exports.EmailInUseError = exports.InvalidCredentialsError = exports.CustomError = exports.InternalServerError = exports.NotFoundError = exports.BadRequestError = void 0;
 class CustomError extends Error {
     constructor(message, status) {
         super(message);
-        this.status = status;
+        this.status = status || 500;
+        this.name = this.constructor.name;
+        if (!message) {
+            this.setDefaultMessage();
+        }
+    }
+    setDefaultMessage() {
+        this.message = 'An error occurred.';
     }
 }
 exports.CustomError = CustomError;
 class BadRequestError extends CustomError {
     constructor(message) {
-        super(message, 400);
-        this.name = 'BadRequestError';
-        this.message = 'Invalid Request';
+        super(message || 'Invalid Request', 400);
     }
 }
 exports.BadRequestError = BadRequestError;
 class NotFoundError extends CustomError {
     constructor(message) {
-        super(message, 200);
-        this.name = 'NotFoundError';
-        this.message = 'Could not find entry';
+        super(message || 'Could not find entry', 404);
     }
 }
 exports.NotFoundError = NotFoundError;
 class InternalServerError extends CustomError {
     constructor(message) {
-        super(message, 500);
-        this.name = 'InternalServerError';
-        this.message = 'Internal Server Error';
+        super(message || 'Internal Server Error', 500);
     }
 }
 exports.InternalServerError = InternalServerError;
-class InvalidCredentials extends CustomError {
+class InvalidCredentialsError extends CustomError {
     constructor(message) {
-        super(message, 401);
-        this.name = 'InvalidCredentials';
-        this.message = 'Authentification Failed';
+        super(message || 'Authentication Failed', 401);
     }
 }
-exports.InvalidCredentials = InvalidCredentials;
-class EmailInUse extends CustomError {
+exports.InvalidCredentialsError = InvalidCredentialsError;
+class InvalidPasswordError extends CustomError {
     constructor(message) {
-        super(message, 401);
-        this.name = 'EmailInUse';
-        this.message = 'Email is already in use';
+        super(message || 'Invalid password', 401);
     }
 }
-exports.EmailInUse = EmailInUse;
+exports.InvalidPasswordError = InvalidPasswordError;
+class EmailInUseError extends CustomError {
+    constructor(message) {
+        super(message || 'Email is already in use', 200);
+    }
+}
+exports.EmailInUseError = EmailInUseError;

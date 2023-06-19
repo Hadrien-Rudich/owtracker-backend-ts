@@ -1,13 +1,9 @@
 import { users } from './usersData';
-import type { UserI, UserRegisterI } from '../../../models/user/user';
-import {
-  BadRequestError,
-  NotFoundError,
-  InternalServerError,
-} from '../../../models/error';
+import type { User } from '../../../models/user/user';
+import { NotFoundError, InternalServerError } from '../../../models/error';
 
 export const userMapper = {
-  async readUsers(): Promise<UserI[]> {
+  async readUsers(): Promise<User.Details[]> {
     // to be edited with await and DB call
     if (users.length >= 1) {
       return users;
@@ -16,7 +12,7 @@ export const userMapper = {
     }
   },
 
-  async readUser(userId: number): Promise<UserI> {
+  async readUser(userId: number): Promise<User.Details> {
     // to be edited with await and DB call
     const user = users.find((user) => user.id === userId);
     if (user) {
@@ -32,7 +28,7 @@ export const userMapper = {
     return !!emailInUse;
   },
 
-  async readUserWithEmail(email: string): Promise<UserI> {
+  async readUserWithEmail(email: string): Promise<User.Details> {
     // to be edited with await and DB call
     const user = users.find((user) => user.email === email);
     if (user) {
@@ -42,33 +38,59 @@ export const userMapper = {
     }
   },
 
-  async createUser(userObj: UserRegisterI): Promise<UserI> {
+  async createUser(userObj: User.Registration): Promise<User.Details> {
     // to be edited with await and DB call
     const newAccount = { ...userObj, id: Math.random() };
     users.push(newAccount);
     return newAccount;
   },
 
-  async updateUser(userId: number, userObj: UserI): Promise<UserI> {
+  async updateUserDetails(
+    userId: number,
+    userObj: User.Update
+  ): Promise<User.Details> {
+    // to be edited with await and DB call
     const indexOfAccountToUpdate = users.findIndex(
       (user) => user.id === userId
     );
 
     if (indexOfAccountToUpdate !== -1) {
-      const updatedAccount = { ...userObj };
-      users[indexOfAccountToUpdate] = updatedAccount;
-      return updatedAccount;
+      const updatedUser = { ...users[indexOfAccountToUpdate], ...userObj };
+      users[indexOfAccountToUpdate] = updatedUser;
+      return updatedUser;
     } else {
       throw new NotFoundError(`User with id: ${userId} not found`);
     }
   },
 
-  async deleteUser(userId: number): Promise<UserI[]> {
+  async updateUserPassword(
+    userId: number,
+    userObj: User.UpdatePassword
+  ): Promise<User.Details> {
+    // to be edited with await and DB call
+    const indexOfAccountToUpdate = users.findIndex(
+      (user) => user.id === userId
+    );
+
+    if (indexOfAccountToUpdate !== -1) {
+      const updatedUser = {
+        ...users[indexOfAccountToUpdate],
+        password: userObj.newPassword,
+      };
+      users[indexOfAccountToUpdate] = updatedUser;
+      return updatedUser;
+    } else {
+      throw new NotFoundError(`User with id: ${userId} not found`);
+    }
+  },
+
+  async deleteUser(userId: number): Promise<User.Details[]> {
     // to be edited with await and DB call
     const indexOfAccountToDelete = users.findIndex(
       (user) => user.id === userId
     );
     if (indexOfAccountToDelete !== -1) {
+      // to be edited with await and DB call
       users.splice(indexOfAccountToDelete, 1);
     } else {
       throw new NotFoundError(`User with id: ${userId} not found`);
