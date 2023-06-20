@@ -12,6 +12,6 @@ authRouter
 
 authRouter
   .route('/register')
-  .post(validateData(UserSchema.register), userController.registerUserAccount);
+  .post(validateData(UserSchema.register), userController.registerUser);
 
 export default authRouter;

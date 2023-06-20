@@ -1,11 +1,11 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.gameHistoryMapper = void 0;
+exports.gameMapper = void 0;
 const gamesHistoryData_1 = require("./gamesHistoryData");
 const functions_1 = require("../../../utils/functions");
 const error_1 = require("../../../models/error");
-exports.gameHistoryMapper = {
-    async readGamesHistory() {
+exports.gameMapper = {
+    async readGames() {
         // to be edited with await and DB call
         if (gamesHistoryData_1.gamesHistory.length >= 1) {
             return gamesHistoryData_1.gamesHistory;
@@ -14,7 +14,7 @@ exports.gameHistoryMapper = {
             throw new error_1.InternalServerError('No Games History found');
         }
     },
-    async readGameHistory(id) {
+    async readGame(id) {
         // to be edited with await and DB call
         const gameHistory = gamesHistoryData_1.gamesHistory.find((gameHistory) => gameHistory.id === id);
         if (gameHistory) {
@@ -24,7 +24,7 @@ exports.gameHistoryMapper = {
             throw new error_1.NotFoundError(`Game History with id: ${id} not found`);
         }
     },
-    async createGameHistory(gameHistoryObj) {
+    async createGame(gameHistoryObj) {
         // to be edited with await and DB call
         const dateNow = (0, functions_1.getCurrentDate)();
         const newGameHistory = {
@@ -35,7 +35,7 @@ exports.gameHistoryMapper = {
         gamesHistoryData_1.gamesHistory.push(newGameHistory);
         return newGameHistory;
     },
-    async updateGameHistory(gameHistoryObj) {
+    async updateGame(gameHistoryObj) {
         const id = gameHistoryObj.id;
         if (!id) {
             throw new error_1.BadRequestError('Invalid format: no ID provided');
@@ -60,7 +60,7 @@ exports.gameHistoryMapper = {
             throw new error_1.NotFoundError(`Game History with id: ${id} not found`);
         }
     },
-    async deleteGameHistory(id) {
+    async deleteGame(id) {
         // to be edited with await and DB call
         const indexOfGameHistoryToDelete = gamesHistoryData_1.gamesHistory.findIndex((gameHistory) => gameHistory.id === id);
         if (indexOfGameHistoryToDelete !== -1) {

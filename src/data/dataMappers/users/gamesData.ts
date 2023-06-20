@@ -1,5 +1,5 @@
-import { GameHistoryI } from '../../../models/map/gameHistory';
-export const gamesHistory: GameHistoryI[] = [
+import { Game } from '../../../models/map/game';
+export const games: Game.Base[] = [
   {
     id: 1,
     user: 1,

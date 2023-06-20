@@ -5,25 +5,22 @@ import { UserSchema } from '../../../services/dataValidation/schemas/user';
 
 const userRouter = Router();
 
-userRouter.route('/').get(userController.getUserAccounts);
+userRouter.route('/').get(userController.getUsers);
 
 userRouter
   .route('/:id/')
-  .get(userController.getUserAccount)
-  .delete(userController.deleteUserAccount);
+  .get(userController.getUser)
+  .delete(userController.deleteUser);
 
 userRouter
   .route('/:id/details')
-  .patch(
-    validateData(UserSchema.update),
-    userController.updateUserAccountDetails
-  );
+  .patch(validateData(UserSchema.update), userController.updateUserDetails);
 
 userRouter
   .route('/:id/security')
   .patch(
     validateData(UserSchema.updatePassword),
-    userController.updateUserAccountPassword
+    userController.updateUserPassword
   );
 
 export default userRouter;

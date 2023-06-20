@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.profileController = void 0;
 const profileMapper_1 = require("../../data/dataMappers/users/profileMapper");
 exports.profileController = {
-    getProfiles: async (_req, res, next) => {
+    async getProfiles(_req, res, next) {
         try {
             const profiles = await profileMapper_1.profileMapper.readProfiles();
             res.status(200).json(profiles);
@@ -27,11 +27,16 @@ exports.profileController = {
             next(error);
         }
     },
-    createProfile: async (req, res, next) => {
+    async createProfile(req, res, next) {
         try {
             const profileObj = req.body;
             const newProfile = await profileMapper_1.profileMapper.createProfile(profileObj);
-            res.status(201).json(newProfile);
+            res
+                .status(201)
+                .json([
+                { message: `Profile created with id: ${newProfile.id}` },
+                { profile: newProfile },
+            ]);
         }
         catch (error) {
             next(error);
@@ -53,7 +58,7 @@ exports.profileController = {
             next(error);
         }
     },
-    deleteProfile: async (req, res, next) => {
+    async deleteProfile(req, res, next) {
         try {
             const profileId = Number(req.params.id);
             await profileMapper_1.profileMapper.deleteProfile(profileId);

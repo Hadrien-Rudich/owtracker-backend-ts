@@ -6,7 +6,7 @@ const passwordHash_1 = require("../../services/passwordHash");
 const error_1 = require("../../models/error");
 const passwordHash_2 = require("../../services/passwordHash");
 exports.userController = {
-    async getUserAccounts(_req, res, next) {
+    async getUsers(_req, res, next) {
         try {
             const users = await userMapper_1.userMapper.readUsers();
             res.status(200).json(users);
@@ -15,7 +15,7 @@ exports.userController = {
             next(error);
         }
     },
-    async getUserAccount(req, res, next) {
+    async getUser(req, res, next) {
         try {
             const userId = Number(req.params.id);
             const user = await userMapper_1.userMapper.readUser(userId);
@@ -27,7 +27,7 @@ exports.userController = {
             next(error);
         }
     },
-    async registerUserAccount(req, res, next) {
+    async registerUser(req, res, next) {
         try {
             const userObj = req.body;
             const emailInUse = await userMapper_1.userMapper.checkEmail(userObj.email);
@@ -47,7 +47,7 @@ exports.userController = {
             next(error);
         }
     },
-    async updateUserAccountDetails(req, res, next) {
+    async updateUserDetails(req, res, next) {
         try {
             const userId = Number(req.params.id);
             const userObj = req.body;
@@ -63,7 +63,7 @@ exports.userController = {
             next(error);
         }
     },
-    async updateUserAccountPassword(req, res, next) {
+    async updateUserPassword(req, res, next) {
         try {
             const userId = Number(req.params.id);
             const userObj = req.body;
@@ -89,7 +89,7 @@ exports.userController = {
             next(error);
         }
     },
-    async deleteUserAccount(req, res, next) {
+    async deleteUser(req, res, next) {
         try {
             const userId = Number(req.params.id);
             await userMapper_1.userMapper.deleteUser(userId);

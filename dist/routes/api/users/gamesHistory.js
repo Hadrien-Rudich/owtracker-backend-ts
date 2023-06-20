@@ -1,15 +1,15 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
-const gamesHistoryController_1 = require("../../../controllers/users/gamesHistoryController");
+const gameController_1 = require("../../../controllers/users/gameController");
 const gamesHistoryRouter = (0, express_1.Router)();
 gamesHistoryRouter
     .route('/')
-    .get(gamesHistoryController_1.gamesHistoryController.getGamesHistory)
-    .post(gamesHistoryController_1.gamesHistoryController.createGameHistory);
+    .get(gameController_1.gameController.getGames)
+    .post(gameController_1.gameController.createGame);
 gamesHistoryRouter
     .route('/:id')
-    .get(gamesHistoryController_1.gamesHistoryController.getGameHistory)
-    .patch(gamesHistoryController_1.gamesHistoryController.updateGameHistory)
-    .delete(gamesHistoryController_1.gamesHistoryController.deleteGameHistory);
+    .get(gameController_1.gameController.getGame)
+    .patch(gameController_1.gameController.updateGame)
+    .delete(gameController_1.gameController.deleteGame);
 exports.default = gamesHistoryRouter;

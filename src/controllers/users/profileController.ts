@@ -3,14 +3,12 @@ import type { Profile } from '../../models/user/profile';
 
 import { profileMapper } from '../../data/dataMappers/users/profileMapper';
 
-type RequestParams = { id: number };
-
 export const profileController = {
-  getProfiles: async (
+  async getProfiles(
     _req: Request,
     res: Response,
     next: NextFunction
-  ): Promise<void> => {
+  ): Promise<void> {
     try {
       const profiles = await profileMapper.readProfiles();
       res.status(200).json(profiles);
@@ -39,15 +37,20 @@ export const profileController = {
     }
   },
 
-  createProfile: async (
+  async createProfile(
     req: Request,
     res: Response,
     next: NextFunction
-  ): Promise<void> => {
+  ): Promise<void> {
     try {
       const profileObj: Profile.New = req.body;
       const newProfile = await profileMapper.createProfile(profileObj);
-      res.status(201).json(newProfile);
+      res
+        .status(201)
+        .json([
+          { message: `Profile created with id: ${newProfile.id}` },
+          { profile: newProfile },
+        ]);
     } catch (error) {
       next(error);
     }
@@ -76,11 +79,11 @@ export const profileController = {
     }
   },
 
-  deleteProfile: async (
-    req: Request<RequestParams>,
+  async deleteProfile(
+    req: Request,
     res: Response,
     next: NextFunction
-  ): Promise<void> => {
+  ): Promise<void> {
     try {
       const profileId = Number(req.params.id);
       await profileMapper.deleteProfile(profileId);

@@ -10,7 +10,7 @@ import {
 import { comparePasswords } from '../../services/passwordHash';
 
 export const userController = {
-  async getUserAccounts(
+  async getUsers(
     _req: Request,
     res: Response,
     next: NextFunction
@@ -23,7 +23,7 @@ export const userController = {
     }
   },
 
-  async getUserAccount(
+  async getUser(
     req: Request,
     res: Response,
     next: NextFunction
@@ -39,7 +39,7 @@ export const userController = {
     }
   },
 
-  async registerUserAccount(
+  async registerUser(
     req: Request,
     res: Response,
     next: NextFunction
@@ -65,7 +65,7 @@ export const userController = {
     }
   },
 
-  async updateUserAccountDetails(
+  async updateUserDetails(
     req: Request,
     res: Response,
     next: NextFunction
@@ -87,7 +87,7 @@ export const userController = {
     }
   },
 
-  async updateUserAccountPassword(
+  async updateUserPassword(
     req: Request,
     res: Response,
     next: NextFunction
@@ -125,7 +125,7 @@ export const userController = {
     }
   },
 
-  async deleteUserAccount(
+  async deleteUser(
     req: Request,
     res: Response,
     next: NextFunction
