@@ -49,6 +49,17 @@ class EmailInUseError extends CustomError {
     super(message || 'Email is already in use', 200);
   }
 }
+class UserNotConnectedError extends CustomError {
+  constructor(message?: string) {
+    super(message || 'You are not connected', 401);
+  }
+}
+
+class InvalidTokenError extends CustomError {
+  constructor(message?: string) {
+    super(message || 'Invalid Token', 403);
+  }
+}
 
 export {
   BadRequestError,
@@ -58,4 +69,6 @@ export {
   InvalidCredentialsError,
   EmailInUseError,
   InvalidPasswordError,
+  UserNotConnectedError,
+  InvalidTokenError,
 };

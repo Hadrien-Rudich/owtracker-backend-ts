@@ -3,6 +3,7 @@ import { userMapper } from '../../data/dataMappers/users/userMapper';
 import { comparePasswords } from '../../services/passwordHash';
 import { InvalidCredentialsError } from '../../models/error';
 import { User } from '../../models/user/user';
+import { generateAccessToken } from '../../services/authentication/tokenGen';
 
 export const authController = {
   async logIn(req: Request, res: Response, next: NextFunction): Promise<void> {
@@ -14,7 +15,12 @@ export const authController = {
       const passwordMatch = await comparePasswords(password, user.password);
 
       if (passwordMatch) {
-        res.status(200).json({ message: 'Login successful' });
+        const accessToken = await generateAccessToken(user);
+        res.status(200).json({
+          user,
+          accessToken,
+          message: 'Login successful',
+        });
       } else {
         throw new InvalidCredentialsError();
       }

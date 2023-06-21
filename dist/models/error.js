@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.InvalidPasswordError = exports.EmailInUseError = exports.InvalidCredentialsError = exports.CustomError = exports.InternalServerError = exports.NotFoundError = exports.BadRequestError = void 0;
+exports.InvalidTokenError = exports.UserNotConnectedError = exports.InvalidPasswordError = exports.EmailInUseError = exports.InvalidCredentialsError = exports.CustomError = exports.InternalServerError = exports.NotFoundError = exports.BadRequestError = void 0;
 class CustomError extends Error {
     constructor(message, status) {
         super(message);
@@ -51,3 +51,15 @@ class EmailInUseError extends CustomError {
     }
 }
 exports.EmailInUseError = EmailInUseError;
+class UserNotConnectedError extends CustomError {
+    constructor(message) {
+        super(message || 'You are not connected', 401);
+    }
+}
+exports.UserNotConnectedError = UserNotConnectedError;
+class InvalidTokenError extends CustomError {
+    constructor(message) {
+        super(message || 'Invalid Token', 403);
+    }
+}
+exports.InvalidTokenError = InvalidTokenError;
