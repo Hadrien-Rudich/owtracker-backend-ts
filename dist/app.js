@@ -7,11 +7,14 @@ const express_1 = __importDefault(require("express"));
 const config_1 = require("./configuration/config");
 const router_1 = __importDefault(require("./routes/router"));
 const apiErrorHandler_1 = require("./middlewares/apiErrorHandler");
-const accessControl_1 = require("./middlewares/accessControl");
+const helmet_1 = __importDefault(require("helmet"));
+const cors_1 = require("./configuration/cors");
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: false }));
-app.use(accessControl_1.accessControl);
+app.use(cors_1.corsMiddleware);
+app.use((0, helmet_1.default)());
+// app.use(accessControl);
 app.use(router_1.default);
 app.use(apiErrorHandler_1.apiErrorHandler);
 app.listen(config_1.config.port, () => {

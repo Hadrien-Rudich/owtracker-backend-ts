@@ -10,3 +10,9 @@ export function getCurrentDate(): string {
 
   return formattedDate;
 }
+
+export function generateIncrementalId(arr: any[]): number {
+  let id = arr.length;
+
+  return id + 1;
+}

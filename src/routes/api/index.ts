@@ -21,7 +21,7 @@ apiRouter.use((req: Request, res: Response, next: NextFunction) =>
   authenticateToken(req as AuthenticatedRequest, res, next)
 );
 
-apiRouter.use('/user', userRouter);
+apiRouter.use('/account', userRouter);
 apiRouter.use('/maps', mapRouter);
 apiRouter.use('/heroes', heroRouter);
 apiRouter.use('/games', gamesRouter);

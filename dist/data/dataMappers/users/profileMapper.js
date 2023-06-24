@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.profileMapper = void 0;
 const profilesData_1 = require("./profilesData");
 const error_1 = require("../../../models/error");
+const functions_1 = require("../../../utils/functions");
 exports.profileMapper = {
     async readProfiles() {
         // to be edited with await and DB call
@@ -29,7 +30,7 @@ exports.profileMapper = {
         }
         else {
             // to be edited with await and DB call
-            const newProfile = { ...profileObj, id: Math.random() };
+            const newProfile = { ...profileObj, id: (0, functions_1.generateIncrementalId)(profilesData_1.profiles) };
             profilesData_1.profiles.push(newProfile);
             return newProfile;
         }

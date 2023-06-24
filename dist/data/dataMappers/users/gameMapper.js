@@ -27,7 +27,11 @@ exports.gameMapper = {
     async createGame(gameObj) {
         // to be edited with await and DB call
         const dateNow = (0, functions_1.getCurrentDate)();
-        const newGame = { ...gameObj, id: Math.random(), date: dateNow };
+        const newGame = {
+            ...gameObj,
+            id: (0, functions_1.generateIncrementalId)(gamesData_1.games),
+            date: dateNow,
+        };
         gamesData_1.games.push(newGame);
         return newGame;
     },

@@ -1,6 +1,9 @@
 import { games } from './gamesData';
 import { Game } from '../../../models/map/game';
-import { getCurrentDate } from '../../../utils/functions';
+import {
+  generateIncrementalId,
+  getCurrentDate,
+} from '../../../utils/functions';
 import { NotFoundError, InternalServerError } from '../../../models/error';
 
 export const gameMapper = {
@@ -26,7 +29,11 @@ export const gameMapper = {
   async createGame(gameObj: Game.New): Promise<Game.Base> {
     // to be edited with await and DB call
     const dateNow = getCurrentDate();
-    const newGame = { ...gameObj, id: Math.random(), date: dateNow };
+    const newGame = {
+      ...gameObj,
+      id: generateIncrementalId(games),
+      date: dateNow,
+    };
     games.push(newGame);
     return newGame;
   },

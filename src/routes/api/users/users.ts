@@ -8,7 +8,7 @@ const userRouter = Router();
 userRouter.route('/').get(userController.getUsers);
 
 userRouter
-  .route('/:id/')
+  .route('/:id')
   .get(userController.getUser)
   .delete(userController.deleteUser);
 

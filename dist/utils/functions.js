@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getCurrentDate = void 0;
+exports.generateIncrementalId = exports.getCurrentDate = void 0;
 function getCurrentDate() {
     const currentDate = new Date();
     const day = currentDate.getDate();
@@ -12,3 +12,8 @@ function getCurrentDate() {
     return formattedDate;
 }
 exports.getCurrentDate = getCurrentDate;
+function generateIncrementalId(arr) {
+    let id = arr.length;
+    return id + 1;
+}
+exports.generateIncrementalId = generateIncrementalId;

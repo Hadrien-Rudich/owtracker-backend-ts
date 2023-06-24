@@ -1,6 +1,7 @@
 import { users } from './usersData';
 import type { User } from '../../../models/user/user';
 import { NotFoundError, InternalServerError } from '../../../models/error';
+import { generateIncrementalId } from '../../../utils/functions';
 
 export const userMapper = {
   async readUsers(): Promise<User.Base[]> {
@@ -40,7 +41,7 @@ export const userMapper = {
 
   async createUser(userObj: User.New): Promise<User.Base> {
     // to be edited with await and DB call
-    const newAccount = { ...userObj, id: Math.random() };
+    const newAccount = { ...userObj, id: generateIncrementalId(users) };
     users.push(newAccount);
     return newAccount;
   },
@@ -56,6 +57,24 @@ export const userMapper = {
 
     if (indexOfAccountToUpdate !== -1) {
       const updatedUser = { ...users[indexOfAccountToUpdate], ...userObj };
+      users[indexOfAccountToUpdate] = updatedUser;
+      return updatedUser;
+    } else {
+      throw new NotFoundError(`User with id: ${userId} not found`);
+    }
+  },
+
+  async updateRefreshToken(
+    userId: number,
+    userTokenObj: User.UpdateToken
+  ): Promise<User.Base> {
+    // to be edited with await and DB call
+    const indexOfAccountToUpdate = users.findIndex(
+      (user) => user.id === userId
+    );
+
+    if (indexOfAccountToUpdate !== -1) {
+      const updatedUser = { ...users[indexOfAccountToUpdate], userTokenObj };
       users[indexOfAccountToUpdate] = updatedUser;
       return updatedUser;
     } else {

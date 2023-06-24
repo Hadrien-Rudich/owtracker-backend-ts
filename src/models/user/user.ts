@@ -4,6 +4,7 @@ export namespace User {
     battleTag: string;
     email: string;
     password: string;
+    refresh_token?: string;
   }
   export interface Login {
     email: string;
@@ -19,6 +20,10 @@ export namespace User {
   export interface Update {
     battleTag?: string;
     email?: string;
+  }
+
+  export interface UpdateToken {
+    refresh_token: string;
   }
 
   export interface UpdatePassword {

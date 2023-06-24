@@ -5,6 +5,7 @@ import {
   NotFoundError,
   InternalServerError,
 } from '../../../models/error';
+import { generateIncrementalId } from '../../../utils/functions';
 
 export const profileMapper = {
   async readProfiles(): Promise<Profile.Base[]> {
@@ -31,7 +32,7 @@ export const profileMapper = {
       throw new BadRequestError('Invalid Profile Object.');
     } else {
       // to be edited with await and DB call
-      const newProfile = { ...profileObj, id: Math.random() };
+      const newProfile = { ...profileObj, id: generateIncrementalId(profiles) };
       profiles.push(newProfile);
       return newProfile;
     }

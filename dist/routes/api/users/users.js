@@ -7,7 +7,7 @@ const user_1 = require("../../../services/dataValidation/schemas/user");
 const userRouter = (0, express_1.Router)();
 userRouter.route('/').get(userController_1.userController.getUsers);
 userRouter
-    .route('/:id/')
+    .route('/:id')
     .get(userController_1.userController.getUser)
     .delete(userController_1.userController.deleteUser);
 userRouter

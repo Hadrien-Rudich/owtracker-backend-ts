@@ -7,7 +7,7 @@ exports.generateRefreshToken = exports.generateAccessToken = void 0;
 const config_1 = require("../../configuration/config");
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 async function generateAccessToken(user) {
-    return jsonwebtoken_1.default.sign(user, config_1.config.accessToken, { expiresIn: '1d' });
+    return jsonwebtoken_1.default.sign(user, config_1.config.accessToken, { expiresIn: '5m' });
 }
 exports.generateAccessToken = generateAccessToken;
 async function generateRefreshToken(user) {

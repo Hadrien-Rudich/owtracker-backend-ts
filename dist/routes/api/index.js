@@ -17,7 +17,7 @@ const authenticateToken_1 = require("../../middlewares/authenticateToken");
 exports.apiRouter = (0, express_1.Router)();
 exports.apiRouter.use('/', auth_1.default);
 exports.apiRouter.use((req, res, next) => (0, authenticateToken_1.authenticateToken)(req, res, next));
-exports.apiRouter.use('/user', users_1.default);
+exports.apiRouter.use('/account', users_1.default);
 exports.apiRouter.use('/maps', maps_1.default);
 exports.apiRouter.use('/heroes', heroes_1.default);
 exports.apiRouter.use('/games', games_1.default);
