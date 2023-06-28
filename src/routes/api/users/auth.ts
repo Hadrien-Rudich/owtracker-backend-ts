@@ -10,6 +10,8 @@ authRouter
   .route('/login')
   .post(validateData(UserSchema.login), authController.logIn);
 
+authRouter.route('/logout').post(authController.logOut);
+
 authRouter
   .route('/register')
   .post(validateData(UserSchema.register), userController.registerUser);

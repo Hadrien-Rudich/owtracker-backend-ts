@@ -8,11 +8,11 @@ import helmet from 'helmet';
 import { corsMiddleware } from './configuration/cors';
 
 const app = express();
+app.use(corsMiddleware);
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-app.use(corsMiddleware);
 app.use(helmet());
 
 // app.use(accessControl);

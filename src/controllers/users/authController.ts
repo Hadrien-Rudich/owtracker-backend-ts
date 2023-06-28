@@ -15,18 +15,15 @@ export const authController = {
       const { email, password }: User.Login = req.body;
 
       const user = await userMapper.readUserWithEmail(email);
-
       const passwordMatch = await comparePasswords(password, user.password);
-
       if (passwordMatch) {
         const accessToken = await generateAccessToken(user);
         const refreshToken = await generateRefreshToken(user);
 
-        await userMapper.updateRefreshToken(user.id, {
-          refresh_token: refreshToken,
-        });
+        await userMapper.updateRefreshToken(user.id, refreshToken);
         res.cookie('jwt', refreshToken, cookieOptions);
         delete user.refresh_token;
+        console.log(req.body);
 
         res.status(200).json({
           user,
@@ -41,9 +38,24 @@ export const authController = {
     }
   },
 
-  async logOut(
-    req: Request,
-    res: Response,
-    next: NextFunction
-  ): Promise<void> {},
+  async logOut(req: Request, res: Response): Promise<void> {
+    const cookies = req.cookies;
+
+    if (!cookies?.jwt) {
+      res.sendStatus(204);
+    }
+
+    const refreshToken: string = cookies.jwt;
+
+    const user = await userMapper.readUserWithRefreshToken(refreshToken);
+
+    if (!user) {
+      res.clearCookie('jwt', cookieOptions);
+      res.sendStatus(204);
+    }
+    const emptiedRefreshToken = '';
+    await userMapper.updateRefreshToken(user.id, emptiedRefreshToken);
+    res.clearCookie('jwt', cookieOptions);
+    res.sendStatus(204);
+  },
 };

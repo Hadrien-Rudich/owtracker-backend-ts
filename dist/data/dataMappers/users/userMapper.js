@@ -39,6 +39,16 @@ exports.userMapper = {
             throw new error_1.NotFoundError(`User with email: ${email} not found`);
         }
     },
+    async readUserWithRefreshToken(refreshToken) {
+        // to be edited with await and DB call
+        const user = usersData_1.users.find((user) => user.refresh_token === refreshToken);
+        if (user) {
+            return user;
+        }
+        else {
+            throw new error_1.NotFoundError(`User with Refresh Token: ${refreshToken} not found`);
+        }
+    },
     async createUser(userObj) {
         // to be edited with await and DB call
         const newAccount = { ...userObj, id: (0, functions_1.generateIncrementalId)(usersData_1.users) };
@@ -57,11 +67,14 @@ exports.userMapper = {
             throw new error_1.NotFoundError(`User with id: ${userId} not found`);
         }
     },
-    async updateRefreshToken(userId, userTokenObj) {
+    async updateRefreshToken(userId, refreshToken) {
         // to be edited with await and DB call
         const indexOfAccountToUpdate = usersData_1.users.findIndex((user) => user.id === userId);
         if (indexOfAccountToUpdate !== -1) {
-            const updatedUser = { ...usersData_1.users[indexOfAccountToUpdate], userTokenObj };
+            const updatedUser = {
+                ...usersData_1.users[indexOfAccountToUpdate],
+                refresh_token: refreshToken,
+            };
             usersData_1.users[indexOfAccountToUpdate] = updatedUser;
             return updatedUser;
         }

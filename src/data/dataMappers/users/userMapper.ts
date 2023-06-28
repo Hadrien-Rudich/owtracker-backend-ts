@@ -39,6 +39,18 @@ export const userMapper = {
     }
   },
 
+  async readUserWithRefreshToken(refreshToken: string): Promise<User.Base> {
+    // to be edited with await and DB call
+    const user = users.find((user) => user.refresh_token === refreshToken);
+    if (user) {
+      return user;
+    } else {
+      throw new NotFoundError(
+        `User with Refresh Token: ${refreshToken} not found`
+      );
+    }
+  },
+
   async createUser(userObj: User.New): Promise<User.Base> {
     // to be edited with await and DB call
     const newAccount = { ...userObj, id: generateIncrementalId(users) };
@@ -66,7 +78,7 @@ export const userMapper = {
 
   async updateRefreshToken(
     userId: number,
-    userTokenObj: User.UpdateToken
+    refreshToken: string
   ): Promise<User.Base> {
     // to be edited with await and DB call
     const indexOfAccountToUpdate = users.findIndex(
@@ -74,7 +86,10 @@ export const userMapper = {
     );
 
     if (indexOfAccountToUpdate !== -1) {
-      const updatedUser = { ...users[indexOfAccountToUpdate], userTokenObj };
+      const updatedUser = {
+        ...users[indexOfAccountToUpdate],
+        refresh_token: refreshToken,
+      };
       users[indexOfAccountToUpdate] = updatedUser;
       return updatedUser;
     } else {

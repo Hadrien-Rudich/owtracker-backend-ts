@@ -39,9 +39,7 @@ exports.userController = {
                 ...userObj,
                 password: hashedPassword,
             });
-            res
-                .status(201)
-                .json([{ message: `New User created}` }, { user: newUser }]);
+            res.status(201).json({ user: newUser, message: `New User created}` });
         }
         catch (error) {
             next(error);
