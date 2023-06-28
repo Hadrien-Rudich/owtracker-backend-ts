@@ -12,8 +12,9 @@ exports.corsConfig = {
         'http://localhost:3002',
         'http://127.0.0.1:3002',
     ],
-    methods: 'GET, POST, OPTIONS',
-    allowedHeaders: 'Content-Type, Authorization',
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    allowedHeaders: 'Content-Type, Authorization, Accept',
+    // exposedHeaders: 'Access-Control-Allow-Origin',
     credentials: true,
 };
 exports.corsMiddleware = (0, cors_1.default)(exports.corsConfig);

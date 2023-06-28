@@ -18,11 +18,10 @@ exports.authController = {
                 await userMapper_1.userMapper.updateRefreshToken(user.id, refreshToken);
                 res.cookie('jwt', refreshToken, cookieOptions_1.cookieOptions);
                 delete user.refresh_token;
-                console.log(req.body);
                 res.status(200).json({
                     user,
                     accessToken,
-                    message: 'Login successful',
+                    // message: 'Login successful',
                 });
             }
             else {

@@ -23,12 +23,11 @@ export const authController = {
         await userMapper.updateRefreshToken(user.id, refreshToken);
         res.cookie('jwt', refreshToken, cookieOptions);
         delete user.refresh_token;
-        console.log(req.body);
 
         res.status(200).json({
           user,
           accessToken,
-          message: 'Login successful',
+          // message: 'Login successful',
         });
       } else {
         throw new InvalidCredentialsError();

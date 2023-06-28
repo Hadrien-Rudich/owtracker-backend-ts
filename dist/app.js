@@ -18,5 +18,5 @@ app.use((0, helmet_1.default)());
 app.use(router_1.default);
 app.use(apiErrorHandler_1.apiErrorHandler);
 app.listen(config_1.config.port, () => {
-    console.log(`Example app listening at http://localhost:${config_1.config.port}`);
+    console.log(`Overwatch Game Tracker listening at http://localhost:${config_1.config.port}`);
 });

@@ -14,9 +14,10 @@ export async function authenticateToken(
   next: NextFunction
 ) {
   try {
-    const authHeader = req.headers['authorization'];
-    const token = authHeader;
-    // && authHeader.split(' ')[1];
+    const cookieHeader = req.headers['cookie'];
+
+    const token = extractTokenFromCookie(cookieHeader);
+
     if (token === undefined) {
       throw new UserNotConnectedError();
     }
@@ -36,4 +37,19 @@ export async function authenticateToken(
   } catch (error) {
     next(error);
   }
+}
+
+function extractTokenFromCookie(
+  cookieHeader: string | undefined
+): string | undefined {
+  if (cookieHeader) {
+    const cookies = cookieHeader.split(';');
+    for (const cookie of cookies) {
+      const [name, value] = cookie.trim().split('=');
+      if (name === 'jwt') {
+        return value;
+      }
+    }
+  }
+  return undefined;
 }

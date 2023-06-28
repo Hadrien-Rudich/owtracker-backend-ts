@@ -9,9 +9,8 @@ const config_1 = require("../configuration/config");
 const error_1 = require("../models/error");
 async function authenticateToken(req, _res, next) {
     try {
-        const authHeader = req.headers['authorization'];
-        const token = authHeader;
-        // && authHeader.split(' ')[1];
+        const cookieHeader = req.headers['cookie'];
+        const token = extractTokenFromCookie(cookieHeader);
         if (token === undefined) {
             throw new error_1.UserNotConnectedError();
         }
@@ -33,3 +32,15 @@ async function authenticateToken(req, _res, next) {
     }
 }
 exports.authenticateToken = authenticateToken;
+function extractTokenFromCookie(cookieHeader) {
+    if (cookieHeader) {
+        const cookies = cookieHeader.split(';');
+        for (const cookie of cookies) {
+            const [name, value] = cookie.trim().split('=');
+            if (name === 'jwt') {
+                return value;
+            }
+        }
+    }
+    return undefined;
+}
