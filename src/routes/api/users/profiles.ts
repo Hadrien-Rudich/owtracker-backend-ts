@@ -3,7 +3,7 @@ import { profileController } from '../../../controllers/users/profileController'
 import { validateData } from '../../../services/dataValidation/validator';
 import { ProfileSchema } from '../../../services/dataValidation/schemas/profile';
 
-const profileRouter = Router();
+const profileRouter = Router({ mergeParams: true });
 
 profileRouter
   .route('/')
@@ -11,7 +11,7 @@ profileRouter
   .post(validateData(ProfileSchema.create), profileController.createProfile);
 
 profileRouter
-  .route('/:id')
+  .route('/:profileId')
   .get(profileController.getProfile)
   .patch(validateData(ProfileSchema.update), profileController.updateProfile)
   .delete(profileController.deleteProfile);

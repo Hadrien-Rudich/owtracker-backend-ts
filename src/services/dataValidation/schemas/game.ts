@@ -2,8 +2,8 @@ import Joi from 'joi';
 import { Game } from '../../../models/map/game';
 export const GamesSchema = {
   create: Joi.object<Game.New>({
-    user: Joi.number().required(),
-    profile: Joi.string().required(),
+    userId: Joi.number().required(),
+    profileId: Joi.number().required(),
     result: Joi.string().required(),
     map: Joi.string().required(),
     mapType: Joi.string().required(),
@@ -13,7 +13,7 @@ export const GamesSchema = {
   }),
 
   update: Joi.object<Game.Update>({
-    profile: Joi.string(),
+    profileId: Joi.string(),
     result: Joi.string(),
     map: Joi.string(),
     mapType: Joi.string(),

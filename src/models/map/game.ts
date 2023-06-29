@@ -1,8 +1,8 @@
 export namespace Game {
   export interface Base {
     id: number;
-    user: number;
-    profile: string;
+    userId: number;
+    profileId: number;
     result: string;
     map: string;
     mapType: string;
@@ -13,8 +13,8 @@ export namespace Game {
   }
 
   export interface New {
-    user: number;
-    profile: string;
+    userId: number;
+    profileId: number;
     result: string;
     map: string;
     mapType: string;
@@ -24,7 +24,7 @@ export namespace Game {
   }
 
   export interface Update {
-    profile?: string;
+    profileId?: number;
     result?: string;
     map?: string;
     mapType?: string;

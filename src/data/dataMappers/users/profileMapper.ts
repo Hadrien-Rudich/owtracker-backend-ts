@@ -8,7 +8,7 @@ import {
 import { generateIncrementalId } from '../../../utils/functions';
 
 export const profileMapper = {
-  async readProfiles(): Promise<Profile.Base[]> {
+  async readAllProfiles(): Promise<Profile.Base[]> {
     // to be edited with await and DB call
     if (profiles.length >= 1) {
       return profiles;
@@ -17,22 +17,44 @@ export const profileMapper = {
     }
   },
 
-  async readProfile(id: number): Promise<Profile.Base> {
+  async readProfiles(userId: number): Promise<Profile.Base[]> {
     // to be edited with await and DB call
-    const profile = profiles.find((profile) => profile.id === id);
-    if (profile) {
-      return profile;
+    const userProfiles = profiles.filter(
+      (profile) => profile.userId === userId
+    );
+
+    if (userProfiles.length >= 1) {
+      return userProfiles;
     } else {
-      throw new NotFoundError(`Profile with id: ${id} not found`);
+      throw new InternalServerError('No Profiles found');
     }
   },
 
-  async createProfile(profileObj: Profile.New): Promise<Profile.Base> {
+  async readProfile(userId: number, profileId: number): Promise<Profile.Base> {
+    // to be edited with await and DB call
+    const profile = profiles.find(
+      (profile) => profile.id === profileId && profile.userId === userId
+    );
+    if (profile) {
+      return profile;
+    } else {
+      throw new NotFoundError(`Profile with id: ${profileId} not found`);
+    }
+  },
+
+  async createProfile(
+    userId: number,
+    profileObj: Profile.New
+  ): Promise<Profile.Base> {
     if (!profileObj) {
       throw new BadRequestError('Invalid Profile Object.');
     } else {
       // to be edited with await and DB call
-      const newProfile = { ...profileObj, id: generateIncrementalId(profiles) };
+      const newProfile = {
+        ...profileObj,
+        id: generateIncrementalId(profiles),
+        userId,
+      };
       profiles.push(newProfile);
       return newProfile;
     }
@@ -66,16 +88,16 @@ export const profileMapper = {
     }
   },
 
-  async deleteProfile(id: number): Promise<Profile.Base[]> {
+  async deleteProfile(profileId: number): Promise<Profile.Base[]> {
     // to be edited with await and DB call
     const indexOfProfileToDelete = profiles.findIndex(
-      (profile) => profile.id === id
+      (profile) => profile.id === profileId
     );
 
     if (indexOfProfileToDelete !== -1) {
       profiles.splice(indexOfProfileToDelete, 1);
     } else {
-      throw new NotFoundError(`Profile with id: ${id} was not found`);
+      throw new NotFoundError(`Profile with id: ${profileId} was not found`);
     }
     return profiles;
   },

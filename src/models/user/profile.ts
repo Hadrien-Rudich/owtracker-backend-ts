@@ -1,6 +1,7 @@
 export namespace Profile {
   export interface Base {
     id: number;
+    userId: number;
     label: string;
   }
   export interface New {

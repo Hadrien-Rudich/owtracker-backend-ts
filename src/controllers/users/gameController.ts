@@ -3,14 +3,30 @@ import type { Game } from '../../models/map/game';
 import { gameMapper } from '../../data/dataMappers/users/gameMapper';
 
 export const gameController = {
-  async getGames(
+  async getAllGames(
     _req: Request,
     res: Response,
     next: NextFunction
   ): Promise<void> {
     try {
-      const games = await gameMapper.readGames();
+      const games = await gameMapper.readAllGames();
       res.status(200).json(games);
+    } catch (error) {
+      next(error);
+    }
+  },
+
+  async getGames(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
+    try {
+      const userId = Number(req.params.userId);
+      const profileId = Number(req.params.profileId);
+
+      const userGames = await gameMapper.readGames(userId, profileId);
+      res.status(200).json(userGames);
     } catch (error) {
       next(error);
     }
@@ -22,8 +38,10 @@ export const gameController = {
     next: NextFunction
   ): Promise<void> {
     try {
-      const gameId = Number(req.params.id);
-      const game = await gameMapper.readGame(gameId);
+      const userId = Number(req.params.userId);
+
+      const gameId = Number(req.params.gameId);
+      const game = await gameMapper.readGame(userId, gameId);
 
       res
         .status(200)

@@ -2,7 +2,8 @@ import { Router } from 'express';
 import { gameController } from '../../../controllers/users/gameController';
 import { validateData } from '../../../services/dataValidation/validator';
 import { GamesSchema } from '../../../services/dataValidation/schemas/game';
-const gamesRouter = Router();
+
+const gamesRouter = Router({ mergeParams: true });
 
 gamesRouter
   .route('/')
@@ -10,7 +11,7 @@ gamesRouter
   .post(validateData(GamesSchema.create), gameController.createGame);
 
 gamesRouter
-  .route('/:id')
+  .route('/:gameId')
   .get(gameController.getGame)
   .patch(validateData(GamesSchema.update), gameController.updateGame)
   .delete(gameController.deleteGame);

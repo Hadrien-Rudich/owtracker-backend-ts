@@ -7,8 +7,8 @@ exports.GamesSchema = void 0;
 const joi_1 = __importDefault(require("joi"));
 exports.GamesSchema = {
     create: joi_1.default.object({
-        user: joi_1.default.number().required(),
-        profile: joi_1.default.string().required(),
+        userId: joi_1.default.number().required(),
+        profileId: joi_1.default.number().required(),
         result: joi_1.default.string().required(),
         map: joi_1.default.string().required(),
         mapType: joi_1.default.string().required(),
@@ -17,7 +17,7 @@ exports.GamesSchema = {
         heroesImageUrl: joi_1.default.array().items(joi_1.default.string()).required(),
     }),
     update: joi_1.default.object({
-        profile: joi_1.default.string(),
+        profileId: joi_1.default.string(),
         result: joi_1.default.string(),
         map: joi_1.default.string(),
         mapType: joi_1.default.string(),

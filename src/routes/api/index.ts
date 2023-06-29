@@ -21,10 +21,19 @@ apiRouter.use((req: Request, res: Response, next: NextFunction) =>
   authenticateToken(req as AuthenticatedRequest, res, next)
 );
 
-apiRouter.use('/account', userRouter);
-apiRouter.use('/maps', mapRouter);
-apiRouter.use('/heroes', heroRouter);
-apiRouter.use('/games', gamesRouter);
-apiRouter.use('/maptypes', mapTypeRouter);
-apiRouter.use('/profiles', profileRouter);
-apiRouter.use('/heroroles', heroRoleRouter);
+// User routes
+apiRouter.use('/user', userRouter);
+
+// Profile routes nested under user
+userRouter.use('/:userId/profiles', profileRouter);
+
+// Game routes nested under profile
+profileRouter.use('/:profileId/games', gamesRouter);
+
+// apiRouter.use('/account', userRouter);
+// apiRouter.use('/maps', mapRouter);
+// apiRouter.use('/heroes', heroRouter);
+// apiRouter.use('/games', gamesRouter);
+// apiRouter.use('/maptypes', mapTypeRouter);
+// apiRouter.use('/profiles', profileRouter);
+// apiRouter.use('/heroroles', heroRoleRouter);

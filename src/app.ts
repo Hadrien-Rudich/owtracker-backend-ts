@@ -2,12 +2,12 @@ import express from 'express';
 import { config } from './configuration/config';
 import router from './routes/router';
 import { apiErrorHandler } from './middlewares/apiErrorHandler';
-// import { accessControl } from './middlewares/accessControl';
-import cors from 'cors';
+import cookieParser from 'cookie-parser';
 import helmet from 'helmet';
 import { corsMiddleware } from './configuration/cors';
 
 const app = express();
+app.use(cookieParser(config.cookieToken));
 app.use(corsMiddleware);
 
 app.use(express.json());

@@ -34,6 +34,7 @@ exports.authController = {
     },
     async logOut(req, res) {
         const cookies = req.cookies;
+        console.log(cookies);
         if (!(cookies === null || cookies === void 0 ? void 0 : cookies.jwt)) {
             res.sendStatus(204);
         }

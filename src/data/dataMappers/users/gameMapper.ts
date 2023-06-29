@@ -7,7 +7,7 @@ import {
 import { NotFoundError, InternalServerError } from '../../../models/error';
 
 export const gameMapper = {
-  async readGames(): Promise<Game.Base[]> {
+  async readAllGames(): Promise<Game.Base[]> {
     // to be edited with await and DB call
     if (games.length >= 1) {
       return games;
@@ -16,13 +16,28 @@ export const gameMapper = {
     }
   },
 
-  async readGame(id: number): Promise<Game.Base> {
+  async readGames(userId: number, profileId: number): Promise<Game.Base[]> {
     // to be edited with await and DB call
-    const game = games.find((game) => game.id === id);
+    const userGames = games.filter(
+      (game) => game.userId === userId && game.profileId === profileId
+    );
+
+    if (userGames.length >= 1) {
+      return userGames;
+    } else {
+      throw new InternalServerError('No Games found');
+    }
+  },
+
+  async readGame(userId: number, gameId: number): Promise<Game.Base> {
+    // to be edited with await and DB call
+    const game = games.find(
+      (game) => game.id === gameId && game.userId === userId
+    );
     if (game) {
       return game;
     } else {
-      throw new NotFoundError(`Game with id: ${id} not found`);
+      throw new NotFoundError(`Profile with id: ${gameId} not found`);
     }
   },
 

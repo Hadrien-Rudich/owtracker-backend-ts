@@ -5,7 +5,7 @@ const gamesData_1 = require("./gamesData");
 const functions_1 = require("../../../utils/functions");
 const error_1 = require("../../../models/error");
 exports.gameMapper = {
-    async readGames() {
+    async readAllGames() {
         // to be edited with await and DB call
         if (gamesData_1.games.length >= 1) {
             return gamesData_1.games;
@@ -14,14 +14,24 @@ exports.gameMapper = {
             throw new error_1.InternalServerError('No Games found');
         }
     },
-    async readGame(id) {
+    async readGames(userId, profileId) {
         // to be edited with await and DB call
-        const game = gamesData_1.games.find((game) => game.id === id);
+        const userGames = gamesData_1.games.filter((game) => game.userId === userId && game.profileId === profileId);
+        if (userGames.length >= 1) {
+            return userGames;
+        }
+        else {
+            throw new error_1.InternalServerError('No Games found');
+        }
+    },
+    async readGame(userId, gameId) {
+        // to be edited with await and DB call
+        const game = gamesData_1.games.find((game) => game.id === gameId && game.userId === userId);
         if (game) {
             return game;
         }
         else {
-            throw new error_1.NotFoundError(`Game with id: ${id} not found`);
+            throw new error_1.NotFoundError(`Profile with id: ${gameId} not found`);
         }
     },
     async createGame(gameObj) {

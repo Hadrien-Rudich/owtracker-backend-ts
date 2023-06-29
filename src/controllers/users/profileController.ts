@@ -4,14 +4,29 @@ import type { Profile } from '../../models/user/profile';
 import { profileMapper } from '../../data/dataMappers/users/profileMapper';
 
 export const profileController = {
-  async getProfiles(
+  async getAllProfiles(
     _req: Request,
     res: Response,
     next: NextFunction
   ): Promise<void> {
     try {
-      const profiles = await profileMapper.readProfiles();
+      const profiles = await profileMapper.readAllProfiles();
       res.status(200).json(profiles);
+    } catch (error) {
+      next(error);
+    }
+  },
+
+  async getProfiles(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
+    try {
+      const userId = Number(req.params.userId);
+
+      const userProfiles = await profileMapper.readProfiles(userId);
+      res.status(200).json(userProfiles);
     } catch (error) {
       next(error);
     }
@@ -23,15 +38,14 @@ export const profileController = {
     next: NextFunction
   ): Promise<void> {
     try {
-      const id = Number(req.params.id);
-      const profile = await profileMapper.readProfile(id);
+      const userId = Number(req.params.userId);
+      const profileId = Number(req.params.profileId);
+      const profile = await profileMapper.readProfile(userId, profileId);
 
-      res
-        .status(200)
-        .json([
-          { message: `Profile with id: ${id} found` },
-          { profile: profile },
-        ]);
+      res.status(200).json({
+        message: `Profile with id: ${profileId} found`,
+        profile: profile,
+      });
     } catch (error) {
       next(error);
     }
@@ -43,14 +57,15 @@ export const profileController = {
     next: NextFunction
   ): Promise<void> {
     try {
+      const userId = Number(req.params.userId);
       const profileObj: Profile.New = req.body;
-      const newProfile = await profileMapper.createProfile(profileObj);
+      const newProfile = await profileMapper.createProfile(userId, profileObj);
       res
         .status(201)
-        .json([
-          { message: `Profile created with id: ${newProfile.id}` },
-          { profile: newProfile },
-        ]);
+        .json({
+          message: `Profile created with id: ${newProfile.id}`,
+          profile: newProfile,
+        });
     } catch (error) {
       next(error);
     }
@@ -62,7 +77,7 @@ export const profileController = {
     next: NextFunction
   ): Promise<void> {
     try {
-      const profileId = Number(req.params.id);
+      const profileId = Number(req.params.profileId);
       const profileObj: Profile.Update = req.body;
       const updatedProfile = await profileMapper.updateProfile(
         profileId,
@@ -85,7 +100,7 @@ export const profileController = {
     next: NextFunction
   ): Promise<void> {
     try {
-      const profileId = Number(req.params.id);
+      const profileId = Number(req.params.profileId);
       await profileMapper.deleteProfile(profileId);
       res
         .status(200)

@@ -3,10 +3,21 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.gameController = void 0;
 const gameMapper_1 = require("../../data/dataMappers/users/gameMapper");
 exports.gameController = {
-    async getGames(_req, res, next) {
+    async getAllGames(_req, res, next) {
         try {
-            const games = await gameMapper_1.gameMapper.readGames();
+            const games = await gameMapper_1.gameMapper.readAllGames();
             res.status(200).json(games);
+        }
+        catch (error) {
+            next(error);
+        }
+    },
+    async getGames(req, res, next) {
+        try {
+            const userId = Number(req.params.userId);
+            const profileId = Number(req.params.profileId);
+            const userGames = await gameMapper_1.gameMapper.readGames(userId, profileId);
+            res.status(200).json(userGames);
         }
         catch (error) {
             next(error);
@@ -14,8 +25,9 @@ exports.gameController = {
     },
     async getGame(req, res, next) {
         try {
-            const gameId = Number(req.params.id);
-            const game = await gameMapper_1.gameMapper.readGame(gameId);
+            const userId = Number(req.params.userId);
+            const gameId = Number(req.params.gameId);
+            const game = await gameMapper_1.gameMapper.readGame(userId, gameId);
             res
                 .status(200)
                 .json([{ message: `Game with id: ${gameId} found` }, { game: game }]);
