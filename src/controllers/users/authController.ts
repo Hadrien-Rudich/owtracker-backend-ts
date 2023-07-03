@@ -39,7 +39,6 @@ export const authController = {
 
   async logOut(req: Request, res: Response): Promise<void> {
     const cookies = req.cookies;
-    console.log(cookies);
     if (!cookies?.jwt) {
       res.sendStatus(204);
     }

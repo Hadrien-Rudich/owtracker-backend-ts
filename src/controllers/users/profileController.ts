@@ -60,12 +60,10 @@ export const profileController = {
       const userId = Number(req.params.userId);
       const profileObj: Profile.New = req.body;
       const newProfile = await profileMapper.createProfile(userId, profileObj);
-      res
-        .status(201)
-        .json({
-          message: `Profile created with id: ${newProfile.id}`,
-          profile: newProfile,
-        });
+      res.status(201).json({
+        message: `Profile created with id: ${newProfile.id}`,
+        profile: newProfile,
+      });
     } catch (error) {
       next(error);
     }
@@ -100,8 +98,9 @@ export const profileController = {
     next: NextFunction
   ): Promise<void> {
     try {
+      const userId = Number(req.params.userId);
       const profileId = Number(req.params.profileId);
-      await profileMapper.deleteProfile(profileId);
+      await profileMapper.deleteProfile(userId, profileId);
       res
         .status(200)
         .json({ message: `Profile with id: ${profileId} deleted` });

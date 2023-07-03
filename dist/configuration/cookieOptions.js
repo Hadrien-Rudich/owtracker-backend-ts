@@ -4,6 +4,6 @@ exports.cookieOptions = void 0;
 exports.cookieOptions = {
     httpOnly: true,
     secure: true,
-    sameSite: 'strict',
+    sameSite: 'none',
     expires: new Date(Date.now() + 24 * 60 * 60 * 1000), // 24 hours
 };

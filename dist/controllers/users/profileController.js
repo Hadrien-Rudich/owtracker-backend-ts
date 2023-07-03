@@ -41,9 +41,7 @@ exports.profileController = {
             const userId = Number(req.params.userId);
             const profileObj = req.body;
             const newProfile = await profileMapper_1.profileMapper.createProfile(userId, profileObj);
-            res
-                .status(201)
-                .json({
+            res.status(201).json({
                 message: `Profile created with id: ${newProfile.id}`,
                 profile: newProfile,
             });
@@ -70,8 +68,9 @@ exports.profileController = {
     },
     async deleteProfile(req, res, next) {
         try {
+            const userId = Number(req.params.userId);
             const profileId = Number(req.params.profileId);
-            await profileMapper_1.profileMapper.deleteProfile(profileId);
+            await profileMapper_1.profileMapper.deleteProfile(userId, profileId);
             res
                 .status(200)
                 .json({ message: `Profile with id: ${profileId} deleted` });

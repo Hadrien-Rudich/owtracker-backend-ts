@@ -69,9 +69,9 @@ exports.profileMapper = {
             throw new error_1.NotFoundError(`Profile with id: ${profileId} not found`);
         }
     },
-    async deleteProfile(profileId) {
+    async deleteProfile(userId, profileId) {
         // to be edited with await and DB call
-        const indexOfProfileToDelete = profilesData_1.profiles.findIndex((profile) => profile.id === profileId);
+        const indexOfProfileToDelete = profilesData_1.profiles.findIndex((profile) => profile.id === profileId && profile.userId === userId);
         if (indexOfProfileToDelete !== -1) {
             profilesData_1.profiles.splice(indexOfProfileToDelete, 1);
         }

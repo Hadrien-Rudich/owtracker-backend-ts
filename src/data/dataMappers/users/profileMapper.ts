@@ -88,10 +88,13 @@ export const profileMapper = {
     }
   },
 
-  async deleteProfile(profileId: number): Promise<Profile.Base[]> {
+  async deleteProfile(
+    userId: number,
+    profileId: number
+  ): Promise<Profile.Base[]> {
     // to be edited with await and DB call
     const indexOfProfileToDelete = profiles.findIndex(
-      (profile) => profile.id === profileId
+      (profile) => profile.id === profileId && profile.userId === userId
     );
 
     if (indexOfProfileToDelete !== -1) {
