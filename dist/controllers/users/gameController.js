@@ -39,7 +39,11 @@ exports.gameController = {
     async createGame(req, res, next) {
         try {
             const gameObj = req.body;
+            console.log('attempting to create gameobject');
+            console.log(gameObj);
             const newGame = await gameMapper_1.gameMapper.createGame(gameObj);
+            console.log('new game created see below');
+            console.log(newGame);
             res
                 .status(201)
                 .json([

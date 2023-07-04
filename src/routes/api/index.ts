@@ -23,17 +23,17 @@ apiRouter.use((req: Request, res: Response, next: NextFunction) =>
 
 // User routes
 apiRouter.use('/user', userRouter);
-
-// Profile routes nested under user
 userRouter.use('/:userId/profiles', profileRouter);
-
-// Game routes nested under profile
 profileRouter.use('/:profileId/games', gamesRouter);
 
+apiRouter.use('/heroes', heroRouter);
+apiRouter.use('/heroroles', heroRoleRouter);
+apiRouter.use('/maps', mapRouter);
+apiRouter.use('/maptypes', mapTypeRouter);
+
+// Profile routes nested under user
+
+// Game routes nested under profile
+
 // apiRouter.use('/account', userRouter);
-// apiRouter.use('/maps', mapRouter);
-// apiRouter.use('/heroes', heroRouter);
-// apiRouter.use('/games', gamesRouter);
-// apiRouter.use('/maptypes', mapTypeRouter);
 // apiRouter.use('/profiles', profileRouter);
-// apiRouter.use('/heroroles', heroRoleRouter);

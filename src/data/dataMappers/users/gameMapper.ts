@@ -50,6 +50,8 @@ export const gameMapper = {
       date: dateNow,
     };
     games.push(newGame);
+    console.log('new game created');
+    console.log(newGame);
     return newGame;
   },
 

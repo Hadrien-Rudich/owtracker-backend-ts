@@ -43,6 +43,8 @@ exports.gameMapper = {
             date: dateNow,
         };
         gamesData_1.games.push(newGame);
+        console.log('new game created');
+        console.log(newGame);
         return newGame;
     },
     async updateGame(gameId, gameObj) {

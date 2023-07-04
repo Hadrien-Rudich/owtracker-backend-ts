@@ -58,7 +58,11 @@ export const gameController = {
   ): Promise<void> {
     try {
       const gameObj: Game.New = req.body;
+      console.log('attempting to create gameobject');
+      console.log(gameObj);
       const newGame = await gameMapper.createGame(gameObj);
+      console.log('new game created see below');
+      console.log(newGame);
       res
         .status(201)
         .json([
