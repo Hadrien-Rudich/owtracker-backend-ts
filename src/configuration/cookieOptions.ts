@@ -8,7 +8,7 @@ export interface CookieOptions {
 
 export const cookieOptions: CookieOptions = {
   httpOnly: true,
-  secure: false,
-  sameSite: 'strict',
+  secure: true,
+  sameSite: 'none',
   expires: new Date(Date.now() + 24 * 60 * 60 * 1000), // 24 hours
 };

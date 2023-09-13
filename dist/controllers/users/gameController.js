@@ -44,12 +44,10 @@ exports.gameController = {
             const newGame = await gameMapper_1.gameMapper.createGame(gameObj);
             console.log('new game created see below');
             console.log(newGame);
-            res
-                .status(201)
-                .json([
-                { message: `Game created with id: ${newGame.id}` },
-                { game: newGame },
-            ]);
+            res.status(201).json({
+                message: `Game created with id: ${newGame.id}`,
+                game: newGame,
+            });
         }
         catch (error) {
             next(error);
