@@ -83,10 +83,7 @@ export const profileController = {
       );
       res
         .status(200)
-        .json([
-          { message: `Profile updated` },
-          { updatedProfile: updatedProfile },
-        ]);
+        .json({ message: `Profile updated`, updatedProfile: updatedProfile });
     } catch (error) {
       next(error);
     }
