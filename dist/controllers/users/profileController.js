@@ -57,10 +57,7 @@ exports.profileController = {
             const updatedProfile = await profileMapper_1.profileMapper.updateProfile(profileId, profileObj);
             res
                 .status(200)
-                .json([
-                { message: `Profile updated` },
-                { updatedProfile: updatedProfile },
-            ]);
+                .json({ message: `Profile updated`, profile: updatedProfile });
         }
         catch (error) {
             next(error);
