@@ -4,6 +4,7 @@ import {
   BadRequestError,
   NotFoundError,
   InternalServerError,
+  ProfileAlreadyExists,
 } from '../../../models/error';
 import { generateIncrementalId } from '../../../utils/functions';
 
@@ -64,6 +65,11 @@ export const profileMapper = {
     profileId: number,
     profileObj: Profile.Update
   ): Promise<Profile.Base> {
+    // to be edited with await and DB call
+    // if (profiles.some((profile) => profile.label === profileObj.label)) {
+    //   throw new ProfileAlreadyExists('Profile already exists');
+    // }
+
     if (!profileId) {
       throw new BadRequestError('Invalid format: no ID provided');
     }

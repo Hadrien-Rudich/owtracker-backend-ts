@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.InvalidTokenError = exports.UserNotConnectedError = exports.InvalidPasswordError = exports.EmailInUseError = exports.InvalidCredentialsError = exports.CustomError = exports.InternalServerError = exports.NotFoundError = exports.BadRequestError = void 0;
+exports.ProfileAlreadyExists = exports.InvalidTokenError = exports.UserNotConnectedError = exports.InvalidPasswordError = exports.EmailInUseError = exports.InvalidCredentialsError = exports.CustomError = exports.InternalServerError = exports.NotFoundError = exports.BadRequestError = void 0;
 class CustomError extends Error {
     constructor(message, status) {
         super(message);
@@ -63,3 +63,9 @@ class InvalidTokenError extends CustomError {
     }
 }
 exports.InvalidTokenError = InvalidTokenError;
+class ProfileAlreadyExists extends CustomError {
+    constructor(message) {
+        super(message || 'Profile already exists', 200);
+    }
+}
+exports.ProfileAlreadyExists = ProfileAlreadyExists;

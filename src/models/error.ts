@@ -61,6 +61,12 @@ class InvalidTokenError extends CustomError {
   }
 }
 
+class ProfileAlreadyExists extends CustomError {
+  constructor(message?: string) {
+    super(message || 'Profile already exists', 200);
+  }
+}
+
 export {
   BadRequestError,
   NotFoundError,
@@ -71,4 +77,5 @@ export {
   InvalidPasswordError,
   UserNotConnectedError,
   InvalidTokenError,
+  ProfileAlreadyExists,
 };

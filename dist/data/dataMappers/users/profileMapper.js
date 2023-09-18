@@ -50,6 +50,10 @@ exports.profileMapper = {
         }
     },
     async updateProfile(profileId, profileObj) {
+        // to be edited with await and DB call
+        // if (profiles.some((profile) => profile.label === profileObj.label)) {
+        //   throw new ProfileAlreadyExists('Profile already exists');
+        // }
         if (!profileId) {
             throw new error_1.BadRequestError('Invalid format: no ID provided');
         }

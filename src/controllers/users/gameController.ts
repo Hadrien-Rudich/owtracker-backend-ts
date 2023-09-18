@@ -78,15 +78,13 @@ export const gameController = {
     next: NextFunction
   ): Promise<void> {
     try {
-      const gameId = Number(req.params.id);
+      const gameId = Number(req.params.gameId);
       const gameObj: Game.Update = req.body;
       const updatedGame = await gameMapper.updateGame(gameId, gameObj);
-      res
-        .status(200)
-        .json([
-          { message: `Game with id: ${updatedGame.id} updated` },
-          { updatedGame: updatedGame },
-        ]);
+      res.status(200).json({
+        message: `Game with id: ${updatedGame.id} updated`,
+        updatedGame: updatedGame,
+      });
     } catch (error) {
       next(error);
     }
@@ -98,7 +96,7 @@ export const gameController = {
     next: NextFunction
   ): Promise<void> {
     try {
-      const gameId = Number(req.params.id);
+      const gameId = Number(req.params.gameId);
       await gameMapper.deleteGame(gameId);
       res.status(200).json({ message: `Game with id: ${gameId} deleted` });
     } catch (error) {

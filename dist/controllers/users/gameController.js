@@ -55,15 +55,13 @@ exports.gameController = {
     },
     async updateGame(req, res, next) {
         try {
-            const gameId = Number(req.params.id);
+            const gameId = Number(req.params.gameId);
             const gameObj = req.body;
             const updatedGame = await gameMapper_1.gameMapper.updateGame(gameId, gameObj);
-            res
-                .status(200)
-                .json([
-                { message: `Game with id: ${updatedGame.id} updated` },
-                { updatedGame: updatedGame },
-            ]);
+            res.status(200).json({
+                message: `Game with id: ${updatedGame.id} updated`,
+                updatedGame: updatedGame,
+            });
         }
         catch (error) {
             next(error);
@@ -71,7 +69,7 @@ exports.gameController = {
     },
     async deleteGame(req, res, next) {
         try {
-            const gameId = Number(req.params.id);
+            const gameId = Number(req.params.gameId);
             await gameMapper_1.gameMapper.deleteGame(gameId);
             res.status(200).json({ message: `Game with id: ${gameId} deleted` });
         }
