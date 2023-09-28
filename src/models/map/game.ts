@@ -24,6 +24,8 @@ export namespace Game {
   }
 
   export interface Update {
+    id?: number;
+    userId?: number;
     profileId?: number;
     result?: string;
     map?: string;

@@ -78,14 +78,23 @@ export const gameController = {
     next: NextFunction
   ): Promise<void> {
     try {
+      const userId = Number(req.params.userId);
+      const profileId = Number(req.params.profileId);
       const gameId = Number(req.params.gameId);
       const gameObj: Game.Update = req.body;
-      const updatedGame = await gameMapper.updateGame(gameId, gameObj);
+      const updatedGame = await gameMapper.updateGame(
+        userId,
+        profileId,
+        gameId,
+        gameObj
+      );
+
       res.status(200).json({
         message: `Game with id: ${updatedGame.id} updated`,
-        updatedGame: updatedGame,
+        game: updatedGame,
       });
     } catch (error) {
+      console.log('error in updateGame');
       next(error);
     }
   },

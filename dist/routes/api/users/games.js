@@ -12,6 +12,8 @@ gamesRouter
 gamesRouter
     .route('/:gameId')
     .get(gameController_1.gameController.getGame)
-    .patch((0, validator_1.validateData)(game_1.GamesSchema.update), gameController_1.gameController.updateGame)
+    .patch(
+// validateData(GamesSchema.update),
+gameController_1.gameController.updateGame)
     .delete(gameController_1.gameController.deleteGame);
 exports.default = gamesRouter;

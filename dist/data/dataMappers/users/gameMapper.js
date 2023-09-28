@@ -43,16 +43,19 @@ exports.gameMapper = {
             date: dateNow,
         };
         gamesData_1.games.push(newGame);
-        console.log('new game created');
-        console.log(newGame);
         return newGame;
     },
-    async updateGame(gameId, gameObj) {
+    async updateGame(userId, profileId, gameId, gameObj) {
         // to be edited with await and DB call
-        const indexOfGameToUpdate = gamesData_1.games.findIndex((game) => game.id === gameId);
+        console.log('attempting to update game');
+        console.log(userId, profileId, gameId, gameObj);
+        const indexOfGameToUpdate = gamesData_1.games.findIndex((game) => game.id === gameId &&
+            game.userId === userId &&
+            game.profileId === profileId);
         if (indexOfGameToUpdate !== -1) {
             const updatedGame = { ...gamesData_1.games[indexOfGameToUpdate], ...gameObj };
             gamesData_1.games[indexOfGameToUpdate] = updatedGame;
+            console.log(updatedGame);
             return updatedGame;
         }
         else {

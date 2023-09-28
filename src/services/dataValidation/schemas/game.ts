@@ -13,6 +13,8 @@ export const GamesSchema = {
   }),
 
   update: Joi.object<Game.Update>({
+    id: Joi.number(),
+    userId: Joi.number(),
     profileId: Joi.string(),
     result: Joi.string(),
     map: Joi.string(),
@@ -20,5 +22,6 @@ export const GamesSchema = {
     mapImageUrl: Joi.string(),
     heroes: Joi.array().items(Joi.string()),
     heroesImageUrl: Joi.array().items(Joi.string()),
+    date: Joi.string(),
   }),
 };

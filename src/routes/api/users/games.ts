@@ -13,7 +13,10 @@ gamesRouter
 gamesRouter
   .route('/:gameId')
   .get(gameController.getGame)
-  .patch(validateData(GamesSchema.update), gameController.updateGame)
+  .patch(
+    // validateData(GamesSchema.update),
+    gameController.updateGame
+  )
   .delete(gameController.deleteGame);
 
 export default gamesRouter;

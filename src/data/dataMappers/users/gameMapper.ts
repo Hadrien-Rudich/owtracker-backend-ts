@@ -50,18 +50,29 @@ export const gameMapper = {
       date: dateNow,
     };
     games.push(newGame);
-    console.log('new game created');
-    console.log(newGame);
     return newGame;
   },
 
-  async updateGame(gameId: number, gameObj: Game.Update): Promise<Game.Base> {
+  async updateGame(
+    userId: number,
+    profileId: number,
+    gameId: number,
+    gameObj: Game.Update
+  ): Promise<Game.Base> {
     // to be edited with await and DB call
-    const indexOfGameToUpdate = games.findIndex((game) => game.id === gameId);
+    console.log('attempting to update game');
+    console.log(userId, profileId, gameId, gameObj);
+    const indexOfGameToUpdate = games.findIndex(
+      (game) =>
+        game.id === gameId &&
+        game.userId === userId &&
+        game.profileId === profileId
+    );
 
     if (indexOfGameToUpdate !== -1) {
       const updatedGame = { ...games[indexOfGameToUpdate], ...gameObj };
       games[indexOfGameToUpdate] = updatedGame;
+      console.log(updatedGame);
       return updatedGame;
     } else {
       throw new NotFoundError(`Game with id: ${gameId} not found`);
