@@ -17,6 +17,8 @@ Link to frontend: https://github.com/Hadrien-Rudich/owtracker-frontend-ts
 **Description:**
 Are you a dedicated Overwatch 2 player looking to elevate your insight and get a better grasp at how you are doing? Introducing the Overwatch 2 Game Tracker, a companion application designed to help you keep track of your competitive games. With this tool, you can now save and track your games, allowing you to monitor your performance, analyze statistics, and keep a close eye on your overall progression.
 
+----------------------------------------------
+
 **Key Features:**
 
 1. **Game Recording:** Easily save your Overwatch 2 matches with a handful of clicks.
