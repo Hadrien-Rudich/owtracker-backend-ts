@@ -15,6 +15,7 @@ exports.GamesSchema = {
         mapImageUrl: joi_1.default.string().required(),
         heroes: joi_1.default.array().items(joi_1.default.string()).required(),
         heroesImageUrl: joi_1.default.array().items(joi_1.default.string()).required(),
+        date: joi_1.default.string().required(),
     }),
     update: joi_1.default.object({
         id: joi_1.default.number(),

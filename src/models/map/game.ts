@@ -21,6 +21,7 @@ export namespace Game {
     mapImageUrl: string;
     heroes: string[];
     heroesImageUrl: string[];
+    date: string;
   }
 
   export interface Update {

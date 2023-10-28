@@ -10,6 +10,7 @@ export const GamesSchema = {
     mapImageUrl: Joi.string().required(),
     heroes: Joi.array().items(Joi.string()).required(),
     heroesImageUrl: Joi.array().items(Joi.string()).required(),
+    date: Joi.string().required(),
   }),
 
   update: Joi.object<Game.Update>({
