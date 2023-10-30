@@ -53,6 +53,25 @@ exports.gameController = {
             next(error);
         }
     },
+    async createMockGames(req, res, next) {
+        try {
+            const baseGames = req.body;
+            console.log('attempting to create base games');
+            console.log(baseGames);
+            const newGames = await gameMapper_1.gameMapper.createMockGames(baseGames);
+            console.log('new games created, see below');
+            console.log(newGames);
+            res.status(201).json({
+                message: `Games created with IDs: ${newGames
+                    .map((game) => game.id)
+                    .join(', ')}`,
+                games: newGames,
+            });
+        }
+        catch (error) {
+            next(error);
+        }
+    },
     async updateGame(req, res, next) {
         try {
             const userId = Number(req.params.userId);

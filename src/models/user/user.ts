@@ -1,7 +1,7 @@
 export namespace User {
   export interface Base {
     id: number;
-    battleTag: string;
+    // battleTag: string;
     email: string;
     password: string;
     refresh_token?: string;
@@ -14,11 +14,11 @@ export namespace User {
   export interface New {
     email: string;
     password: string;
-    battleTag: string;
+    // battleTag: string;
   }
 
   export interface Update {
-    battleTag?: string;
+    // battleTag?: string;
     email?: string;
   }
 

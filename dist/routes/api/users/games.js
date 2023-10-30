@@ -16,4 +16,8 @@ gamesRouter
 // validateData(GamesSchema.update),
 gameController_1.gameController.updateGame)
     .delete(gameController_1.gameController.deleteGame);
+gamesRouter
+    .route('/mock')
+    .get(gameController_1.gameController.getGames)
+    .post(gameController_1.gameController.createMockGames);
 exports.default = gamesRouter;

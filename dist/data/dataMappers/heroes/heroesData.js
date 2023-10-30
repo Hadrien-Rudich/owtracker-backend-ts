@@ -261,4 +261,11 @@ exports.heroes = [
         role: 'support',
         imageUrl: 'zenyatta.png',
     },
+    {
+        id: 38,
+        label: 'Illari',
+        slug: 'illari',
+        role: 'support',
+        imageUrl: 'illari.png',
+    },
 ];

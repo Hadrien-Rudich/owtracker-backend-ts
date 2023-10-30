@@ -19,4 +19,9 @@ gamesRouter
   )
   .delete(gameController.deleteGame);
 
+gamesRouter
+  .route('/mock')
+  .get(gameController.getGames)
+  .post(gameController.createMockGames);
+
 export default gamesRouter;

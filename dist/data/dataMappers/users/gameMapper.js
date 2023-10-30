@@ -43,6 +43,19 @@ exports.gameMapper = {
         gamesData_1.games.push(newGame);
         return newGame;
     },
+    async createMockGames(gameObjects) {
+        const mockGames = [];
+        // to be edited with await and DB call
+        for (const gameObj of gameObjects) {
+            const newGame = {
+                ...gameObj,
+                id: (0, functions_1.generateIncrementalId)(gamesData_1.games),
+            };
+            gamesData_1.games.push(newGame);
+            mockGames.push(newGame);
+        }
+        return mockGames;
+    },
     async updateGame(userId, profileId, gameId, gameObj) {
         // to be edited with await and DB call
         console.log('attempting to update game');

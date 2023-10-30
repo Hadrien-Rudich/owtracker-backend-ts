@@ -48,6 +48,22 @@ export const gameMapper = {
     return newGame;
   },
 
+  async createMockGames(gameObjects: Game.New[]): Promise<Game.Base[]> {
+    const mockGames: Game.Base[] = [];
+
+    // to be edited with await and DB call
+    for (const gameObj of gameObjects) {
+      const newGame = {
+        ...gameObj,
+        id: generateIncrementalId(games),
+      };
+      games.push(newGame);
+      mockGames.push(newGame);
+    }
+
+    return mockGames;
+  },
+
   async updateGame(
     userId: number,
     profileId: number,
