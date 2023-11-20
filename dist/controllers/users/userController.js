@@ -46,11 +46,11 @@ exports.userController = {
             next(error);
         }
     },
-    async updateUserDetails(req, res, next) {
+    async updateUserEmail(req, res, next) {
         try {
             const userId = Number(req.params.id);
             const userObj = req.body;
-            const updatedUser = await userMapper_1.userMapper.updateUserDetails(userId, userObj);
+            const updatedUser = await userMapper_1.userMapper.updateUserEmail(userId, userObj);
             res
                 .status(200)
                 .json([

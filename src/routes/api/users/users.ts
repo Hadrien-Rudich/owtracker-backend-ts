@@ -14,7 +14,7 @@ userRouter
 
 userRouter
   .route('/:id/details')
-  .patch(validateData(UserSchema.update), userController.updateUserDetails);
+  .patch(validateData(UserSchema.update), userController.updateUserEmail);
 
 userRouter
   .route('/:id/security')

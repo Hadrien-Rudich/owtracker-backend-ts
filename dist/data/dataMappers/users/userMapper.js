@@ -55,7 +55,7 @@ exports.userMapper = {
         usersData_1.users.push(newAccount);
         return newAccount;
     },
-    async updateUserDetails(userId, userObj) {
+    async updateUserEmail(userId, userObj) {
         // to be edited with await and DB call
         const indexOfAccountToUpdate = usersData_1.users.findIndex((user) => user.id === userId);
         if (indexOfAccountToUpdate !== -1) {

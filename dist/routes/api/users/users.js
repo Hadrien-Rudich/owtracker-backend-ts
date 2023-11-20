@@ -12,7 +12,7 @@ userRouter
     .delete(userController_1.userController.deleteUser);
 userRouter
     .route('/:id/details')
-    .patch((0, validator_1.validateData)(user_1.UserSchema.update), userController_1.userController.updateUserDetails);
+    .patch((0, validator_1.validateData)(user_1.UserSchema.update), userController_1.userController.updateUserEmail);
 userRouter
     .route('/:id/security')
     .patch((0, validator_1.validateData)(user_1.UserSchema.updatePassword), userController_1.userController.updateUserPassword);

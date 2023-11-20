@@ -31,6 +31,7 @@ exports.UserSchema = {
         }),
     }),
     update: joi_1.default.object({
+        id: joi_1.default.number(),
         email: joi_1.default.string().email(),
         // battleTag: Joi.string()
         //   .pattern(/^(?=.*[#])[A-Za-z\d#]{3,20}$/)

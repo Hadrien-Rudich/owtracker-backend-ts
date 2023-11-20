@@ -58,7 +58,7 @@ export const userMapper = {
     return newAccount;
   },
 
-  async updateUserDetails(
+  async updateUserEmail(
     userId: number,
     userObj: User.Update
   ): Promise<User.Base> {

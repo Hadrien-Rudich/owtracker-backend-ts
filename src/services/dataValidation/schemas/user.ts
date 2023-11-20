@@ -33,6 +33,7 @@ export const UserSchema = {
       }),
   }),
   update: Joi.object<User.Update>({
+    id: Joi.number(),
     email: Joi.string().email(),
     // battleTag: Joi.string()
     //   .pattern(/^(?=.*[#])[A-Za-z\d#]{3,20}$/)

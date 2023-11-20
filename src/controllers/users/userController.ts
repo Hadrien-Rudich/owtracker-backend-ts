@@ -65,7 +65,7 @@ export const userController = {
     }
   },
 
-  async updateUserDetails(
+  async updateUserEmail(
     req: Request,
     res: Response,
     next: NextFunction
@@ -74,7 +74,7 @@ export const userController = {
       const userId = Number(req.params.id);
       const userObj: User.Update = req.body;
 
-      const updatedUser = await userMapper.updateUserDetails(userId, userObj);
+      const updatedUser = await userMapper.updateUserEmail(userId, userObj);
 
       res
         .status(200)

@@ -18,6 +18,7 @@ export namespace User {
   }
 
   export interface Update {
+    id: number;
     // battleTag?: string;
     email?: string;
   }
